@@ -1,6 +1,7 @@
 # urbanlink_project
+2023 Google Solution Challenge
 
-A new Flutter project.
+Location Based Community App UrbanLink
 
 ## Getting Started
 
