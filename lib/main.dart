@@ -8,10 +8,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static const String _title = 'UrbanLink';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'UrbanLink',
+      title: _title,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
