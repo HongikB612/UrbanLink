@@ -11,10 +11,14 @@ class _ProfilePageState extends State<ProfilePage> {
   static const double _profileHeight = 250;
   static const double _profileRound = 40;
 
+  final String userName = '@UserName';
+  final String explanation = 'Explain';
+
   @override
   Widget build(BuildContext context) {
     const textProfileUserStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
     return ListView(
       children: <Widget>[
         Container(
@@ -55,9 +59,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
-                          Text('User Name', style: textProfileUserStyle),
-                          Text('Explain', style: TextStyle(fontSize: 20)),
+                        children: [
+                          Text(userName, style: textProfileUserStyle),
+                          Text(explanation, style: textProfileDescriptionStyle),
                         ],
                       ),
                     ),
