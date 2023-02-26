@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/pages/homepage.dart';
-import 'package:urbanlink_project/pages/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,9 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(
-        title: 'login',
-      ),
+      home: const HomePage(),
     );
   }
 }
