@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:urbanlink_project/models/communities.dart';
+import 'package:urbanlink_project/models/posts.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -8,12 +10,117 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  static const double _profileHeight = 200;
+  static const double _profileRound = 40;
+
+  final String userName = '@UserName';
+  final String explanation = 'Explain';
+
+  List<Post> _postList = <Post>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _postList.add(Post(
+        postId: 0,
+        postTitle: '풉',
+        postContent: '잔뜩 플러터',
+        communityId: 0,
+        postAuthorId: 0,
+        postDatetime: DateTime.now()));
+    for (var i = 1; i < 20; i++) {
+      _postList.add(Post(
+          postId: i,
+          postTitle: 'Post $i',
+          postContent: 'Content $i',
+          communityId: i,
+          postAuthorId: i,
+          postDatetime: DateTime.now()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Text(
-      'Profile Page',
-      style: TextStyle(fontSize: 24),
-    ));
+    const textProfileUserStyle =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
+    return Column(
+      children: <Widget>[
+        profileBox(textProfileUserStyle, textProfileDescriptionStyle),
+        const Text('Post List', style: textProfileUserStyle),
+        postListView(context),
+      ],
+    );
+  }
+
+  Container profileBox(
+      TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
+    return Container(
+        height: _profileHeight,
+        decoration: profileBoxDecoration(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const CircleAvatar(
+                  minRadius: 60.0,
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage:
+                        AssetImage('assets/images/profileImage.jpeg'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(userName, style: textProfileUserStyle),
+                      Text(explanation, style: textProfileDescriptionStyle),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
+        ));
+  }
+
+  BoxDecoration profileBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 10,
+          spreadRadius: 10,
+        ),
+      ],
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(_profileRound),
+        topRight: Radius.circular(_profileRound),
+        bottomLeft: Radius.circular(_profileRound),
+        bottomRight: Radius.circular(_profileRound),
+      ),
+    );
+  }
+
+  Expanded postListView(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: _postList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              leading: const Icon(Icons.arrow_right),
+              title: Text(_postList[index].postTitle),
+            );
+          }),
+    );
   }
 }
