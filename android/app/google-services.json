@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "607300927534",
+    "project_id": "urbanlink-1783e",
+    "storage_bucket": "urbanlink-1783e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607300927534:android:6df8b27b24458b23d99fbf",
+        "android_client_info": {
+          "package_name": "com.example.urbanlink_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607300927534-ip9gbr13br45dg3lve0iq57msold2dnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnutM6RxyB2_bUvQVdlEm2ojp9Sg6lk-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607300927534-ip9gbr13br45dg3lve0iq57msold2dnb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "607300927534-ifoc884qqfmka3kgi7f9e675ito85kd6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.urbanlinkProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
