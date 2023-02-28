@@ -40,6 +40,9 @@ dependencies:
   google_maps_flutter: ^2.2.4
   google_maps_flutter_web: ^0.4.0+6
   anim_search_bar: ^2.0.3
+  get: ^4.6.5
+  permission_handler: ^10.2.0
+  
 
 dev_dependencies:
   flutter_test:

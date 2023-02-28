@@ -1,60 +1,51 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:urbanlink_project/pages/mappage.dart';
-import 'package:urbanlink_project/pages/profilepage.dart';
-import 'package:urbanlink_project/pages/searchpage.dart';
+import 'package:get/get.dart';
+import 'package:urbanlink_project/pages/login.dart';
+import 'package:urbanlink_project/pages/mainpage.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  static const List<Widget> pages = <Widget>[
-    MapPage(),
-    SearchPage(),
-    ProfilePage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('UrbanLink'),
-        ),
-        body: Center(
-          child: pages.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-              backgroundColor: Colors.green,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-              backgroundColor: Colors.pink,
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-        ));
+  void initState() {
+    super.initState();
+
+    _logout();
+    _auth();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  _auth() {
+    // 사용자 인증정보 확인. 딜레이를 두어 확인
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (FirebaseAuth.instance.currentUser == null) {
+        Get.off(() => const LoginPage());
+      } else {
+        Get.off(() => const MainPage());
+      }
+    });
+  }
+
+  _logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
