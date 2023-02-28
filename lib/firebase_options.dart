@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -66,7 +56,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '607300927534',
     projectId: 'urbanlink-1783e',
     storageBucket: 'urbanlink-1783e.appspot.com',
-    iosClientId: '607300927534-ifoc884qqfmka3kgi7f9e675ito85kd6.apps.googleusercontent.com',
+    iosClientId:
+        '607300927534-ifoc884qqfmka3kgi7f9e675ito85kd6.apps.googleusercontent.com',
     iosBundleId: 'com.example.urbanlinkProject',
   );
 
@@ -76,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '607300927534',
     projectId: 'urbanlink-1783e',
     storageBucket: 'urbanlink-1783e.appspot.com',
-    iosClientId: '607300927534-ifoc884qqfmka3kgi7f9e675ito85kd6.apps.googleusercontent.com',
+    iosClientId:
+        '607300927534-ifoc884qqfmka3kgi7f9e675ito85kd6.apps.googleusercontent.com',
     iosBundleId: 'com.example.urbanlinkProject',
   );
 }
