@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:urbanlink_project/models/communities.dart';
+import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/pages/login.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -45,13 +46,27 @@ class _ProfilePageState extends State<ProfilePage> {
     const textProfileUserStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
-    return Column(
-      children: <Widget>[
-        profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-        const Text('Post List', style: textProfileUserStyle),
-        postListView(context),
-      ],
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Profile'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: 'Logout',
+              onPressed: () {
+                // goto Login Page
+                Get.offAll(const LoginPage());
+              },
+            )
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            profileBox(textProfileUserStyle, textProfileDescriptionStyle),
+            const Text('Post List', style: textProfileUserStyle),
+            postListView(context),
+          ],
+        ));
   }
 
   Container profileBox(
