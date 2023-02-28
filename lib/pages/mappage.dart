@@ -31,37 +31,18 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
         Positioned(
-          top: 10,
+          top: 5,
           right: 15,
           left: 15,
-          child: Container(
-            color: Colors.white,
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  splashColor: Colors.grey,
-                  icon: const Icon(Icons.menu),
-                  onPressed: () {},
-                ),
-                const Expanded(
-                  child: TextField(
-                    cursorColor: Colors.black,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                        hintText: "Search..."),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {});
-                  },
-                ),
-              ],
-            ),
+          child: AnimSearchBar(
+            width: MediaQuery.of(context).size.width,
+            textController: textController,
+            onSuffixTap: () {
+              setState(() {
+                textController.clear();
+              });
+            },
+            onSubmitted: (String _) {},
           ),
         ),
       ],
