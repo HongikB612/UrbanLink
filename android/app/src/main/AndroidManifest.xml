@@ -4,7 +4,11 @@
         android:label="urbanlink_project"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <activity
+
+       <meta-data android:name="com.google.android.geo.AIzaSyCA6eLlZg1DQdmgWzQ3KfN7GtaY48iW9Zc"
+           android:value="AIzaSyCA6eLlZg1DQdmgWzQ3KfN7GtaY48iW9Zc"/>
+
+       <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
