@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 height: 70,
                 width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0), // 8단위 배수가 보기 좋음
+                padding: const EdgeInsets.only(top: 8.0),
                 child: ElevatedButton(
                     onPressed: () => _login(), child: const Text("로그인")),
               ),
@@ -90,6 +90,15 @@ class _LoginPageState extends State<LoginPage> {
                   Get.to(() => const JoinPage());
                 },
               ),
+              GestureDetector(
+                child: const Text(
+                  '로그인 하지 않고 이용하기',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onTap: () {
+                  Get.offAll(() => const MainPage());
+                },
+              )
             ],
           ),
         ),

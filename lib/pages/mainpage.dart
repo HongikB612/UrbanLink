@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/pages/mappage.dart';
 import 'package:urbanlink_project/pages/profilepage.dart';
@@ -29,9 +28,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('UrbanLink'),
-        ),
         body: Center(
           child: pages.elementAt(_selectedIndex),
         ),
