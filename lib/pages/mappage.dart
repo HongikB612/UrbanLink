@@ -21,31 +21,35 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Map'),
         ),
-        Positioned(
-          top: 5,
-          right: 15,
-          left: 15,
-          child: AnimSearchBar(
-            width: MediaQuery.of(context).size.width,
-            textController: textController,
-            onSuffixTap: () {
-              setState(() {
-                textController.clear();
-              });
-            },
-            onSubmitted: (String _) {},
-          ),
-        ),
-      ],
-    );
+        body: Stack(
+          children: <Widget>[
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              ),
+            ),
+            Positioned(
+              top: 5,
+              right: 15,
+              left: 15,
+              child: AnimSearchBar(
+                width: MediaQuery.of(context).size.width,
+                textController: textController,
+                onSuffixTap: () {
+                  setState(() {
+                    textController.clear();
+                  });
+                },
+                onSubmitted: (String _) {},
+              ),
+            ),
+          ],
+        ));
   }
 }
