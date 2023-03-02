@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController =
       TextEditingController(); //입력되는 값을 제어
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _auth = AuthService();
 
   // 로그인 폼 상단에 이미지가 표시된다. 이미지가 없어도 동작은 하나, X표시 처리.
   final String _imageFile = 'assets/images/profileImage.jpeg';
@@ -145,13 +146,6 @@ class _LoginPageState extends State<LoginPage> {
         } else if (e.code == 'invalid-email') {
           message = '이메일을 확인하세요.';
         }
-
-        /*final snackBar = SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.deepOrange,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      */
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:logger/logger.dart';
@@ -45,10 +43,10 @@ class AuthService {
       } else if (e.code == 'email-already-in-use') {
         logger.i('The account already exists for that email.');
       }
-      return null;
+      rethrow;
     } catch (e) {
       logger.e(e);
-      return null;
+      rethrow;
     }
   }
 
@@ -65,7 +63,7 @@ class AuthService {
       } else if (e.code == 'wrong-password') {
         logger.i('Wrong password provided for that user.');
       }
-      return null;
+      rethrow;
     }
   }
 
@@ -81,7 +79,7 @@ class AuthService {
       } else if (e.code == 'wrong-password') {
         logger.i('Wrong password provided for that user.');
       }
-      return null;
+      rethrow;
     }
   }
 
@@ -91,7 +89,8 @@ class AuthService {
       await _auth.signOut();
       user = null;
     } on FirebaseAuthException catch (e) {
-      logger.e("Something went wrong in SignOut");
+      logger.e(e);
+      rethrow;
     }
   }
 }
