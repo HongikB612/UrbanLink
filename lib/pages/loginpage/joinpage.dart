@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class JoinPage extends StatelessWidget {
