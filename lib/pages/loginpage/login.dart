@@ -134,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
 
         Get.offAll(() => const MainPage());
       } on FirebaseAuthException catch (e) {
+        logger.e(e.code);
         String message = '';
 
         if (e.code == 'user-not-found') {
@@ -142,7 +143,9 @@ class _LoginPageState extends State<LoginPage> {
           message = '비밀번호를 확인하세요';
         } else if (e.code == 'invalid-email') {
           message = '이메일을 확인하세요.';
-        } else if 
+        } else {
+          message = '알 수 없는 오류가 발생했습니다.';
+        }
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

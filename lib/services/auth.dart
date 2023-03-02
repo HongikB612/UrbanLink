@@ -37,15 +37,9 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: pass);
       user = _userFromFirebaseUser(userCredential.user);
       return user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        logger.i('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        logger.i('The account already exists for that email.');
-      }
+    } on FirebaseAuthException {
       rethrow;
     } catch (e) {
-      logger.e(e);
       rethrow;
     }
   }
@@ -57,12 +51,7 @@ class AuthService {
           await _auth.signInWithEmailAndPassword(email: email, password: pass);
       user = _userFromFirebaseUser(userCredential.user);
       return user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        logger.i('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        logger.i('Wrong password provided for that user.');
-      }
+    } on FirebaseAuthException {
       rethrow;
     }
   }
@@ -73,12 +62,7 @@ class AuthService {
       UserCredential userCredential = await _auth.signInAnonymously();
       user = _userFromFirebaseUser(userCredential.user);
       return user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        logger.i('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        logger.i('Wrong password provided for that user.');
-      }
+    } on FirebaseAuthException {
       rethrow;
     }
   }
@@ -88,8 +72,7 @@ class AuthService {
     try {
       await _auth.signOut();
       user = null;
-    } on FirebaseAuthException catch (e) {
-      logger.e(e);
+    } on FirebaseAuthException {
       rethrow;
     }
   }
