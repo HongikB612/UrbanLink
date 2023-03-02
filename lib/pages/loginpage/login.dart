@@ -129,14 +129,11 @@ class _LoginPageState extends State<LoginPage> {
 
       // Firebase 사용자 인증, 사용자 등록
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+        await _auth.signInWithEmailAndPassword(
+            _emailController.text, _passwordController.text);
 
         Get.offAll(() => const MainPage());
       } on FirebaseAuthException catch (e) {
-        // logger.e(e);
         String message = '';
 
         if (e.code == 'user-not-found') {
@@ -145,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
           message = '비밀번호를 확인하세요';
         } else if (e.code == 'invalid-email') {
           message = '이메일을 확인하세요.';
-        }
+        } else if 
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
