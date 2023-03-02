@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/pages/loginpage/joinpage.dart';
-import 'package:urbanlink_project/pages/mainpage.dart';
+import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
