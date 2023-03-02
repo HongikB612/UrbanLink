@@ -153,6 +153,8 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: Colors.deepOrange,
           ),
         );
+      } catch (e) {
+        logger.e(e);
       }
     }
   }
