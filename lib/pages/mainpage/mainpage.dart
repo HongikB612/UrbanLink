@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:urbanlink_project/pages/mappage.dart';
-import 'package:urbanlink_project/pages/profilepage.dart';
+import 'package:urbanlink_project/pages/mappage/mappage.dart';
+import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
 import 'package:urbanlink_project/pages/searchpage.dart';
 
 class MainPage extends StatefulWidget {

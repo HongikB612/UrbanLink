@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/pages/joinpage.dart';
-import 'package:urbanlink_project/pages/mainpage.dart';
+import 'package:urbanlink_project/pages/loginpage/registerpage.dart';
+import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController =
       TextEditingController(); //입력되는 값을 제어
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _auth = AuthService();
 
   // 로그인 폼 상단에 이미지가 표시된다. 이미지가 없어도 동작은 하나, X표시 처리.
   final String _imageFile = 'assets/images/profileImage.jpeg';
@@ -42,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       controller: _passwordController,
       obscureText: true,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: '비밀번호',
@@ -84,12 +86,17 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () => _login(), child: const Text("로그인")),
               ),
               const SizedBox(height: 20.0),
-              GestureDetector(
-                child: const Text('회원 가입'),
-                onTap: () {
-                  Get.to(() => const JoinPage());
-                },
+              Container(
+                height: 70,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 8.0),
+                child: ElevatedButton(
+                    onPressed: () => {
+                          Get.to(() => const RegisterPage()),
+                        },
+                    child: const Text("회원가입")),
               ),
+              const SizedBox(height: 20.0),
               GestureDetector(
                 child: const Text(
                   '로그인 하지 않고 이용하기',
@@ -127,14 +134,12 @@ class _LoginPageState extends State<LoginPage> {
 
       // Firebase 사용자 인증, 사용자 등록
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+        await _auth.signInWithEmailAndPassword(
+            _emailController.text, _passwordController.text);
 
         Get.offAll(() => const MainPage());
       } on FirebaseAuthException catch (e) {
-        // logger.e(e);
+        logger.e(e.code);
         String message = '';
 
         if (e.code == 'user-not-found') {
@@ -143,14 +148,9 @@ class _LoginPageState extends State<LoginPage> {
           message = '비밀번호를 확인하세요';
         } else if (e.code == 'invalid-email') {
           message = '이메일을 확인하세요.';
+        } else {
+          message = '알 수 없는 오류가 발생했습니다.';
         }
-
-        /*final snackBar = SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.deepOrange,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      */
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -158,6 +158,8 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: Colors.deepOrange,
           ),
         );
+      } catch (e) {
+        logger.e(e);
       }
     }
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
-import 'package:urbanlink_project/pages/login.dart';
+import 'package:urbanlink_project/pages/loginpage/login.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
