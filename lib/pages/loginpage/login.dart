@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       controller: _passwordController,
       obscureText: true,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: '비밀번호',
@@ -86,12 +86,17 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () => _login(), child: const Text("로그인")),
               ),
               const SizedBox(height: 20.0),
-              GestureDetector(
-                child: const Text('회원 가입'),
-                onTap: () {
-                  Get.to(() => const RegisterPage());
-                },
+              Container(
+                height: 70,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 8.0),
+                child: ElevatedButton(
+                    onPressed: () => {
+                          Get.to(() => const RegisterPage()),
+                        },
+                    child: const Text("회원가입")),
               ),
+              const SizedBox(height: 20.0),
               GestureDetector(
                 child: const Text(
                   '로그인 하지 않고 이용하기',
