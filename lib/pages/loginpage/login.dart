@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/pages/loginpage/joinpage.dart';
+import 'package:urbanlink_project/pages/loginpage/registerpage.dart';
 import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               GestureDetector(
                 child: const Text('회원 가입'),
                 onTap: () {
-                  Get.to(() => const JoinPage());
+                  Get.to(() => const RegisterPage());
                 },
               ),
               GestureDetector(

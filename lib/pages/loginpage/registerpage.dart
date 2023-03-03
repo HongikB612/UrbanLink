@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 
-class JoinPage extends StatelessWidget {
-  const JoinPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
