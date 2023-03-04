@@ -3,7 +3,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
-import 'package:logger/logger.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class MapPage extends StatefulWidget {
