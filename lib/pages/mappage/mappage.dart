@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -16,12 +17,23 @@ class _MapPageState extends State<MapPage> {
   TextEditingController textController = TextEditingController();
   late GoogleMapController mapController;
 
-  LatLng _center = const LatLng(45.521563, -122.677433);
+  LatLng _center = const LatLng(37.7, 126.6);
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
     });
+  }
+
+  // created method for getting user current location
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+      logger.e(error, stackTrace.toString());
+    });
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
