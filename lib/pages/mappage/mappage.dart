@@ -74,21 +74,21 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _searchLocation(String value) async {
-    late List<Location> locations;
     try {
-      locations = await locationFromAddress(value);
+      List<Location> locations = await locationFromAddress(value);
+      if (locations.isNotEmpty) {
+        final LatLng newCenter =
+            LatLng(locations.first.latitude, locations.first.longitude);
+
+        mapController.animateCamera(CameraUpdate.newLatLng(newCenter));
+        setState(() {
+          _center = newCenter;
+        });
+      }
     } on PlatformException catch (e) {
       logger.e(e);
-    }
-
-    if (locations.isNotEmpty) {
-      final LatLng newCenter =
-          LatLng(locations.first.latitude, locations.first.longitude);
-
-      mapController.animateCamera(CameraUpdate.newLatLng(newCenter));
-      setState(() {
-        _center = newCenter;
-      });
+    } catch (e) {
+      logger.e(e);
     }
   }
 }
