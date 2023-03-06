@@ -53,8 +53,8 @@ class _MapPageState extends State<MapPage> {
           ),
           Positioned(
             top: 5,
-            right: 15,
-            left: 15,
+            right: MediaQuery.of(context).size.width * 0.1,
+            left: MediaQuery.of(context).size.width * 0.1,
             child: AnimSearchBar(
               width: MediaQuery.of(context).size.width,
               textController: textController,
