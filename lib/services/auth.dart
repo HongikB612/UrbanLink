@@ -21,10 +21,10 @@ class AuthService {
     return user != null
         ? MyUser(
             id: user.uid,
-            name: user.displayName,
-            email: user.email,
+            name: user.displayName is String ? user.displayName as String : '',
+            email: user.email is String ? user.email as String : '',
           )
-        : MyUser(id: '0x00', name: '');
+        : MyUser(id: '0x00', name: '', email: '');
   }
 
   //Stream for FirbaseUser

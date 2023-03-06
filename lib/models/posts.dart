@@ -8,7 +8,7 @@ class Post {
     required this.postAuthorId,
     required this.communityId,
     required this.postDatetime,
-    this.postLastModified,
+    required this.postLastModified,
   });
   final int postId;
   final String postTitle;
@@ -18,5 +18,5 @@ class Post {
   final DateTime postDatetime;
 
   /// If the post is modified, this value should be updated
-  DateTime? postLastModified;
+  DateTime postLastModified;
 }
