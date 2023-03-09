@@ -68,6 +68,15 @@ class _MapPageState extends State<MapPage> {
         final LatLng newCenter =
             LatLng(locations.first.latitude, locations.first.longitude);
 
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: newCenter,
+              zoom: 11.0,
+            ),
+          ),
+        );
+
         setState(() {
           _center = newCenter;
         });
