@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PostingPage extends StatelessWidget {
+  const PostingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = new TextEditingController();
+    TextEditingController controller = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posting'),
+        title: const Text('Posting'),
       ),
-      body: Container(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              TextField(
-                controller: controller,
-                keyboardType: TextInputType.text,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(controller.value.text);
-                },
-                child: Text('게시하기'),
-              ),
-            ],
-          ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.multiline,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Get.back(result: controller.value.text);
+              },
+              child: const Text('게시하기'),
+            ),
+          ],
         ),
       ),
     );

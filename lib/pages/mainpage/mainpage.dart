@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/pages/mappage/mappage.dart';
+import 'package:urbanlink_project/pages/postpage/postspage.dart';
 import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
-import 'package:urbanlink_project/pages/searchpage.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,7 +15,7 @@ class _MainPageState extends State<MainPage> {
 
   static const List<Widget> pages = <Widget>[
     MapPage(),
-    SearchPage(),
+    PostsPage(),
     ProfilePage(),
   ];
 
@@ -39,8 +39,8 @@ class _MainPageState extends State<MainPage> {
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
+              icon: Icon(Icons.list),
+              label: 'Posts',
               backgroundColor: Colors.green,
             ),
             BottomNavigationBarItem(

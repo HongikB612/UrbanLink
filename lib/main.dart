@@ -33,12 +33,6 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(),
-      initialRoute: '/',
-      routes: {
-        '/posts': (context) => PostsPage(),
-        '/posting' : (context) => PostingPage(),
-        '/posted' : (context) => PostedPage(),
-      },
     );
   }
 
