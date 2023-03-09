@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:urbanlink_project/pages/postpage/postedpage.dart';
+import 'package:urbanlink_project/pages/postpage/postingpage.dart';
 
-class PostsPage extends StatefulWidget{
+class PostsPage extends StatefulWidget {
+  const PostsPage({super.key});
+
   @override
-  State<StatefulWidget> createState() => _SubDetail();
+  State<PostsPage> createState() => _PostsPageState();
 }
 
-class _SubDetail extends State<PostsPage>{
-
-  List<String> posts = new List.empty(growable: true);
+class _PostsPageState extends State<PostsPage> {
+  List<String> posts = List.empty(growable: true);
 
   @override
   void initState() {
@@ -21,28 +25,43 @@ class _SubDetail extends State<PostsPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posts'),
+        title: const Text('Posts'),
       ),
-      body: ListView.builder(itemBuilder: (context, index){
-        return Card(
-          child: InkWell(
-            child: Text(posts[index], style: TextStyle(fontSize: 30),) ,
-            onTap: (){
-              Navigator.of(context).pushNamed('/posted' , arguments: posts[index]);
-            },
-          ),
-        );
-      }, itemCount: posts.length,),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        _addNavigation(context);
-      }, child: Icon(Icons.add),),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return Card(
+            child: InkWell(
+              child: Text(
+                posts[index],
+                style: const TextStyle(fontSize: 30),
+              ),
+              onTap: () {
+                Get.to(
+                  () => const PostedPage(),
+                  arguments: posts[index],
+                );
+              },
+            ),
+          );
+        },
+        itemCount: posts.length,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _addNavigation(context);
+        },
+        child: const Icon(Icons.post_add),
+      ),
     );
   }
+
   void _addNavigation(BuildContext context) async {
-    final result = await Navigator.of(context).pushNamed('/posting');
+    final result = await Get.to(
+      () => const PostingPage(),
+      arguments: '글쓰기',
+    );
     setState(() {
       posts.add(result as String);
     });
   }
-
 }
