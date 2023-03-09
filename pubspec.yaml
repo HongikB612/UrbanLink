@@ -47,6 +47,7 @@ dependencies:
   geolocator: ^9.0.2
   google_maps_webservice: ^0.0.19
   flutter_dotenv: ^5.0.2
+  address_search_field: ^5.0.3
   
 
 dev_dependencies:
@@ -75,7 +76,6 @@ flutter:
   assets:
     - 'assets/images/GoogleMapTA.jpeg'
     - 'assets/images/profileImage.jpeg'
-    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

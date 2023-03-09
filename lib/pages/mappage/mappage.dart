@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -24,15 +23,23 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  // created method for getting user current location
-  Future<Position> getUserCurrentLocation() async {
-    await Geolocator.requestPermission()
-        .then((value) {})
-        .onError((error, stackTrace) async {
-      await Geolocator.requestPermission();
-      logger.e(error, stackTrace.toString());
-    });
-    return await Geolocator.getCurrentPosition();
+  Future<void> _searchLocation(String query) async {
+    late List<Location> locations;
+    try {
+      locations = await locationFromAddress(query);
+
+      if (locations.isNotEmpty) {
+        final LatLng newCenter =
+            LatLng(locations.first.latitude, locations.first.longitude);
+
+        mapController.animateCamera(CameraUpdate.newLatLng(newCenter));
+        setState(() {
+          _center = newCenter;
+        });
+      }
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   @override
@@ -70,22 +77,5 @@ class _MapPageState extends State<MapPage> {
         ],
       ),
     );
-  }
-
-  Future<void> _searchLocation(String query) async {
-    try {
-      List<Location> locations = await locationFromAddress(query);
-
-      if (locations.isNotEmpty) {
-        final LatLng newCenter =
-            LatLng(locations.first.latitude, locations.first.longitude);
-
-        setState(() {
-          _center = newCenter;
-        });
-      }
-    } catch (e) {
-      logger.e(e);
-    }
   }
 }
