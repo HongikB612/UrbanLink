@@ -20,11 +20,12 @@ class AuthService {
   MyUser _userFromFirebaseUser(User? user) {
     return user != null
         ? MyUser(
-            id: user.uid,
-            name: user.displayName is String ? user.displayName as String : '',
-            email: user.email is String ? user.email as String : '',
+            userId: user.uid,
+            userName:
+                user.displayName is String ? user.displayName as String : '',
+            userEmail: user.email is String ? user.email as String : '',
           )
-        : MyUser(id: '0x00', name: '', email: '');
+        : MyUser(userId: '0x00', userName: '', userEmail: '');
   }
 
   //Stream for FirbaseUser
