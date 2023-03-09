@@ -33,12 +33,15 @@ class AuthService {
 
   //Register With Email & Password
   Future<MyUser?> registerWithEmailAndPassword(
-      String email, String pass) async {
+      String name, String email, String pass) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: pass);
       user = _userFromFirebaseUser(userCredential.user);
-      DataBaseService.createUser(user!.userId, user!.userName, user!.userEmail);
+
+      //Create a new document for the user with the uid
+      await DataBaseService.createUser(
+          uid: user!.userId, name: name, email: email);
       return user;
     } on FirebaseAuthException {
       rethrow;
