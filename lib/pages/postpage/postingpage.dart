@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class PostingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

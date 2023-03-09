@@ -7,14 +7,14 @@ class PostsPage extends StatefulWidget{
 
 class _SubDetail extends State<PostsPage>{
 
-  List<String> todoList = new List.empty(growable: true);
+  List<String> posts = new List.empty(growable: true);
 
   @override
   void initState() {
     super.initState();
-    todoList.add('글1');
-    todoList.add('글2');
-    todoList.add('글3');
+    posts.add('글1');
+    posts.add('글2');
+    posts.add('글3');
   }
 
   @override
@@ -26,13 +26,13 @@ class _SubDetail extends State<PostsPage>{
       body: ListView.builder(itemBuilder: (context, index){
         return Card(
           child: InkWell(
-            child: Text(todoList[index], style: TextStyle(fontSize: 30),) ,
+            child: Text(posts[index], style: TextStyle(fontSize: 30),) ,
             onTap: (){
-              Navigator.of(context).pushNamed('/posted' , arguments: todoList[index]);
+              Navigator.of(context).pushNamed('/posted' , arguments: posts[index]);
             },
           ),
         );
-      }, itemCount: todoList.length,),
+      }, itemCount: posts.length,),
       floatingActionButton: FloatingActionButton(onPressed: (){
         _addNavigation(context);
       }, child: Icon(Icons.add),),
@@ -41,7 +41,7 @@ class _SubDetail extends State<PostsPage>{
   void _addNavigation(BuildContext context) async {
     final result = await Navigator.of(context).pushNamed('/posting');
     setState(() {
-      todoList.add(result as String);
+      posts.add(result as String);
     });
   }
 

@@ -1,7 +1,7 @@
-class Todo{
+class Post{
   final String title;
   final String content;
 
-  Todo(this.title, this.content);
+  Post(this.title, this.content);
 }
 
