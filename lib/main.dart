@@ -6,6 +6,10 @@ import 'package:urbanlink_project/pages/homepage/homepage.dart';
 import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'firebase_options.dart';
 
+import 'package:urbanlink_project/pages/postpage/postspage.dart';
+import 'package:urbanlink_project/pages/postpage/postedpage.dart';
+import 'package:urbanlink_project/pages/postpage/postingpage.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -30,6 +34,12 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/posts': (context) => PostsPage(),
+        '/posting' : (context) => PostingPage(),
+        '/posted' : (context) => PostedPage(),
+      },
     );
   }
 
