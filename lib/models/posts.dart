@@ -1,5 +1,3 @@
-import 'dart:async';
-
 /// Post model
 /// This model is used to store the post information
 class Post {
