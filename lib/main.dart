@@ -5,10 +5,6 @@ import 'package:get/get.dart';
 import 'package:urbanlink_project/pages/homepage/homepage.dart';
 import 'firebase_options.dart';
 
-import 'package:urbanlink_project/pages/postpage/postspage.dart';
-import 'package:urbanlink_project/pages/postpage/postedpage.dart';
-import 'package:urbanlink_project/pages/postpage/postingpage.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

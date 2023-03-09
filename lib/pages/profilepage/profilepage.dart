@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final String userName = '@UserName';
   final String explanation = 'Explain';
 
-  List<Post> _postList = <Post>[];
+  final List<Post> _postList = <Post>[];
 
   @override
   void initState() {
