@@ -17,4 +17,28 @@ class DataBaseService {
     // create document and write data to Firebase
     await docUser.set(json);
   }
+
+  static Future<void> createPost({
+    required String postTitle,
+    required String postContent,
+    required String postAuthorId,
+    required String communityId,
+    required DateTime postCreatedTime,
+    required DateTime postLastModified,
+  }) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc();
+
+    final json = {
+      'postId': docPost.id,
+      'postTitle': postTitle,
+      'postContent': postContent,
+      'postAuthorId': postAuthorId,
+      'communityId': communityId,
+      'postCreatedTime': postCreatedTime.toString(),
+      'postLastModified': postLastModified.toString(),
+    };
+
+    // create document and write data to Firebase
+    await docPost.set(json);
+  }
 }

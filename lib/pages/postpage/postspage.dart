@@ -61,7 +61,7 @@ class _PostsPageState extends State<PostsPage> {
       arguments: '글쓰기',
     );
     setState(() {
-      posts.add(result as String);
+      posts.add(result);
     });
   }
 }
