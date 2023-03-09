@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:logger/logger.dart';
+import 'package:urbanlink_project/services/database.dart';
 
 final logger = Logger(
   printer: PrettyPrinter(),
@@ -20,22 +21,27 @@ class AuthService {
   MyUser _userFromFirebaseUser(User? user) {
     return user != null
         ? MyUser(
-            id: user.uid,
-            name: user.displayName is String ? user.displayName as String : '',
-            email: user.email is String ? user.email as String : '',
+            userId: user.uid,
+            userName:
+                user.displayName is String ? user.displayName as String : '',
+            userEmail: user.email is String ? user.email as String : '',
           )
-        : MyUser(id: '0x00', name: '', email: '');
+        : MyUser(userId: '0x00', userName: '', userEmail: '');
   }
 
   //Stream for FirbaseUser
 
   //Register With Email & Password
   Future<MyUser?> registerWithEmailAndPassword(
-      String email, String pass) async {
+      String name, String email, String pass) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: pass);
       user = _userFromFirebaseUser(userCredential.user);
+
+      //Create a new document for the user with the uid
+      await DataBaseService.createUser(
+          uid: user!.userId, name: name, email: email);
       return user;
     } on FirebaseAuthException {
       rethrow;

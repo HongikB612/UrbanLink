@@ -7,15 +7,19 @@ class Post {
     required this.postContent,
     required this.postAuthorId,
     required this.communityId,
-    required this.postDatetime,
+    required this.postCreatedTime,
     required this.postLastModified,
+    required this.locationId,
   });
-  final int postId;
+  final String postId;
   final String postTitle;
   final String postContent;
-  final int postAuthorId;
-  final int communityId;
-  final DateTime postDatetime;
+  final String postAuthorId;
+  final String communityId;
+  final String locationId;
+  final DateTime postCreatedTime;
+
+  int postLikeCount = 0;
 
   /// If the post is modified, this value should be updated
   DateTime postLastModified;

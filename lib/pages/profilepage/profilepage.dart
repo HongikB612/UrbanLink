@@ -17,29 +17,22 @@ class _ProfilePageState extends State<ProfilePage> {
   final String userName = '@UserName';
   final String explanation = 'Explain';
 
-  List<Post> _postList = <Post>[];
+  final List<Post> _postList = <Post>[];
 
   @override
   void initState() {
     super.initState();
 
-    _postList.add(Post(
-        postId: 0,
-        postTitle: '풉',
-        postContent: '잔뜩 플러터',
-        communityId: 0,
-        postAuthorId: 0,
-        postDatetime: DateTime.now(),
-        postLastModified: DateTime.now()));
-    for (var i = 1; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
       _postList.add(Post(
-          postId: i,
+          postId: '',
           postTitle: 'Post $i',
           postContent: 'Content $i',
-          communityId: i,
-          postAuthorId: i,
-          postDatetime: DateTime.now(),
-          postLastModified: DateTime.now()));
+          communityId: '',
+          postAuthorId: '',
+          postCreatedTime: DateTime.now(),
+          postLastModified: DateTime.now(),
+          locationId: ''));
     }
   }
 
