@@ -23,6 +23,32 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
+  Future<void> _searchLocation(String query) async {
+    try {
+      List<Location> locations = await locationFromAddress(query);
+
+      if (locations.isNotEmpty) {
+        final LatLng newCenter =
+            LatLng(locations.first.latitude, locations.first.longitude);
+
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: newCenter,
+              zoom: 11.0,
+            ),
+          ),
+        );
+
+        setState(() {
+          _center = newCenter;
+        });
+      }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,31 +84,5 @@ class _MapPageState extends State<MapPage> {
         ],
       ),
     );
-  }
-
-  Future<void> _searchLocation(String query) async {
-    try {
-      List<Location> locations = await locationFromAddress(query);
-
-      if (locations.isNotEmpty) {
-        final LatLng newCenter =
-            LatLng(locations.first.latitude, locations.first.longitude);
-
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: newCenter,
-              zoom: 11.0,
-            ),
-          ),
-        );
-
-        setState(() {
-          _center = newCenter;
-        });
-      }
-    } catch (e) {
-      logger.e(e);
-    }
   }
 }
