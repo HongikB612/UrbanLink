@@ -5,11 +5,11 @@ class Community {
   final String communityName;
 
   /// location of the community
-  String? communityLocation;
+  String communityLocation;
 
   Community({
     required this.communityId,
     required this.communityName,
-    this.communityLocation,
+    required this.communityLocation,
   });
 }

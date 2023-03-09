@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/pages/homepage/homepage.dart';
-import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'firebase_options.dart';
 
 import 'package:urbanlink_project/pages/postpage/postspage.dart';
@@ -22,7 +21,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {

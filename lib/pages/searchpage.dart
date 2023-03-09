@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:get/get.dart';
+import 'package:urbanlink_project/pages/mappage/mappage.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -7,19 +10,18 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Column(
-      children: const [
-        // search bar
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Search',
-            ),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FloatingSearchBarAction(
+          showIfOpened: false,
+          child: CircularButton(
+            onPressed: () {
+              Get.to(() => const MapPage());
+            },
+            icon: const Icon(Icons.map),
           ),
-        ),
-        // list of results
-        Text('Search Results'),
+        )
       ],
     ));
   }

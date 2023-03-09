@@ -29,7 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
         postContent: '잔뜩 플러터',
         communityId: 0,
         postAuthorId: 0,
-        postDatetime: DateTime.now()));
+        postDatetime: DateTime.now(),
+        postLastModified: DateTime.now()));
     for (var i = 1; i < 20; i++) {
       _postList.add(Post(
           postId: i,
@@ -37,7 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
           postContent: 'Content $i',
           communityId: i,
           postAuthorId: i,
-          postDatetime: DateTime.now()));
+          postDatetime: DateTime.now(),
+          postLastModified: DateTime.now()));
     }
   }
 
