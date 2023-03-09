@@ -1,11 +1,13 @@
 class MyUser {
-  final String id;
-  String name;
-  String email;
+  final String userId;
+  String userName;
+  String userEmail;
+  String? userExplanation;
 
   MyUser({
-    required this.id,
-    required this.name,
-    required this.email,
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+    this.userExplanation,
   });
 }
