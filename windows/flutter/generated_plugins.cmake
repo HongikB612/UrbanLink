@@ -4,8 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   geolocator_windows
-  address_search_field
-  geolocator_windows
   permission_handler_windows
 )
 
