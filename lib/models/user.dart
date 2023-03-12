@@ -10,4 +10,22 @@ class MyUser {
     required this.userEmail,
     this.userExplanation,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'userName': userName,
+      'userEmail': userEmail,
+      'userExplanation': userExplanation,
+    };
+  }
+
+  static fromJson(Map<String, dynamic> data) {
+    return MyUser(
+      userId: data['userId'],
+      userName: data['userName'],
+      userEmail: data['userEmail'],
+      userExplanation: data['userExplanation'],
+    );
+  }
 }
