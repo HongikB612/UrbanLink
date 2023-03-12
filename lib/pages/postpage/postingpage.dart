@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/services/database.dart';
+import 'package:urbanlink_project/repositories/database.dart';
 
 class PostingPage extends StatelessWidget {
   const PostingPage({super.key});
@@ -37,7 +37,7 @@ class PostingPage extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                DataBaseService.createPost(
+                PostDatabaseService.createPost(
                   communityId: '',
                   postAuthorId: '',
                   postContent: contentController.text,

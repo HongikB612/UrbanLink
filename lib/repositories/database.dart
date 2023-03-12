@@ -1,7 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:urbanlink_project/models/posts.dart';
 
-class DataBaseService {
+class PostDatabaseService {
   static Future<void> createUser(
       {required String uid,
       required String name,
@@ -41,5 +41,52 @@ class DataBaseService {
 
     // create document and write data to Firebase
     await docPost.set(json);
+  }
+
+  static Stream<List<Post>> getPosts() {
+    return FirebaseFirestore.instance.collection('posts').snapshots().map(
+        (snapshot) => snapshot.docs
+            .map<Post>((doc) => Post.fromJson(doc.data()))
+            .toList());
+  }
+
+  static Stream<List<Post>> getPostsByCommunityId(String communityId) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .where('communityId', isEqualTo: communityId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map<Post>((doc) => Post.fromJson(doc.data()))
+            .toList());
+  }
+
+  static Stream<List<Post>> getPostsByUserId(String userId) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .where('postAuthorId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map<Post>((doc) => Post.fromJson(doc.data()))
+            .toList());
+  }
+
+  static Stream<List<Post>> getPostsByPostId(String postId) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .where('postId', isEqualTo: postId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map<Post>((doc) => Post.fromJson(doc.data()))
+            .toList());
+  }
+
+  static Stream<List<Post>> getPostsByPostTitle(String postTitle) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .where('postTitle', arrayContains: postTitle)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map<Post>((doc) => Post.fromJson(doc.data()))
+            .toList());
   }
 }
