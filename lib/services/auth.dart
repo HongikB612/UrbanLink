@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:logger/logger.dart';
-import 'package:urbanlink_project/repositories/database.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
 
 final logger = Logger(
   printer: PrettyPrinter(),
@@ -40,7 +41,7 @@ class AuthService {
       user = _userFromFirebaseUser(userCredential.user);
 
       //Create a new document for the user with the uid
-      await PostDatabaseService.createUser(
+      await UserDatabaseService.createUser(
           uid: user!.userId, name: name, email: email);
       return user;
     } on FirebaseAuthException {
