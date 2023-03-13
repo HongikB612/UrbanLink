@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key});
@@ -11,14 +14,19 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
-  List<String> posts = List.empty(growable: true);
-
   @override
   void initState() {
     super.initState();
-    posts.add('글1');
-    posts.add('글2');
-    posts.add('글3');
+  }
+
+  Widget buildPost(Post post) {
+    return ListTile(
+      title: Text(post.postTitle),
+      subtitle: Text(post.postContent),
+      onTap: () {
+        Get.to(() => const PostedPage(), arguments: post);
+      },
+    );
   }
 
   @override
@@ -27,24 +35,28 @@ class _PostsPageState extends State<PostsPage> {
       appBar: AppBar(
         title: const Text('Posts'),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            child: InkWell(
-              child: Text(
-                posts[index],
-                style: const TextStyle(fontSize: 30),
-              ),
-              onTap: () {
-                Get.to(
-                  () => const PostedPage(),
-                  arguments: posts[index],
-                );
+      body: StreamBuilder<List<Post>>(
+        stream: PostDatabaseService.getPosts(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            logger.e(snapshot.error ?? 'Unknown error');
+            return Center(
+              child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
+            );
+          } else if (snapshot.hasData) {
+            final posts = snapshot.data!;
+            return ListView.builder(
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                return buildPost(posts[index]);
               },
-            ),
-          );
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
-        itemCount: posts.length,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -60,8 +72,12 @@ class _PostsPageState extends State<PostsPage> {
       () => const PostingPage(),
       arguments: '글쓰기',
     );
-    setState(() {
-      posts.add(result);
-    });
+    if (result != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$result'),
+        ),
+      );
+    }
   }
 }
