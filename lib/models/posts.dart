@@ -23,4 +23,30 @@ class Post {
 
   /// If the post is modified, this value should be updated
   DateTime postLastModified;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'postId': postId,
+      'postTitle': postTitle,
+      'postContent': postContent,
+      'postAuthorId': postAuthorId,
+      'communityId': communityId,
+      'locationId': locationId,
+      'postCreatedTime': postCreatedTime.toString(),
+      'postLastModified': postLastModified.toString(),
+    };
+  }
+
+  static fromJson(Map<String, dynamic> data) {
+    return Post(
+      communityId: data['communityId'],
+      locationId: data['locationId'],
+      postAuthorId: data['postAuthorId'],
+      postContent: data['postContent'],
+      postCreatedTime: DateTime.parse(data['postCreatedTime']),
+      postLastModified: DateTime.parse(data['postLastModified']),
+      postId: data['postId'],
+      postTitle: data['postTitle'],
+    );
+  }
 }

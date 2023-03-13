@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/repositories/database.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
 
 class PostingPage extends StatelessWidget {
   const PostingPage({super.key});
