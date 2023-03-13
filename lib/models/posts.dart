@@ -37,7 +37,7 @@ class Post {
     };
   }
 
-  static fromJson(Map<String, dynamic> data) {
+  factory Post.fromJson(Map<String, dynamic> data) {
     return Post(
       communityId: data['communityId'],
       locationId: data['locationId'],
