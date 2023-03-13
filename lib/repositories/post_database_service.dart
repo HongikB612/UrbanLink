@@ -1,44 +1,21 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:urbanlink_project/models/posts.dart';
 
 class PostDatabaseService {
-  static Future<void> createUser(
-      {required String uid,
-      required String name,
-      required String email}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(uid);
-
-    final json = {
-      'userId': docUser.id,
-      'userName': name,
-      'userEmail': email,
-      'userExplanation': '',
-    };
-
-    // create document and write data to Firebase
-    await docUser.set(json);
-  }
-
-  static Future<void> createPost({
-    required String postTitle,
-    required String postContent,
-    required String postAuthorId,
-    required String communityId,
-    required DateTime postCreatedTime,
-    required DateTime postLastModified,
-  }) async {
+  static Future<void> createPost(Post post) async {
     final docPost = FirebaseFirestore.instance.collection('posts').doc();
 
     final json = {
       'postId': docPost.id,
-      'postTitle': postTitle,
-      'postContent': postContent,
-      'postAuthorId': postAuthorId,
-      'communityId': communityId,
-      'postCreatedTime': postCreatedTime.toString(),
-      'postLastModified': postLastModified.toString(),
+      'postTitle': post.postTitle,
+      'postContent': post.postContent,
+      'postAuthorId': post.postAuthorId,
+      'communityId': post.communityId,
+      'postCreatedTime': post.postCreatedTime.toString(),
+      'postLastModified': post.postLastModified.toString(),
     };
+
+    post.postId = docPost.id;
 
     // create document and write data to Firebase
     await docPost.set(json);
