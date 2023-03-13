@@ -22,41 +22,39 @@ class _PostsPageState extends State<PostsPage> {
 
   Widget buildPost(Post post) {
     return ListTile(
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-              post.postTitle,
+      title: Text(
+        post.postTitle,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          post.postContent,
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+        ),
+        Row(
+          children: [
+            Text(
+              post.authorName,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                'author: ${post.authorName}',
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontStyle: FontStyle.italic,
-                ),
+            const Text(
+              ' | ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                'created: ${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
-                style: const TextStyle(
-                    color: Colors.grey, fontStyle: FontStyle.italic),
-              ),
-            ],
-          ),
-        ],
-      ),
-      subtitle: Text(
-        post.postContent,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
+            ),
+          ],
+        ),
+      ]),
       onTap: () {
         Get.to(() => const PostedPage(), arguments: post);
       },

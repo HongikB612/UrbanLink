@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:logger/logger.dart';
-import 'package:urbanlink_project/repositories/post_database_service.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
 
 final logger = Logger(
