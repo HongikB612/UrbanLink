@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
@@ -24,20 +22,40 @@ class _PostsPageState extends State<PostsPage> {
 
   Widget buildPost(Post post) {
     return ListTile(
-      title: Text(
-        post.postTitle,
-      ),
-      subtitle: Column(
+      title: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(post.postContent),
-          Text(
-            'Author: ${post.authorName}',
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
+          Expanded(
+            child: Text(
+              post.postTitle,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                'author: ${post.authorName}',
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              Text(
+                'created: ${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
+                style: const TextStyle(
+                    color: Colors.grey, fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
         ],
+      ),
+      subtitle: Text(
+        post.postContent,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
       onTap: () {
         Get.to(() => const PostedPage(), arguments: post);
