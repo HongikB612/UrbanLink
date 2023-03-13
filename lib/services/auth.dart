@@ -44,7 +44,7 @@ class AuthService {
 
       //Create a new document for the user with the uid
       await UserDatabaseService.createUser(
-          uid: user!.userId, name: name, email: email);
+          uid: user!.userId, name: name, email: email, explanation: '');
       return user;
     } on FirebaseAuthException {
       rethrow;
