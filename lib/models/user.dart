@@ -22,12 +22,31 @@ class MyUser {
     };
   }
 
-  static fromJson(Map<String, dynamic> data) {
+  factory MyUser.fromJson(Map<String, dynamic> data) {
     return MyUser(
       userId: data['userId'],
       userName: data['userName'],
       userEmail: data['userEmail'],
       userExplanation: data['userExplanation'],
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is MyUser &&
+        other.userId == userId &&
+        other.userName == userName &&
+        other.userEmail == userEmail &&
+        other.userExplanation == userExplanation;
+  }
+
+  @override
+  int get hashCode {
+    return userId.hashCode ^
+        userName.hashCode ^
+        userEmail.hashCode ^
+        userExplanation.hashCode;
   }
 }
