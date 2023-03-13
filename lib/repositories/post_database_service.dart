@@ -9,6 +9,7 @@ class PostDatabaseService {
     required String communityId,
     required DateTime postCreatedTime,
     required DateTime postLastModified,
+    required String locationId,
   }) async {
     final docPost = FirebaseFirestore.instance.collection('posts').doc();
 
@@ -20,6 +21,7 @@ class PostDatabaseService {
       'communityId': communityId,
       'postCreatedTime': postCreatedTime.toString(),
       'postLastModified': postLastModified.toString(),
+      'locationId': locationId,
     };
 
     // create document and write data to Firebase

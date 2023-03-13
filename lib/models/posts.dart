@@ -39,14 +39,14 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> data) {
     return Post(
-      communityId: data['communityId'],
-      locationId: data['locationId'],
-      postAuthorId: data['postAuthorId'],
-      postContent: data['postContent'],
+      communityId: data['communityId'] ?? '',
+      locationId: data['locationId'] ?? '',
+      postAuthorId: data['postAuthorId'] ?? '',
+      postContent: data['postContent'] ?? '',
       postCreatedTime: DateTime.parse(data['postCreatedTime']),
       postLastModified: DateTime.parse(data['postLastModified']),
-      postId: data['postId'],
-      postTitle: data['postTitle'],
+      postId: data['postId'] ?? '',
+      postTitle: data['postTitle'] ?? '',
     );
   }
 
