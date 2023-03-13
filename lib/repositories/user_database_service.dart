@@ -26,4 +26,12 @@ class UserDatabaseService {
       userExplanation: explanation,
     );
   }
+
+  static Future<MyUser> getUserById(String userId) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get()
+        .then((value) => MyUser.fromJson(value.data()!));
+  }
 }

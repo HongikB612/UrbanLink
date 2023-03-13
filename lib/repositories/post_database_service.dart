@@ -10,6 +10,7 @@ class PostDatabaseService {
     required DateTime postCreatedTime,
     required DateTime postLastModified,
     required String locationId,
+    required String authorName,
   }) async {
     final docPost = FirebaseFirestore.instance.collection('posts').doc();
 
@@ -22,6 +23,7 @@ class PostDatabaseService {
       'postCreatedTime': postCreatedTime.toString(),
       'postLastModified': postLastModified.toString(),
       'locationId': locationId,
+      'authorName': authorName,
     };
 
     // create document and write data to Firebase
@@ -37,6 +39,7 @@ class PostDatabaseService {
       postCreatedTime: postCreatedTime,
       postLastModified: postLastModified,
       locationId: locationId,
+      authorName: authorName,
     );
   }
 

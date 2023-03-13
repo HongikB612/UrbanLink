@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,21 @@ class _PostsPageState extends State<PostsPage> {
 
   Widget buildPost(Post post) {
     return ListTile(
-      title: Text(post.postTitle),
-      subtitle: Text(post.postContent),
+      title: Text(
+        post.postTitle,
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(post.postContent),
+          Text(
+            'Author: ${post.authorName}',
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ),
       onTap: () {
         Get.to(() => const PostedPage(), arguments: post);
       },
