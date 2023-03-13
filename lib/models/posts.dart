@@ -7,17 +7,19 @@ class Post {
     required this.postContent,
     required this.postAuthorId,
     required this.communityId,
-    required this.postCreatedTime,
     required this.postLastModified,
+    required this.postCreatedTime,
     required this.locationId,
+    required this.authorName,
   });
   final String postId;
   final String postTitle;
   final String postContent;
   final String postAuthorId;
-  final String communityId;
-  final String locationId;
+  String communityId;
+  String locationId;
   final DateTime postCreatedTime;
+  final String authorName;
 
   int postLikeCount = 0;
 
@@ -39,14 +41,15 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> data) {
     return Post(
-      communityId: data['communityId'] ?? '',
-      locationId: data['locationId'] ?? '',
-      postAuthorId: data['postAuthorId'] ?? '',
-      postContent: data['postContent'] ?? '',
+      communityId: data['communityId'] ?? 'Unknown',
+      locationId: data['locationId'] ?? 'Unknown',
+      postAuthorId: data['postAuthorId'] ?? 'Unknown',
+      postContent: data['postContent'] ?? 'Unknown',
       postCreatedTime: DateTime.parse(data['postCreatedTime']),
       postLastModified: DateTime.parse(data['postLastModified']),
-      postId: data['postId'] ?? '',
-      postTitle: data['postTitle'] ?? '',
+      postId: data['postId'] ?? 'Unknown',
+      postTitle: data['postTitle'] ?? 'Unknown',
+      authorName: data['authorName'] ?? 'Unknown',
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
@@ -21,8 +22,39 @@ class _PostsPageState extends State<PostsPage> {
 
   Widget buildPost(Post post) {
     return ListTile(
-      title: Text(post.postTitle),
-      subtitle: Text(post.postContent),
+      title: Text(
+        post.postTitle,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          post.postContent,
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+        ),
+        Row(
+          children: [
+            Text(
+              post.authorName,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              ' | ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ]),
       onTap: () {
         Get.to(() => const PostedPage(), arguments: post);
       },
@@ -60,6 +92,14 @@ class _PostsPageState extends State<PostsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          if (FirebaseAuth.instance.currentUser == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('로그인이 필요합니다.'),
+              ),
+            );
+            return;
+          }
           _addNavigation(context);
         },
         child: const Icon(Icons.post_add),
@@ -68,16 +108,6 @@ class _PostsPageState extends State<PostsPage> {
   }
 
   void _addNavigation(BuildContext context) async {
-    final result = await Get.to(
-      () => const PostingPage(),
-      arguments: '글쓰기',
-    );
-    if (result != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('$result'),
-        ),
-      );
-    }
+    Get.to(const PostingPage());
   }
 }

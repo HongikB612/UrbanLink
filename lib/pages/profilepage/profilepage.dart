@@ -32,7 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
           postAuthorId: '',
           postCreatedTime: DateTime.now(),
           postLastModified: DateTime.now(),
-          locationId: ''));
+          locationId: '',
+          authorName: 'Author $i'));
     }
   }
 
