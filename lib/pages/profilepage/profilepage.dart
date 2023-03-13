@@ -68,7 +68,22 @@ class _ProfilePageState extends State<ProfilePage> {
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
     return Container(
         height: _profileHeight,
-        decoration: profileBoxDecoration(),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 10,
+            ),
+          ],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(_profileRound),
+            topRight: Radius.circular(_profileRound),
+            bottomLeft: Radius.circular(_profileRound),
+            bottomRight: Radius.circular(_profileRound),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -99,25 +114,6 @@ class _ProfilePageState extends State<ProfilePage> {
             )
           ],
         ));
-  }
-
-  BoxDecoration profileBoxDecoration() {
-    return const BoxDecoration(
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 10,
-          spreadRadius: 10,
-        ),
-      ],
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(_profileRound),
-        topRight: Radius.circular(_profileRound),
-        bottomLeft: Radius.circular(_profileRound),
-        bottomRight: Radius.circular(_profileRound),
-      ),
-    );
   }
 
   Expanded postListView(BuildContext context) {
