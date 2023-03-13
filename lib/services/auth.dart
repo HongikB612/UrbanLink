@@ -26,8 +26,10 @@ class AuthService {
             userName:
                 user.displayName is String ? user.displayName as String : '',
             userEmail: user.email is String ? user.email as String : '',
+            userExplanation: '',
           )
-        : MyUser(userId: '0x00', userName: '', userEmail: '');
+        : MyUser(
+            userId: '0x00', userName: '', userEmail: '', userExplanation: '');
   }
 
   //Stream for FirbaseUser

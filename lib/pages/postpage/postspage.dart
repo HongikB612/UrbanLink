@@ -24,10 +24,7 @@ class _PostsPageState extends State<PostsPage> {
       title: Text(post.postTitle),
       subtitle: Text(post.postContent),
       onTap: () {
-        Get.to(
-          () => const PostedPage(),
-          arguments: post,
-        );
+        Get.to(() => const PostedPage(), arguments: post);
       },
     );
   }
@@ -42,9 +39,9 @@ class _PostsPageState extends State<PostsPage> {
         stream: PostDatabaseService.getPosts(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            logger.e(snapshot.error);
+            logger.e(snapshot.error ?? 'Unknown error');
             return Center(
-              child: Text('Error ${snapshot.error}'),
+              child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
             );
           } else if (snapshot.hasData) {
             final posts = snapshot.data!;
