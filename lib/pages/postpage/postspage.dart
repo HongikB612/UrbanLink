@@ -70,12 +70,12 @@ class _PostsPageState extends State<PostsPage> {
   void _addNavigation(BuildContext context) async {
     final result = await Get.to(
       () => const PostingPage(),
-      arguments: '글쓰기',
+      arguments: context,
     );
     if (result != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(result).showSnackBar(
         SnackBar(
-          content: Text('$result'),
+          content: Text(result),
         ),
       );
     }
