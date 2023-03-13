@@ -41,6 +41,7 @@ class PostingPage extends StatelessWidget {
                   communityId: '',
                   postAuthorId: '',
                   postContent: contentController.text,
+                  locationId: '',
                   postCreatedTime: DateTime.now(),
                   postLastModified: DateTime.now(),
                   postTitle: headlineController.text,
