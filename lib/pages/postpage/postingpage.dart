@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/models/posts.dart';
-import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/repositories/database.dart';
 
 class PostingPage extends StatelessWidget {
   const PostingPage({super.key});
@@ -38,17 +37,14 @@ class PostingPage extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Post post = Post(
+                PostDatabaseService.createPost(
                   communityId: '',
-                  postContent: contentController.text,
-                  postTitle: headlineController.text,
                   postAuthorId: '',
-                  locationId: '',
+                  postContent: contentController.text,
                   postCreatedTime: DateTime.now(),
                   postLastModified: DateTime.now(),
-                  postId: '',
+                  postTitle: headlineController.text,
                 );
-                PostDatabaseService.createPost(post);
                 Get.back(result: headlineController.text);
               },
               child: const Text('게시하기'),
