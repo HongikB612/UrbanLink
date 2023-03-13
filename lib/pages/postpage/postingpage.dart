@@ -16,7 +16,7 @@ class PostingPage extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser != null) {
       user = FirebaseAuth.instance.currentUser!;
     } else {
-      Get.back(result: '로그인이 필요합니다.');
+      Get.back();
     }
 
     return Scaffold(
@@ -55,7 +55,7 @@ class PostingPage extends StatelessWidget {
                   postLastModified: DateTime.now(),
                   postTitle: headlineController.text,
                 );
-                Get.back(result: '게시글이 등록되었습니다.');
+                Get.back();
               },
               child: const Text('게시하기'),
             ),

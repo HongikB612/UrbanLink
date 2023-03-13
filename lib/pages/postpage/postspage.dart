@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
@@ -60,6 +62,14 @@ class _PostsPageState extends State<PostsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          if (FirebaseAuth.instance.currentUser == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('로그인이 필요합니다.'),
+              ),
+            );
+            return;
+          }
           _addNavigation(context);
         },
         child: const Icon(Icons.post_add),
@@ -68,16 +78,6 @@ class _PostsPageState extends State<PostsPage> {
   }
 
   void _addNavigation(BuildContext context) async {
-    final result = await Get.to(
-      () => const PostingPage(),
-      arguments: context,
-    );
-    if (result != null) {
-      ScaffoldMessenger.of(result).showSnackBar(
-        SnackBar(
-          content: Text(result),
-        ),
-      );
-    }
+    Get.to(const PostingPage());
   }
 }
