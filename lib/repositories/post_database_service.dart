@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:urbanlink_project/models/posts.dart';
 
 class PostDatabaseService {
-  static Future<void> createPost({
+  static Future<Post> createPost({
     required String postTitle,
     required String postContent,
     required String postAuthorId,
@@ -26,6 +26,18 @@ class PostDatabaseService {
 
     // create document and write data to Firebase
     await docPost.set(json);
+
+    // return Post object with generated postId
+    return Post(
+      postId: docPost.id,
+      postTitle: postTitle,
+      postContent: postContent,
+      postAuthorId: postAuthorId,
+      communityId: communityId,
+      postCreatedTime: postCreatedTime,
+      postLastModified: postLastModified,
+      locationId: locationId,
+    );
   }
 
   static Stream<List<Post>> getPosts() {
