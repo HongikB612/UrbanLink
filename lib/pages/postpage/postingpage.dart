@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
 
 class PostingPage extends StatelessWidget {
   const PostingPage({super.key});
@@ -9,6 +12,14 @@ class PostingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController headlineController = TextEditingController();
     TextEditingController contentController = TextEditingController();
+
+    // user
+    late User user;
+    if (FirebaseAuth.instance.currentUser != null) {
+      user = FirebaseAuth.instance.currentUser!;
+    } else {
+      Get.back();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -36,17 +47,20 @@ class PostingPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                final MyUser myUser =
+                    await UserDatabaseService.getUserById(user.uid);
                 PostDatabaseService.createPost(
                   communityId: '',
-                  postAuthorId: '',
+                  postAuthorId: user.uid,
                   postContent: contentController.text,
                   locationId: '',
                   postCreatedTime: DateTime.now(),
                   postLastModified: DateTime.now(),
                   postTitle: headlineController.text,
+                  authorName: myUser.userName,
                 );
-                Get.back(result: headlineController.text);
+                Get.back();
               },
               child: const Text('게시하기'),
             ),
