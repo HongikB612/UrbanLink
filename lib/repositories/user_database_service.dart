@@ -102,12 +102,11 @@ class UserDatabaseService {
         onError: (error) => logger.e('Failed to update user: $error'));
   }
 
+  /// This method do not sign out the user
   static Future<void> deleteUser({required String userId}) async {
     final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
 
     await docUser.delete().then((value) => logger.i('User deleted'),
         onError: (error) => logger.e('Failed to delete user: $error'));
-
-    await AuthService().signOut();
   }
 }
