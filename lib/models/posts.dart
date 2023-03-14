@@ -94,20 +94,4 @@ class Post {
   String toString() {
     return 'Post(postId: $postId, postTitle: $postTitle, postContent: $postContent, postAuthorId: $postAuthorId, communityId: $communityId, locationId: $locationId, postCreatedTime: $postCreatedTime, postLastModified: $postLastModified, postLikeCount: $postLikeCount)';
   }
-
-  void addLike() {
-    postLikeCount++;
-  }
-
-  void addDislike() {
-    postDislikeCount++;
-  }
-
-  void removeLike() {
-    postLikeCount--;
-  }
-
-  void removeDislike() {
-    postDislikeCount--;
-  }
 }
