@@ -16,6 +16,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   late MyUser _myUser = MyUser(
     userId: 'Unknown',
     userName: 'Unknown',
@@ -39,12 +44,6 @@ class _ProfilePageState extends State<ProfilePage> {
       );
       logger.i('myUser: ${_myUser.toJson()}');
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _setUser();
   }
 
   Container profileBox(
