@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/components/post_list_component.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/loginpage/login.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -34,7 +36,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    setUser();
   }
+
+  PostListComponent postListComponent = PostListComponent();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,8 @@ class _ProfilePageState extends State<ProfilePage> {
           children: <Widget>[
             profileBox(textProfileUserStyle, textProfileDescriptionStyle),
             const Text('Post List', style: textProfileUserStyle),
-            postListView(context),
+            postListComponent.postStreamBuilder(
+                PostDatabaseService.getPostsByUserId(myUser.userId)),
           ],
         ));
   }
@@ -105,8 +111,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(userName, style: textProfileUserStyle),
-                      Text(explanation, style: textProfileDescriptionStyle),
+                      Text(myUser.userName, style: textProfileUserStyle),
+                      Text(myUser.userExplanation,
+                          style: textProfileDescriptionStyle),
                     ],
                   ),
                 ),
@@ -114,19 +121,5 @@ class _ProfilePageState extends State<ProfilePage> {
             )
           ],
         ));
-  }
-
-  Expanded postListView(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: _postList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: const Icon(Icons.arrow_right),
-              title: Text(_postList[index].postTitle),
-            );
-          }),
-    );
   }
 }
