@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class PostDatabaseService {
   static Future<Post> createPost({
@@ -90,5 +91,109 @@ class PostDatabaseService {
         .map((snapshot) => snapshot.docs
             .map<Post>((doc) => Post.fromJson(doc.data()))
             .toList());
+  }
+
+  static Future<void> updatePost(
+      {required String postId,
+      required String field,
+      required dynamic value}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final postModifiedTime = DateTime.now();
+
+    final json = {
+      'postId': docPost.id,
+      field: value,
+      'postLastModified': postModifiedTime.toString(),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then((value) => logger.i('Post updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> updatePostContent(
+      {required String postId, required String postContent}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final postModifiedTime = DateTime.now();
+
+    final json = {
+      'postId': docPost.id,
+      'postContent': postContent,
+      'postLastModified': postModifiedTime.toString(),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then((value) => logger.i('Post Content updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> updatePostTitle(
+      {required String postId, required String postTitle}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final postModifiedTime = DateTime.now();
+
+    final json = {
+      'postId': docPost.id,
+      'postTitle': postTitle,
+      'postLastModified': postModifiedTime.toString(),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then((value) => logger.i('Post Title updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> updatePostLocationId(
+      {required String postId, required String locationId}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final postModifiedTime = DateTime.now();
+
+    final json = {
+      'postId': docPost.id,
+      'locationId': locationId,
+      'postLastModified': postModifiedTime.toString(),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Location updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> updatePostLikeCount(
+      {required String postId, required int postLikeCount}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+
+    final json = {
+      'postId': docPost.id,
+      'postLikeCount': postLikeCount,
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Like Count updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> updatePostDislikeCount(
+      {required String postId, required int postDislikeCount}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+
+    final json = {
+      'postId': docPost.id,
+      'postDislikeCount': postDislikeCount,
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Dislike Count updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> deletePost({required String postId}) async {
+    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+
+    await docPost.delete().then((value) => logger.i('Post deleted'),
+        onError: (error) => logger.e('Failed to delete post: $error'));
   }
 }
