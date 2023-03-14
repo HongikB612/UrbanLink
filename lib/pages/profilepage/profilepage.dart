@@ -16,17 +16,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late MyUser myUser = MyUser(
+  late MyUser _myUser = MyUser(
     userId: 'Unknown',
     userName: 'Unknown',
     userEmail: 'Unknown',
     userExplanation: 'Unknown',
   );
-  Future<void> setUser() async {
+  Future<void> _setUser() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
       logger.i('User is not logged in');
-      myUser = MyUser(
+      _myUser = MyUser(
         userId: 'Unknown',
         userName: 'Unknown',
         userEmail: 'Unknown',
@@ -34,17 +34,17 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     } else {
       logger.i('User is logged in');
-      myUser = await UserDatabaseService.getUserById(
+      _myUser = await UserDatabaseService.getUserById(
         FirebaseAuth.instance.currentUser!.uid,
       );
-      logger.i('myUser: ${myUser.toJson()}');
+      logger.i('myUser: ${_myUser.toJson()}');
     }
   }
 
   @override
   void initState() {
     super.initState();
-    setUser();
+    _setUser();
   }
 
   PostListComponent postListComponent = PostListComponent();
@@ -92,8 +92,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(myUser.userName, style: textProfileUserStyle),
-                      Text(myUser.userExplanation,
+                      Text(_myUser.userName, style: textProfileUserStyle),
+                      Text(_myUser.userExplanation,
                           style: textProfileDescriptionStyle),
                     ],
                   ),
@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
     return FutureBuilder<void>(
-      future: setUser(),
+      future: _setUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
@@ -133,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const Text('Post List', style: textProfileUserStyle),
                 Expanded(
                   child: PostListComponent.postStreamBuilder(
-                    PostDatabaseService.getPostsByUserId(myUser.userId),
+                    PostDatabaseService.getPostsByUserId(_myUser.userId),
                   ),
                 ),
               ],
