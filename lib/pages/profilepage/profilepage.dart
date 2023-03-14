@@ -16,9 +16,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final double _profileHeight = 200;
-  final double _profileRound = 40;
-
   late MyUser myUser = MyUser(
     userId: 'Unknown',
     userName: 'Unknown',
@@ -96,11 +93,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Container profileBox(
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
+    const double profileHeight = 200;
+    const double profileRound = 40;
     return Container(
-        height: _profileHeight,
-        decoration: BoxDecoration(
+        height: profileHeight,
+        decoration: const BoxDecoration(
           color: Colors.white,
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Colors.black12,
               blurRadius: 10,
@@ -108,10 +107,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(_profileRound),
-            topRight: Radius.circular(_profileRound),
-            bottomLeft: Radius.circular(_profileRound),
-            bottomRight: Radius.circular(_profileRound),
+            topLeft: Radius.circular(profileRound),
+            topRight: Radius.circular(profileRound),
+            bottomLeft: Radius.circular(profileRound),
+            bottomRight: Radius.circular(profileRound),
           ),
         ),
         child: Column(
