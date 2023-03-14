@@ -24,6 +24,8 @@ class PostDatabaseService {
       'postLastModified': postLastModified.toString(),
       'locationId': locationId,
       'authorName': authorName,
+      'postLikeCount': 0,
+      'postDislikeCount': 0,
     };
 
     // create document and write data to Firebase
