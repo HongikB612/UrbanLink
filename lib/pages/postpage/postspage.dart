@@ -13,6 +13,8 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
+  final _postListComponent = PostListComponent();
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +26,8 @@ class _PostsPageState extends State<PostsPage> {
       appBar: AppBar(
         title: const Text('Posts'),
       ),
-      body: PostListComponent.postStreamBuilder(PostDatabaseService.getPosts()),
+      body:
+          _postListComponent.postStreamBuilder(PostDatabaseService.getPosts()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (FirebaseAuth.instance.currentUser == null) {

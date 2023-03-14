@@ -47,8 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
     _setUser();
   }
 
-  PostListComponent postListComponent = PostListComponent();
-
   Container profileBox(
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
     const double profileHeight = 200;
@@ -109,6 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
     const textProfileUserStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
+    final postListComponent = PostListComponent();
     return FutureBuilder<void>(
       future: _setUser(),
       builder: (context, snapshot) {
@@ -132,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 profileBox(textProfileUserStyle, textProfileDescriptionStyle),
                 const Text('Post List', style: textProfileUserStyle),
                 Expanded(
-                  child: PostListComponent.postStreamBuilder(
+                  child: postListComponent.postStreamBuilder(
                     PostDatabaseService.getPostsByUserId(_myUser.userId),
                   ),
                 ),
