@@ -18,15 +18,13 @@ class _PostsPageState extends State<PostsPage> {
     super.initState();
   }
 
-  PostListComponent postListComponent = PostListComponent();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
       ),
-      body: postListComponent.postStreamBuilder(PostDatabaseService.getPosts()),
+      body: PostListComponent.postStreamBuilder(PostDatabaseService.getPosts()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (FirebaseAuth.instance.currentUser == null) {

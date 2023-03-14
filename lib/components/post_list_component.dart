@@ -5,7 +5,7 @@ import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class PostListComponent {
-  Widget _buildPost(Post post) {
+  static Widget buildPost(Post post) {
     return ListTile(
       title: Text(
         post.postTitle,
@@ -46,7 +46,8 @@ class PostListComponent {
     );
   }
 
-  StreamBuilder<List<Post>> postStreamBuilder(Stream<List<Post>>? function) {
+  static StreamBuilder<List<Post>> postStreamBuilder(
+      Stream<List<Post>>? function) {
     return StreamBuilder<List<Post>>(
       stream: function,
       builder: (context, snapshot) {
@@ -60,7 +61,7 @@ class PostListComponent {
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {
-              return _buildPost(posts[index]);
+              return buildPost(posts[index]);
             },
           );
         } else {
