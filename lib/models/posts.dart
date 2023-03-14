@@ -11,6 +11,8 @@ class Post {
     required this.postCreatedTime,
     required this.locationId,
     required this.authorName,
+    int postLikeCount = 0,
+    int postDislikeCount = 0,
   });
   final String postId;
   final String postTitle;
@@ -22,6 +24,7 @@ class Post {
   final String authorName;
 
   int postLikeCount = 0;
+  int postDislikeCount = 0;
 
   /// If the post is modified, this value should be updated
   DateTime postLastModified;
@@ -36,6 +39,9 @@ class Post {
       'locationId': locationId,
       'postCreatedTime': postCreatedTime.toString(),
       'postLastModified': postLastModified.toString(),
+      'postLikeCount': postLikeCount,
+      'postDislikeCount': postDislikeCount,
+      'authorName': authorName,
     };
   }
 
@@ -50,6 +56,8 @@ class Post {
       postId: data['postId'] ?? 'Unknown',
       postTitle: data['postTitle'] ?? 'Unknown',
       authorName: data['authorName'] ?? 'Unknown',
+      postLikeCount: data['postLikeCount'] ?? 0,
+      postDislikeCount: data['postDislikeCount'] ?? 0,
     );
   }
 
@@ -80,5 +88,10 @@ class Post {
         postCreatedTime.hashCode ^
         postLastModified.hashCode ^
         postLikeCount.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Post(postId: $postId, postTitle: $postTitle, postContent: $postContent, postAuthorId: $postAuthorId, communityId: $communityId, locationId: $locationId, postCreatedTime: $postCreatedTime, postLastModified: $postLastModified, postLikeCount: $postLikeCount)';
   }
 }
