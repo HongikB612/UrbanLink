@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class MyUser {
   final String userId;
   String userName;
@@ -24,10 +22,10 @@ class MyUser {
 
   factory MyUser.fromJson(Map<String, dynamic> data) {
     return MyUser(
-      userId: data['userId'],
-      userName: data['userName'],
-      userEmail: data['userEmail'],
-      userExplanation: data['userExplanation'],
+      userId: data['userId'] ?? 'Unknown',
+      userName: data['userName'] ?? 'Unknown',
+      userEmail: data['userEmail'] ?? '',
+      userExplanation: data['userExplanation'] ?? '',
     );
   }
 

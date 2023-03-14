@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/components/post_list_component.dart';
+import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/loginpage/login.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -11,64 +16,45 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  static const double _profileHeight = 200;
-  static const double _profileRound = 40;
-
-  final String userName = '@UserName';
-  final String explanation = 'Explain';
-
-  final List<Post> _postList = <Post>[];
-
-  @override
-  void initState() {
-    super.initState();
-
-    for (var i = 0; i < 20; i++) {
-      _postList.add(Post(
-          postId: '',
-          postTitle: 'Post $i',
-          postContent: 'Content $i',
-          communityId: '',
-          postAuthorId: '',
-          postCreatedTime: DateTime.now(),
-          postLastModified: DateTime.now(),
-          locationId: '',
-          authorName: 'Author $i'));
+  late MyUser _myUser = MyUser(
+    userId: 'Unknown',
+    userName: 'Unknown',
+    userEmail: 'Unknown',
+    userExplanation: 'Unknown',
+  );
+  Future<void> _setUser() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      logger.i('User is not logged in');
+      _myUser = MyUser(
+        userId: 'Unknown',
+        userName: 'Unknown',
+        userEmail: 'Unknown',
+        userExplanation: 'Unknown',
+      );
+    } else {
+      logger.i('User is logged in');
+      _myUser = await UserDatabaseService.getUserById(
+        FirebaseAuth.instance.currentUser!.uid,
+      );
+      logger.i('myUser: ${_myUser.toJson()}');
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    const textProfileUserStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.logout),
-              tooltip: 'Logout',
-              onPressed: () {
-                // goto Login Page
-                Get.offAll(const LoginPage());
-              },
-            )
-          ],
-        ),
-        body: Column(
-          children: <Widget>[
-            profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-            const Text('Post List', style: textProfileUserStyle),
-            postListView(context),
-          ],
-        ));
+  void initState() {
+    super.initState();
+    _setUser();
   }
+
+  PostListComponent postListComponent = PostListComponent();
 
   Container profileBox(
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
+    const double profileHeight = 200;
+    const double profileRound = 40;
     return Container(
-        height: _profileHeight,
+        height: profileHeight,
         decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -79,10 +65,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(_profileRound),
-            topRight: Radius.circular(_profileRound),
-            bottomLeft: Radius.circular(_profileRound),
-            bottomRight: Radius.circular(_profileRound),
+            topLeft: Radius.circular(profileRound),
+            topRight: Radius.circular(profileRound),
+            bottomLeft: Radius.circular(profileRound),
+            bottomRight: Radius.circular(profileRound),
           ),
         ),
         child: Column(
@@ -106,8 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(userName, style: textProfileUserStyle),
-                      Text(explanation, style: textProfileDescriptionStyle),
+                      Text(_myUser.userName, style: textProfileUserStyle),
+                      Text(_myUser.userExplanation,
+                          style: textProfileDescriptionStyle),
                     ],
                   ),
                 ),
@@ -117,17 +104,45 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
   }
 
-  Expanded postListView(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: _postList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: const Icon(Icons.arrow_right),
-              title: Text(_postList[index].postTitle),
-            );
-          }),
+  @override
+  Widget build(BuildContext context) {
+    const textProfileUserStyle =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
+    return FutureBuilder<void>(
+      future: _setUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Profile'),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  tooltip: 'Logout',
+                  onPressed: () {
+                    // goto Login Page
+                    Get.offAll(const LoginPage());
+                  },
+                )
+              ],
+            ),
+            body: Column(
+              children: <Widget>[
+                profileBox(textProfileUserStyle, textProfileDescriptionStyle),
+                const Text('Post List', style: textProfileUserStyle),
+                Expanded(
+                  child: PostListComponent.postStreamBuilder(
+                    PostDatabaseService.getPostsByUserId(_myUser.userId),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }

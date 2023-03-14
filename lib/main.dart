@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/pages/homepage/homepage.dart';
-import 'firebase_options.dart';
+import 'services/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +22,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  dispose() async {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'UrbanLink',
@@ -30,15 +40,5 @@ class _MyAppState extends State<MyApp> {
       ),
       home: const MyHomePage(),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  dispose() async {
-    super.dispose();
   }
 }
