@@ -43,6 +43,20 @@ class UserDatabaseService {
             .toList());
   }
 
+  /// Returns username of the user with the given userId
+  /// or 'Unknown' if the user does not exist
+  static Future<String> getUsernameById(String userId) {
+    if (userId.isEmpty) {
+      return Future.value('Unknown');
+    } else {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get()
+          .then((value) => value.data()?['userName'] ?? 'Unknown');
+    }
+  }
+
   static Future<void> updateUser(
       {required String userId,
       required String field,
