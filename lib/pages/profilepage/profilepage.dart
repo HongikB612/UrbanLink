@@ -49,48 +49,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   PostListComponent postListComponent = PostListComponent();
 
-  @override
-  Widget build(BuildContext context) {
-    const textProfileUserStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
-    return FutureBuilder<void>(
-      future: setUser(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Profile'),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  tooltip: 'Logout',
-                  onPressed: () {
-                    // goto Login Page
-                    Get.offAll(const LoginPage());
-                  },
-                )
-              ],
-            ),
-            body: Column(
-              children: <Widget>[
-                profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-                const Text('Post List', style: textProfileUserStyle),
-                Expanded(
-                  child: postListComponent.postStreamBuilder(
-                    PostDatabaseService.getPostsByUserId(myUser.userId),
-                  ),
-                ),
-              ],
-            ),
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
-
   Container profileBox(
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
     const double profileHeight = 200;
@@ -144,5 +102,47 @@ class _ProfilePageState extends State<ProfilePage> {
             )
           ],
         ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const textProfileUserStyle =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
+    return FutureBuilder<void>(
+      future: setUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Profile'),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  tooltip: 'Logout',
+                  onPressed: () {
+                    // goto Login Page
+                    Get.offAll(const LoginPage());
+                  },
+                )
+              ],
+            ),
+            body: Column(
+              children: <Widget>[
+                profileBox(textProfileUserStyle, textProfileDescriptionStyle),
+                const Text('Post List', style: textProfileUserStyle),
+                Expanded(
+                  child: PostListComponent.postStreamBuilder(
+                    PostDatabaseService.getPostsByUserId(myUser.userId),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
