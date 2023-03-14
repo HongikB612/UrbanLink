@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/loginpage/login.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -14,27 +16,24 @@ class _ProfilePageState extends State<ProfilePage> {
   static const double _profileHeight = 200;
   static const double _profileRound = 40;
 
-  final String userName = '@UserName';
-  final String explanation = 'Explain';
+  late MyUser myUser;
 
-  final List<Post> _postList = <Post>[];
+  void setUser() async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      myUser = MyUser(
+          userId: 'Unknown',
+          userName: 'Unknown',
+          userEmail: 'Unknown',
+          userExplanation: 'Unknown');
+    } else {
+      myUser = await UserDatabaseService.getUserById(
+          FirebaseAuth.instance.currentUser!.uid);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
-    for (var i = 0; i < 20; i++) {
-      _postList.add(Post(
-          postId: '',
-          postTitle: 'Post $i',
-          postContent: 'Content $i',
-          communityId: '',
-          postAuthorId: '',
-          postCreatedTime: DateTime.now(),
-          postLastModified: DateTime.now(),
-          locationId: '',
-          authorName: 'Author $i'));
-    }
   }
 
   @override
