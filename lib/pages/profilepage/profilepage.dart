@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/components/menu_drawer_widget.dart';
 import 'package:urbanlink_project/components/post_list_component.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/loginpage/login.dart';
@@ -114,17 +115,8 @@ class _ProfilePageState extends State<ProfilePage> {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Profile'),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  tooltip: 'Logout',
-                  onPressed: () {
-                    // goto Login Page
-                    Get.offAll(const LoginPage());
-                  },
-                )
-              ],
             ),
+            endDrawer: const MenuDrawer(),
             body: Column(
               children: <Widget>[
                 profileBox(textProfileUserStyle, textProfileDescriptionStyle),
