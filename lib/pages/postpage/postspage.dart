@@ -67,29 +67,7 @@ class _PostsPageState extends State<PostsPage> {
       appBar: AppBar(
         title: const Text('Posts'),
       ),
-      body: StreamBuilder<List<Post>>(
-        stream: PostDatabaseService.getPosts(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            logger.e(snapshot.error ?? 'Unknown error');
-            return Center(
-              child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
-            );
-          } else if (snapshot.hasData) {
-            final posts = snapshot.data!;
-            return ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return buildPost(posts[index]);
-              },
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+      body: postStreamBuilder(PostDatabaseService.getPosts()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (FirebaseAuth.instance.currentUser == null) {
@@ -104,6 +82,32 @@ class _PostsPageState extends State<PostsPage> {
         },
         child: const Icon(Icons.post_add),
       ),
+    );
+  }
+
+  StreamBuilder<List<Post>> postStreamBuilder(Stream<List<Post>>? function) {
+    return StreamBuilder<List<Post>>(
+      stream: function,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          logger.e(snapshot.error ?? 'Unknown error');
+          return Center(
+            child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
+          );
+        } else if (snapshot.hasData) {
+          final posts = snapshot.data!;
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              return buildPost(posts[index]);
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 
