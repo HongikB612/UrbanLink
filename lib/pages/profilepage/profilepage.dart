@@ -6,6 +6,7 @@ import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/repositories/post_database_service.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -15,21 +16,31 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  static const double _profileHeight = 200;
-  static const double _profileRound = 40;
+  final double _profileHeight = 200;
+  final double _profileRound = 40;
 
-  late MyUser myUser;
-
-  void setUser() async {
-    if (FirebaseAuth.instance.currentUser == null) {
+  late MyUser myUser = MyUser(
+    userId: 'Unknown',
+    userName: 'Unknown',
+    userEmail: 'Unknown',
+    userExplanation: 'Unknown',
+  );
+  Future<void> setUser() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      logger.i('User is not logged in');
       myUser = MyUser(
-          userId: 'Unknown',
-          userName: 'Unknown',
-          userEmail: 'Unknown',
-          userExplanation: 'Unknown');
+        userId: 'Unknown',
+        userName: 'Unknown',
+        userEmail: 'Unknown',
+        userExplanation: 'Unknown',
+      );
     } else {
+      logger.i('User is logged in');
       myUser = await UserDatabaseService.getUserById(
-          FirebaseAuth.instance.currentUser!.uid);
+        FirebaseAuth.instance.currentUser!.uid,
+      );
+      logger.i('myUser: ${myUser.toJson()}');
     }
   }
 
@@ -46,37 +57,50 @@ class _ProfilePageState extends State<ProfilePage> {
     const textProfileUserStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.logout),
-              tooltip: 'Logout',
-              onPressed: () {
-                // goto Login Page
-                Get.offAll(const LoginPage());
-              },
-            )
-          ],
-        ),
-        body: Column(
-          children: <Widget>[
-            profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-            const Text('Post List', style: textProfileUserStyle),
-            postListComponent.postStreamBuilder(
-                PostDatabaseService.getPostsByUserId(myUser.userId)),
-          ],
-        ));
+    return FutureBuilder<void>(
+      future: setUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Profile'),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  tooltip: 'Logout',
+                  onPressed: () {
+                    // goto Login Page
+                    Get.offAll(const LoginPage());
+                  },
+                )
+              ],
+            ),
+            body: Column(
+              children: <Widget>[
+                profileBox(textProfileUserStyle, textProfileDescriptionStyle),
+                const Text('Post List', style: textProfileUserStyle),
+                Expanded(
+                  child: postListComponent.postStreamBuilder(
+                    PostDatabaseService.getPostsByUserId(myUser.userId),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 
   Container profileBox(
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
     return Container(
         height: _profileHeight,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black12,
               blurRadius: 10,
