@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// Post model
 /// This model is used to store the post information
 class Post {
@@ -93,5 +95,9 @@ class Post {
   @override
   String toString() {
     return 'Post(postId: $postId, postTitle: $postTitle, postContent: $postContent, postAuthorId: $postAuthorId, communityId: $communityId, locationId: $locationId, postCreatedTime: $postCreatedTime, postLastModified: $postLastModified, postLikeCount: $postLikeCount)';
+  }
+
+  factory Post.fromSnapshot(DocumentSnapshot snapshot) {
+    return Post.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 }

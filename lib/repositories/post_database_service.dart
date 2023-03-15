@@ -3,6 +3,9 @@ import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class PostDatabaseService {
+  static final CollectionReference _postsCollection =
+      FirebaseFirestore.instance.collection('posts');
+
   static Future<Post> createPost({
     required String postTitle,
     required String postContent,
@@ -13,7 +16,7 @@ class PostDatabaseService {
     required String locationId,
     required String authorName,
   }) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc();
+    final docPost = _postsCollection.doc();
 
     final json = {
       'postId': docPost.id,
@@ -47,57 +50,87 @@ class PostDatabaseService {
   }
 
   static Stream<List<Post>> getPosts() {
-    return FirebaseFirestore.instance.collection('posts').snapshots().map(
-        (snapshot) => snapshot.docs
-            .map<Post>((doc) => Post.fromJson(doc.data()))
-            .toList());
+    try {
+      return _postsCollection.snapshots().map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
   }
 
   static Stream<List<Post>> getPostsByCommunityId(String communityId) {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .where('communityId', isEqualTo: communityId)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map<Post>((doc) => Post.fromJson(doc.data()))
-            .toList());
+    try {
+      return _postsCollection
+          .where('communityId', isEqualTo: communityId)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
   }
 
   static Stream<List<Post>> getPostsByUserId(String userId) {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .where('postAuthorId', isEqualTo: userId)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map<Post>((doc) => Post.fromJson(doc.data()))
-            .toList());
+    try {
+      return _postsCollection
+          .where('postAuthorId', isEqualTo: userId)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
   }
 
   static Stream<List<Post>> getPostsByPostId(String postId) {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .where('postId', isEqualTo: postId)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map<Post>((doc) => Post.fromJson(doc.data()))
-            .toList());
+    try {
+      return _postsCollection
+          .where('postId', isEqualTo: postId)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
   }
 
   static Stream<List<Post>> getPostsByPostTitle(String postTitle) {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .where('postTitle', arrayContains: postTitle)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map<Post>((doc) => Post.fromJson(doc.data()))
-            .toList());
+    try {
+      return _postsCollection
+          .where('postTitle', isEqualTo: postTitle)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
   }
 
   static Future<void> updatePost(
       {required String postId,
       required String field,
       required dynamic value}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final docPost = _postsCollection.doc(postId);
     final postModifiedTime = DateTime.now();
 
     final json = {
@@ -113,7 +146,7 @@ class PostDatabaseService {
 
   static Future<void> updatePostContent(
       {required String postId, required String postContent}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final docPost = _postsCollection.doc(postId);
     final postModifiedTime = DateTime.now();
 
     final json = {
@@ -129,7 +162,7 @@ class PostDatabaseService {
 
   static Future<void> updatePostTitle(
       {required String postId, required String postTitle}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final docPost = _postsCollection.doc(postId);
     final postModifiedTime = DateTime.now();
 
     final json = {
@@ -145,7 +178,7 @@ class PostDatabaseService {
 
   static Future<void> updatePostLocationId(
       {required String postId, required String locationId}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final docPost = _postsCollection.doc(postId);
     final postModifiedTime = DateTime.now();
 
     final json = {
@@ -162,7 +195,7 @@ class PostDatabaseService {
 
   static Future<void> updatePostLikeCount(
       {required String postId, required int postLikeCount}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final docPost = _postsCollection.doc(postId);
 
     final json = {
       'postId': docPost.id,
@@ -177,7 +210,7 @@ class PostDatabaseService {
 
   static Future<void> updatePostDislikeCount(
       {required String postId, required int postDislikeCount}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
+    final docPost = _postsCollection.doc(postId);
 
     final json = {
       'postId': docPost.id,
@@ -191,9 +224,10 @@ class PostDatabaseService {
   }
 
   static Future<void> deletePost({required String postId}) async {
-    final docPost = FirebaseFirestore.instance.collection('posts').doc(postId);
-
-    await docPost.delete().then((value) => logger.i('Post deleted'),
-        onError: (error) => logger.e('Failed to delete post: $error'));
+    try {
+      await _postsCollection.doc(postId).delete();
+    } catch (e) {
+      logger.e('Error: $e');
+    }
   }
 }
