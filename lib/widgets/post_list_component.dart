@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class PostListComponent {
   Widget _buildPost(Post post) {
-    return FutureBuilder<String>(
-      future: UserDatabaseService.getUsernameById(post.postAuthorId),
+    return StreamBuilder<MyUser?>(
+      stream: UserDatabaseService.getUserStreamById(post.postAuthorId),
       builder: (context, snapshot) {
-        final authorName = snapshot.data ?? 'Unknown';
+        final authorName = snapshot.data?.userName ?? 'Unknown';
         return ListTile(
           title: Text(
             post.postTitle,

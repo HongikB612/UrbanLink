@@ -43,6 +43,20 @@ class UserDatabaseService {
     return null;
   }
 
+  static Stream<MyUser?> getUserStreamById(String userId) {
+    try {
+      return _usersCollection.doc(userId).snapshots().map((snapshot) {
+        if (snapshot.exists) {
+          return MyUser.fromSnapshot(snapshot);
+        }
+        return null;
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
+  }
+
   static Stream<List<MyUser>> getUsers() {
     try {
       return _usersCollection.snapshots().map((snapshot) {
@@ -53,20 +67,6 @@ class UserDatabaseService {
     } catch (e) {
       logger.e('Error: $e');
       return const Stream.empty();
-    }
-  }
-
-  /// Returns username of the user with the given userId
-  /// or 'Unknown' if the user does not exist
-  static Future<String> getUsernameById(String userId) {
-    if (userId.isEmpty) {
-      return Future.value('Unknown');
-    } else {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get()
-          .then((value) => value.data()?['userName'] ?? 'Unknown');
     }
   }
 
