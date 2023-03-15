@@ -38,14 +38,10 @@ class _PostsPageState extends State<PostsPage> {
             );
             return;
           }
-          _addNavigation(context);
+          Get.to(const PostingPage());
         },
         child: const Icon(Icons.post_add),
       ),
     );
-  }
-
-  void _addNavigation(BuildContext context) async {
-    Get.to(const PostingPage());
   }
 }

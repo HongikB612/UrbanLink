@@ -20,21 +20,19 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
-  MyUser? _myUser;
-  Future<void> _setUser() async {
+  Future<MyUser?> _setUser() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       try {
-        _myUser = await UserDatabaseService.getUserById(
-          currentUser.uid,
-        );
-        logger.i('myUser : ${_myUser.toString()}');
+        final myUser = await UserDatabaseService.getUserById(currentUser.uid);
+        return myUser;
       } on Exception catch (e) {
-        logger.e(e);
+        logger.e('Exception: $e');
       } catch (e) {
-        logger.e(e);
+        logger.e('Error: $e');
       }
     }
+    return null;
   }
 
   Widget profileBox(MyUser? profileUser) {
@@ -98,25 +96,26 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final postListComponent = PostListComponent();
-    return FutureBuilder<void>(
+    return FutureBuilder<MyUser?>(
       future: _setUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          final myUser = snapshot.data;
           return Scaffold(
             appBar: AppBar(
               title: const Text('Profile'),
             ),
             endDrawer: MenuDrawer(
-              myUser: _myUser,
+              myUser: myUser,
             ),
             body: Column(
               children: <Widget>[
-                profileBox(_myUser),
+                profileBox(myUser),
                 const Text('Post List', style: TextStyle(fontSize: 30)),
                 Expanded(
                   child: postListComponent.postStreamBuilder(
                     PostDatabaseService.getPostsByUserId(
-                        _myUser?.userId ?? 'Unknown'),
+                        myUser?.userId ?? 'Unknown'),
                   ),
                 ),
               ],
