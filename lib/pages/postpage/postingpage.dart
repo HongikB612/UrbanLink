@@ -21,6 +21,17 @@ class PostingPage extends StatelessWidget {
       Get.back();
     }
 
+class _PostingPageState extends State<PostingPage> {
+  TextEditingController? titleController;
+  TextEditingController? contentController;
+  
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController();
+    contentController = TextEditingController();
+  }
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -41,6 +52,7 @@ class PostingPage extends StatelessWidget {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: '내용',
+                
               ),
               controller: contentController,
               keyboardType: TextInputType.multiline,
