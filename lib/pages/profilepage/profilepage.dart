@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
@@ -15,9 +18,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  StreamSubscription<DocumentSnapshot>? _subscription;
+  MyUser? _myUser;
+
   @override
   void initState() {
     super.initState();
+    _subscribeToUserChanges();
+  }
+
+  @override
+  void dispose() {
+    _unsubscribeFromUserChanges();
+    super.dispose();
+  }
+
+  void _subscribeToUserChanges() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
+      _subscription = userDoc.snapshots().listen((snapshot) {
+        setState(() {
+          _myUser = MyUser.fromSnapshot(snapshot);
+        });
+      });
+    }
+  }
+
+  void _unsubscribeFromUserChanges() {
+    _subscription?.cancel();
+    _subscription = null;
   }
 
   Future<MyUser?> _setUser() async {
@@ -96,35 +127,25 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final postListComponent = PostListComponent();
-    return FutureBuilder<MyUser?>(
-      future: _setUser(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          final myUser = snapshot.data;
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Profile'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      endDrawer: MenuDrawer(
+        myUser: _myUser,
+      ),
+      body: Column(
+        children: <Widget>[
+          profileBox(_myUser),
+          const Text('Post List', style: TextStyle(fontSize: 30)),
+          Expanded(
+            child: postListComponent.postStreamBuilder(
+              PostDatabaseService.getPostsByUserId(
+                  _myUser?.userId ?? 'Unknown'),
             ),
-            endDrawer: MenuDrawer(
-              myUser: myUser,
-            ),
-            body: Column(
-              children: <Widget>[
-                profileBox(myUser),
-                const Text('Post List', style: TextStyle(fontSize: 30)),
-                Expanded(
-                  child: postListComponent.postStreamBuilder(
-                    PostDatabaseService.getPostsByUserId(
-                        myUser?.userId ?? 'Unknown'),
-                  ),
-                ),
-              ],
-            ),
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
+          ),
+        ],
+      ),
     );
   }
 }
