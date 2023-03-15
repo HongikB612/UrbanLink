@@ -67,48 +67,55 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text("로그인"),
         centerTitle: true,
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Image(width: 400.0, height: 250.0, image: AssetImage(_imageFile)),
-              const SizedBox(height: 20.0),
-              _userIdWidget(),
-              const SizedBox(height: 20.0),
-              _passwordWidget(),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton(
-                    onPressed: () => _login(), child: const Text("로그인")),
+      body: ListView(
+        children: [
+          Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Image(
+                      width: 400.0,
+                      height: 250.0,
+                      image: AssetImage(_imageFile)),
+                  const SizedBox(height: 20.0),
+                  _userIdWidget(),
+                  const SizedBox(height: 20.0),
+                  _passwordWidget(),
+                  Container(
+                    height: 70,
+                    width: double.infinity,
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ElevatedButton(
+                        onPressed: () => _login(), child: const Text("로그인")),
+                  ),
+                  const SizedBox(height: 20.0),
+                  Container(
+                    height: 70,
+                    width: double.infinity,
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ElevatedButton(
+                        onPressed: () => {
+                              Get.to(() => const RegisterPage()),
+                            },
+                        child: const Text("회원가입")),
+                  ),
+                  const SizedBox(height: 20.0),
+                  GestureDetector(
+                    child: const Text(
+                      '로그인 하지 않고 이용하기',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    onTap: () {
+                      Get.offAll(() => const MainPage());
+                    },
+                  )
+                ],
               ),
-              const SizedBox(height: 20.0),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton(
-                    onPressed: () => {
-                          Get.to(() => const RegisterPage()),
-                        },
-                    child: const Text("회원가입")),
-              ),
-              const SizedBox(height: 20.0),
-              GestureDetector(
-                child: const Text(
-                  '로그인 하지 않고 이용하기',
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () {
-                  Get.offAll(() => const MainPage());
-                },
-              )
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

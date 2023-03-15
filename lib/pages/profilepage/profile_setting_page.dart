@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user.dart';
-import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
+import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
-import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -55,7 +54,10 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
                       userId: widget.myUser.userId,
                       explanation: widget.myUser.userExplanation);
 
-                  Get.off(() => const ProfilePage());
+                  Get.offAll(() => const MainPage(
+                        /// profile page로 이동
+                        selectedIndex: 2,
+                      ));
                 },
               )
             ],

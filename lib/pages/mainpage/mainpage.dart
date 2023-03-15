@@ -4,7 +4,10 @@ import 'package:urbanlink_project/pages/postpage/postspage.dart';
 import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final int _selectedIndex;
+
+  const MainPage({super.key, int? selectedIndex})
+      : _selectedIndex = selectedIndex ?? 0;
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -18,6 +21,12 @@ class _MainPageState extends State<MainPage> {
     PostsPage(),
     ProfilePage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget._selectedIndex;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
