@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/loginpage/login.dart';
+import 'package:urbanlink_project/pages/profilepage/profile_setting_page.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
-class MenuDrawer extends StatelessWidget {
+class MenuDrawer extends StatefulWidget {
   const MenuDrawer({
     super.key,
-  });
+    MyUser? myUser,
+  }) : _myUser = myUser;
 
+  final MyUser? _myUser;
+
+  @override
+  State<MenuDrawer> createState() => _MenuDrawerState();
+}
+
+class _MenuDrawerState extends State<MenuDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -19,9 +29,35 @@ class MenuDrawer extends StatelessWidget {
               leading: Icon(Icons.settings),
               title: Text('Settings'),
             ),
-            const ListTile(
-              leading: Icon(Icons.person_pin),
-              title: Text('Profile Settings'),
+            ListTile(
+              leading: const Icon(Icons.person_pin),
+              title: const Text('Profile Settings'),
+              onTap: () {
+                logger.i('Profile Settings');
+                if (widget._myUser == null || widget._myUser!.userId.isEmpty) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: const Text('Login'),
+                            content: const Text('Please login first.'),
+                            actions: <Widget>[
+                              TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text('Cancel')),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                    Get.to(() => const LoginPage());
+                                  },
+                                  child: const Text('Login')),
+                            ],
+                          ));
+                } else {
+                  Get.to(() => const ProfileSettingPage());
+                }
+              },
             ),
             ListTile(
               leading: const Icon(Icons.logout),

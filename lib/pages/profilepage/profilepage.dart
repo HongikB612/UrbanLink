@@ -20,28 +20,19 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
-  late MyUser _myUser = MyUser(
-    userId: 'Unknown',
-    userName: 'Unknown',
-    userEmail: 'Unknown',
-    userExplanation: 'Unknown',
-  );
+  MyUser? _myUser;
   Future<void> _setUser() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) {
-      logger.i('User is not logged in');
-      _myUser = MyUser(
-        userId: 'Unknown',
-        userName: 'Unknown',
-        userEmail: 'Unknown',
-        userExplanation: 'Unknown',
-      );
-    } else {
-      logger.i('User is logged in');
-      _myUser = await UserDatabaseService.getUserById(
-        FirebaseAuth.instance.currentUser!.uid,
-      );
-      logger.i('myUser: ${_myUser.toJson()}');
+    if (currentUser != null) {
+      try {
+        _myUser = await UserDatabaseService.getUserById(
+          currentUser.uid,
+        );
+      } on Exception catch (e) {
+        logger.e(e);
+      } catch (e) {
+        logger.e(e);
+      }
     }
   }
 
@@ -88,8 +79,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(_myUser.userName, style: textProfileUserStyle),
-                      Text(_myUser.userExplanation,
+                      Text(_myUser?.userName ?? 'Unknown',
+                          style: textProfileUserStyle),
+                      Text(_myUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
                   ),
@@ -114,14 +106,17 @@ class _ProfilePageState extends State<ProfilePage> {
             appBar: AppBar(
               title: const Text('Profile'),
             ),
-            endDrawer: const MenuDrawer(),
+            endDrawer: MenuDrawer(
+              myUser: _myUser,
+            ),
             body: Column(
               children: <Widget>[
                 profileBox(textProfileUserStyle, textProfileDescriptionStyle),
                 const Text('Post List', style: textProfileUserStyle),
                 Expanded(
                   child: postListComponent.postStreamBuilder(
-                    PostDatabaseService.getPostsByUserId(_myUser.userId),
+                    PostDatabaseService.getPostsByUserId(
+                        _myUser?.userId ?? 'Unknown'),
                   ),
                 ),
               ],
