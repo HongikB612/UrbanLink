@@ -5,32 +5,23 @@ import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/repositories/post_database_service.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
 
-class PostingPage extends StatelessWidget {
+class PostingPage extends StatefulWidget {
   const PostingPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController headlineController = TextEditingController();
-    TextEditingController contentController = TextEditingController();
-
-    // user
-    late User user;
-    if (FirebaseAuth.instance.currentUser != null) {
-      user = FirebaseAuth.instance.currentUser!;
-    } else {
-      Get.back();
-    }
+  State<PostingPage> createState() => _PostingPageState();
+}
 
 class _PostingPageState extends State<PostingPage> {
-  TextEditingController? titleController;
-  TextEditingController? contentController;
-  
+  TextEditingController headlineController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    titleController = TextEditingController();
-    contentController = TextEditingController();
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +43,6 @@ class _PostingPageState extends State<PostingPage> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: '내용',
-                
               ),
               controller: contentController,
               keyboardType: TextInputType.multiline,
@@ -60,12 +50,13 @@ class _PostingPageState extends State<PostingPage> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
+                var user = FirebaseAuth.instance.currentUser;
                 final MyUser? myUser =
-                    await UserDatabaseService.getUserById(user.uid);
+                    await UserDatabaseService.getUserById(user?.uid ?? '');
                 if (myUser != null) {
                   PostDatabaseService.createPost(
                     communityId: '',
-                    postAuthorId: user.uid,
+                    postAuthorId: user?.uid ?? '',
                     postContent: contentController.text,
                     locationId: '',
                     postCreatedTime: DateTime.now(),
