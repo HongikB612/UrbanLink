@@ -17,11 +17,6 @@ class _PostingPageState extends State<PostingPage> {
   TextEditingController contentController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
