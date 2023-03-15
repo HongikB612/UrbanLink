@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MyUser {
   final String userId;
   String userName;
@@ -27,6 +29,10 @@ class MyUser {
       userEmail: data['userEmail'] ?? 'Unknown',
       userExplanation: data['userExplanation'] ?? 'Unknown',
     );
+  }
+
+  factory MyUser.fromSnapshot(DocumentSnapshot snapshot) {
+    return MyUser.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 
   @override

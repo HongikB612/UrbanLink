@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:get/get.dart';
@@ -78,55 +79,51 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            title: const Text("회원가입"),
-            centerTitle: true,
-          ),
-          body: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ListView(
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _userNameWidget(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _userEmailWidget(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _passwordWidget(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _authProvider();
-                      },
-                      child: const Text('회원가입'),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: const Text('로그인 페이지로 돌아가기'),
-                    ),
-                  ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text("회원가입"),
+        centerTitle: true,
+      ),
+      body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ListView(
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              )),
-        ),
-      ],
+                _userNameWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _userEmailWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _passwordWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _authProvider();
+                  },
+                  child: const Text('회원가입'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.offAll(() => const LoginPage());
+                  },
+                  child: const Text('로그인 페이지로 돌아가기'),
+                ),
+              ],
+            ),
+          )),
     );
   }
 
