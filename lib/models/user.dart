@@ -24,8 +24,8 @@ class MyUser {
     return MyUser(
       userId: data['userId'] ?? 'Unknown',
       userName: data['userName'] ?? 'Unknown',
-      userEmail: data['userEmail'] ?? '',
-      userExplanation: data['userExplanation'] ?? '',
+      userEmail: data['userEmail'] ?? 'Unknown',
+      userExplanation: data['userExplanation'] ?? 'Unknown',
     );
   }
 
