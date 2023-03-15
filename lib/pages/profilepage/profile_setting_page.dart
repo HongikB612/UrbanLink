@@ -55,7 +55,7 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
                       userId: widget.myUser.userId,
                       explanation: widget.myUser.userExplanation);
 
-                  Get.off(() => const ProfilePage());
+                  Get.back();
                 },
               )
             ],
