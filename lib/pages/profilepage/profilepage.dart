@@ -37,8 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Container profileBox(
-      TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
+  Container profileBox(MyUser? profileUser) {
+    const textProfileUserStyle =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    const textProfileDescriptionStyle = TextStyle(fontSize: 20);
     const double profileHeight = 200;
     const double profileRound = 40;
     return Container(
@@ -80,9 +82,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(_myUser?.userName ?? 'Unknown',
+                      Text(profileUser?.userName ?? 'Unknown',
                           style: textProfileUserStyle),
-                      Text(_myUser?.userExplanation ?? '',
+                      Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
                   ),
@@ -95,9 +97,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    const textProfileUserStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
     final postListComponent = PostListComponent();
     return FutureBuilder<void>(
       future: _setUser(),
@@ -112,8 +111,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             body: Column(
               children: <Widget>[
-                profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-                const Text('Post List', style: textProfileUserStyle),
+                profileBox(_myUser),
+                const Text('Post List', style: TextStyle(fontSize: 30)),
                 Expanded(
                   child: postListComponent.postStreamBuilder(
                     PostDatabaseService.getPostsByUserId(
