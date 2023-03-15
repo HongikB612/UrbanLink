@@ -3,12 +3,15 @@ import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class UserDatabaseService {
+  static final CollectionReference _usersCollection =
+      FirebaseFirestore.instance.collection('users');
+
   static Future<MyUser> createUser(
       {required String uid,
       required String name,
       required String email,
       required String explanation}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(uid);
+    final docUser = _usersCollection.doc(uid);
 
     final json = {
       'userId': docUser.id,
@@ -28,32 +31,42 @@ class UserDatabaseService {
     );
   }
 
-  static Future<MyUser> getUserById(String userId) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .get()
-        .then((value) => MyUser.fromJson(value.data()!));
+  static Future<MyUser?> getUserById(String userId) async {
+    try {
+      final snapshot = await _usersCollection.doc(userId).get();
+      if (snapshot.exists) {
+        return MyUser.fromSnapshot(snapshot);
+      }
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+    return null;
+  }
+
+  static Stream<MyUser?> getUserStreamById(String userId) {
+    try {
+      return _usersCollection.doc(userId).snapshots().map((snapshot) {
+        if (snapshot.exists) {
+          return MyUser.fromSnapshot(snapshot);
+        }
+        return null;
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
   }
 
   static Stream<List<MyUser>> getUsers() {
-    return FirebaseFirestore.instance.collection('users').snapshots().map(
-        (snapshot) => snapshot.docs
-            .map<MyUser>((doc) => MyUser.fromJson(doc.data()))
-            .toList());
-  }
-
-  /// Returns username of the user with the given userId
-  /// or 'Unknown' if the user does not exist
-  static Future<String> getUsernameById(String userId) {
-    if (userId.isEmpty) {
-      return Future.value('Unknown');
-    } else {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get()
-          .then((value) => value.data()?['userName'] ?? 'Unknown');
+    try {
+      return _usersCollection.snapshots().map((snapshot) {
+        return snapshot.docs
+            .map((doc) => MyUser.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
     }
   }
 
@@ -61,7 +74,7 @@ class UserDatabaseService {
       {required String userId,
       required String field,
       required dynamic value}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+    final docUser = _usersCollection.doc(userId);
 
     final json = {
       'userId': docUser.id,
@@ -74,7 +87,7 @@ class UserDatabaseService {
 
   static Future<void> updateUserExplanation(
       {required String userId, required String explanation}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+    final docUser = _usersCollection.doc(userId);
 
     final json = {
       'userId': docUser.id,
@@ -89,7 +102,7 @@ class UserDatabaseService {
 
   static Future<void> updateUserEmail(
       {required String userId, required String email}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+    final docUser = _usersCollection.doc(userId);
 
     final json = {
       'userId': docUser.id,
@@ -104,7 +117,7 @@ class UserDatabaseService {
   /// Notice this method do not update the Post model user name field
   static Future<void> updateUserName(
       {required String userId, required String name}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+    final docUser = _usersCollection.doc(userId);
 
     final json = {
       'userId': docUser.id,
@@ -117,10 +130,11 @@ class UserDatabaseService {
   }
 
   /// This method do not sign out the user
-  static Future<void> deleteUser({required String userId}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
-
-    await docUser.delete().then((value) => logger.i('User deleted'),
-        onError: (error) => logger.e('Failed to delete user: $error'));
+  static void deleteUser(MyUser user) async {
+    try {
+      await _usersCollection.doc(user.userId).delete();
+    } catch (e) {
+      logger.e('Error: $e');
+    }
   }
 }
