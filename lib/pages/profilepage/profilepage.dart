@@ -7,8 +7,6 @@ import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
 import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/repositories/post_database_service.dart';
-import 'package:urbanlink_project/repositories/user_database_service.dart';
-import 'package:urbanlink_project/services/auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -49,21 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void _unsubscribeFromUserChanges() {
     _subscription?.cancel();
     _subscription = null;
-  }
-
-  Future<MyUser?> _setUser() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      try {
-        final myUser = await UserDatabaseService.getUserById(currentUser.uid);
-        return myUser;
-      } on Exception catch (e) {
-        logger.e('Exception: $e');
-      } catch (e) {
-        logger.e('Error: $e');
-      }
-    }
-    return null;
   }
 
   Widget profileBox(MyUser? profileUser) {
