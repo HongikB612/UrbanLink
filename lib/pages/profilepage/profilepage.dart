@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
 import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
 import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/models/user.dart';
@@ -34,13 +35,13 @@ class _ProfilePageState extends State<ProfilePage> {
   void _subscribeToUserChanges() {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      final userDoc =
-          FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
-      _subscription = userDoc.snapshots().listen((snapshot) {
+      _subscription = UserDatabaseService.getUserById(currentUser.uid)
+          .asStream()
+          .listen((myUser) {
         setState(() {
-          _myUser = MyUser.fromSnapshot(snapshot);
+          _myUser = myUser;
         });
-      });
+      }) as StreamSubscription<DocumentSnapshot<Object?>>?;
     }
   }
 

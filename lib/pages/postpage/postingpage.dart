@@ -48,18 +48,20 @@ class PostingPage extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
-                final MyUser myUser =
+                final MyUser? myUser =
                     await UserDatabaseService.getUserById(user.uid);
-                PostDatabaseService.createPost(
-                  communityId: '',
-                  postAuthorId: user.uid,
-                  postContent: contentController.text,
-                  locationId: '',
-                  postCreatedTime: DateTime.now(),
-                  postLastModified: DateTime.now(),
-                  postTitle: headlineController.text,
-                  authorName: myUser.userName,
-                );
+                if (myUser != null) {
+                  PostDatabaseService.createPost(
+                    communityId: '',
+                    postAuthorId: user.uid,
+                    postContent: contentController.text,
+                    locationId: '',
+                    postCreatedTime: DateTime.now(),
+                    postLastModified: DateTime.now(),
+                    postTitle: headlineController.text,
+                    authorName: myUser.userName,
+                  );
+                }
                 Get.back();
               },
               child: const Text('게시하기'),
