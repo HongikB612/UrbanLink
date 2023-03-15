@@ -17,27 +17,23 @@ class _ProfilePageState extends State<ProfilePage> {
   final String userName = '@UserName';
   final String explanation = 'Explain';
 
-  List<Post> _postList = <Post>[];
+  final List<Post> _postList = <Post>[];
 
   @override
   void initState() {
     super.initState();
 
-    _postList.add(Post(
-        postId: 0,
-        postTitle: '풉',
-        postContent: '잔뜩 플러터',
-        communityId: 0,
-        postAuthorId: 0,
-        postDatetime: DateTime.now()));
-    for (var i = 1; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
       _postList.add(Post(
-          postId: i,
+          postId: '',
           postTitle: 'Post $i',
           postContent: 'Content $i',
-          communityId: i,
-          postAuthorId: i,
-          postDatetime: DateTime.now()));
+          communityId: '',
+          postAuthorId: '',
+          postCreatedTime: DateTime.now(),
+          postLastModified: DateTime.now(),
+          locationId: '',
+          authorName: 'Author $i'));
     }
   }
 
@@ -73,7 +69,22 @@ class _ProfilePageState extends State<ProfilePage> {
       TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
     return Container(
         height: _profileHeight,
-        decoration: profileBoxDecoration(),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 10,
+            ),
+          ],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(_profileRound),
+            topRight: Radius.circular(_profileRound),
+            bottomLeft: Radius.circular(_profileRound),
+            bottomRight: Radius.circular(_profileRound),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,25 +115,6 @@ class _ProfilePageState extends State<ProfilePage> {
             )
           ],
         ));
-  }
-
-  BoxDecoration profileBoxDecoration() {
-    return const BoxDecoration(
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 10,
-          spreadRadius: 10,
-        ),
-      ],
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(_profileRound),
-        topRight: Radius.circular(_profileRound),
-        bottomLeft: Radius.circular(_profileRound),
-        bottomRight: Radius.circular(_profileRound),
-      ),
-    );
   }
 
   Expanded postListView(BuildContext context) {

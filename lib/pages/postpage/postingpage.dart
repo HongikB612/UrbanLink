@@ -1,9 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
 
-class PostingPage extends StatefulWidget {
+class PostingPage extends StatelessWidget {
+  const PostingPage({super.key});
+
   @override
-  State<PostingPage> createState() => _PostingPageState();
-}
+  Widget build(BuildContext context) {
+    TextEditingController headlineController = TextEditingController();
+    TextEditingController contentController = TextEditingController();
+
+    // user
+    late User user;
+    if (FirebaseAuth.instance.currentUser != null) {
+      user = FirebaseAuth.instance.currentUser!;
+    } else {
+      Get.back();
+    }
 
 class _PostingPageState extends State<PostingPage> {
   TextEditingController? titleController;
@@ -18,34 +34,51 @@ class _PostingPageState extends State<PostingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posting'),
+        title: const Text('Posting'),
       ),
-      body: Container(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              TextField(
-                controller: titleController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(labelText: '제목'),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: '제목',
               ),
-              Expanded(child: TextField(
-                controller: contentController,
-                keyboardType: TextInputType.multiline,
-                maxLines: 100,
-                decoration: InputDecoration(labelText: '내용'),
-              )),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('게시하기'),
+              controller: headlineController,
+              keyboardType: TextInputType.text,
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: '내용',
+                
               ),
-            ],
-          ),
+              controller: contentController,
+              keyboardType: TextInputType.multiline,
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () async {
+                final MyUser myUser =
+                    await UserDatabaseService.getUserById(user.uid);
+                PostDatabaseService.createPost(
+                  communityId: '',
+                  postAuthorId: user.uid,
+                  postContent: contentController.text,
+                  locationId: '',
+                  postCreatedTime: DateTime.now(),
+                  postLastModified: DateTime.now(),
+                  postTitle: headlineController.text,
+                  authorName: myUser.userName,
+                );
+                Get.back();
+              },
+              child: const Text('게시하기'),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-

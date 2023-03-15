@@ -1,11 +1,52 @@
+import 'dart:ffi';
+
 class MyUser {
-  final String id;
-  String? name;
-  String? email;
+  final String userId;
+  String userName;
+  String userEmail;
+  String userExplanation;
 
   MyUser({
-    required this.id,
-    required this.name,
-    this.email,
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+    required this.userExplanation,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'userName': userName,
+      'userEmail': userEmail,
+      'userExplanation': userExplanation,
+    };
+  }
+
+  factory MyUser.fromJson(Map<String, dynamic> data) {
+    return MyUser(
+      userId: data['userId'],
+      userName: data['userName'],
+      userEmail: data['userEmail'],
+      userExplanation: data['userExplanation'],
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is MyUser &&
+        other.userId == userId &&
+        other.userName == userName &&
+        other.userEmail == userEmail &&
+        other.userExplanation == userExplanation;
+  }
+
+  @override
+  int get hashCode {
+    return userId.hashCode ^
+        userName.hashCode ^
+        userEmail.hashCode ^
+        userExplanation.hashCode;
+  }
 }

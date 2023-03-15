@@ -1,15 +1,19 @@
+import 'package:urbanlink_project/models/posts.dart';
+
 /// Community model
 /// This model is used to store the community information
 class Community {
-  final int communityId;
-  final String communityName;
+  final String communityId;
+  final String communityTitle;
 
   /// location of the community
-  String? communityLocation;
+  final String locaationId;
+
+  final List<Post> postList = <Post>[];
 
   Community({
     required this.communityId,
-    required this.communityName,
-    this.communityLocation,
+    required this.communityTitle,
+    required this.locaationId,
   });
 }
