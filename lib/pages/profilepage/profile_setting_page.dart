@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -17,12 +21,6 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
         builder: (context) => Scaffold(
           appBar: AppBar(
             title: const Text('Edit Profile'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.check),
-                onPressed: () async {},
-              ),
-            ],
           ),
           body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -32,21 +30,34 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
               TextFieldWidget(
                 label: 'Full Name',
                 text: widget.myUser.userName,
-                onChanged: (name) {},
-              ),
-              const SizedBox(height: 24),
-              TextFieldWidget(
-                label: 'Email',
-                text: widget.myUser.userEmail,
-                onChanged: (email) {},
+                onChanged: (name) {
+                  widget.myUser.userName = name;
+                },
               ),
               const SizedBox(height: 24),
               TextFieldWidget(
                 label: 'About',
                 text: widget.myUser.userExplanation,
                 maxLines: 5,
-                onChanged: (about) {},
+                onChanged: (explain) {
+                  widget.myUser.userExplanation = explain;
+                },
               ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                child: const Text('Save'),
+                onPressed: () async {
+                  await UserDatabaseService.updateUserName(
+                      userId: widget.myUser.userId,
+                      name: widget.myUser.userName);
+
+                  await UserDatabaseService.updateUserExplanation(
+                      userId: widget.myUser.userId,
+                      explanation: widget.myUser.userExplanation);
+
+                  Get.off(() => const ProfilePage());
+                },
+              )
             ],
           ),
         ),
