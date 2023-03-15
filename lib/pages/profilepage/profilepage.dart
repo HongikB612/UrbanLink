@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Container profileBox(MyUser? profileUser) {
+  Widget profileBox(MyUser? profileUser) {
     const textProfileUserStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     const textProfileDescriptionStyle = TextStyle(fontSize: 20);
