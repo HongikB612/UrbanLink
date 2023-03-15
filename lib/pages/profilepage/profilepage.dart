@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:urbanlink_project/components/menu_drawer_widget.dart';
 import 'package:urbanlink_project/components/post_list_component.dart';
 import 'package:urbanlink_project/models/user.dart';
-import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/repositories/post_database_service.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -16,39 +15,30 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late MyUser _myUser = MyUser(
-    userId: 'Unknown',
-    userName: 'Unknown',
-    userEmail: 'Unknown',
-    userExplanation: 'Unknown',
-  );
-  Future<void> _setUser() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) {
-      logger.i('User is not logged in');
-      _myUser = MyUser(
-        userId: 'Unknown',
-        userName: 'Unknown',
-        userEmail: 'Unknown',
-        userExplanation: 'Unknown',
-      );
-    } else {
-      logger.i('User is logged in');
-      _myUser = await UserDatabaseService.getUserById(
-        FirebaseAuth.instance.currentUser!.uid,
-      );
-      logger.i('myUser: ${_myUser.toJson()}');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _setUser();
   }
 
-  Container profileBox(
-      TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
+  Future<MyUser?> _setUser() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      try {
+        final myUser = await UserDatabaseService.getUserById(currentUser.uid);
+        return myUser;
+      } on Exception catch (e) {
+        logger.e('Exception: $e');
+      } catch (e) {
+        logger.e('Error: $e');
+      }
+    }
+    return null;
+  }
+
+  Widget profileBox(MyUser? profileUser) {
+    const textProfileUserStyle =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    const textProfileDescriptionStyle = TextStyle(fontSize: 20);
     const double profileHeight = 200;
     const double profileRound = 40;
     return Container(
@@ -90,8 +80,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(_myUser.userName, style: textProfileUserStyle),
-                      Text(_myUser.userExplanation,
+                      Text(profileUser?.userName ?? 'Unknown',
+                          style: textProfileUserStyle),
+                      Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
                   ),
@@ -104,35 +95,27 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    const textProfileUserStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
     final postListComponent = PostListComponent();
-    return FutureBuilder<void>(
+    return FutureBuilder<MyUser?>(
       future: _setUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          final myUser = snapshot.data;
           return Scaffold(
             appBar: AppBar(
               title: const Text('Profile'),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  tooltip: 'Logout',
-                  onPressed: () {
-                    // goto Login Page
-                    Get.offAll(const LoginPage());
-                  },
-                )
-              ],
+            ),
+            endDrawer: MenuDrawer(
+              myUser: myUser,
             ),
             body: Column(
               children: <Widget>[
-                profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-                const Text('Post List', style: textProfileUserStyle),
+                profileBox(myUser),
+                const Text('Post List', style: TextStyle(fontSize: 30)),
                 Expanded(
                   child: postListComponent.postStreamBuilder(
-                    PostDatabaseService.getPostsByUserId(_myUser.userId),
+                    PostDatabaseService.getPostsByUserId(
+                        myUser?.userId ?? 'Unknown'),
                   ),
                 ),
               ],
