@@ -7,13 +7,44 @@ class Community {
   final String communityTitle;
 
   /// location of the community
-  final String locaationId;
+  final String location;
 
   final List<Post> postList = <Post>[];
 
   Community({
     required this.communityId,
     required this.communityTitle,
-    required this.locaationId,
+    required this.location,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'communityId': communityId,
+      'communityTitle': communityTitle,
+      'locationId': location,
+    };
+  }
+
+  factory Community.fromJson(Map<String, dynamic> data) {
+    return Community(
+      communityId: data['communityId'] ?? 'Unknown',
+      communityTitle: data['communityTitle'] ?? 'Unknown',
+      location: data['locationId'] ?? '',
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Community &&
+        other.communityId == communityId &&
+        other.communityTitle == communityTitle &&
+        other.location == location;
+  }
+
+  @override
+  int get hashCode {
+    return communityId.hashCode ^ communityTitle.hashCode ^ location.hashCode;
+  }
 }

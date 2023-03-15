@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyUser {
   final String userId;
@@ -24,11 +24,15 @@ class MyUser {
 
   factory MyUser.fromJson(Map<String, dynamic> data) {
     return MyUser(
-      userId: data['userId'],
-      userName: data['userName'],
-      userEmail: data['userEmail'],
-      userExplanation: data['userExplanation'],
+      userId: data['userId'] ?? 'Unknown',
+      userName: data['userName'] ?? 'Unknown',
+      userEmail: data['userEmail'] ?? 'Unknown',
+      userExplanation: data['userExplanation'] ?? 'Unknown',
     );
+  }
+
+  factory MyUser.fromSnapshot(DocumentSnapshot snapshot) {
+    return MyUser.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 
   @override
