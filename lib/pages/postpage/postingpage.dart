@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
-class PostingPage extends StatelessWidget {
+class PostingPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    TextEditingController controller = new TextEditingController();
+  State<PostingPage> createState() => _PostingPageState();
+}
 
+class _PostingPageState extends State<PostingPage> {
+  TextEditingController? titleController;
+  TextEditingController? contentController;
+  
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController();
+    contentController = TextEditingController();
+  }
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Posting'),
@@ -14,12 +25,19 @@ class PostingPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               TextField(
-                controller: controller,
+                controller: titleController,
                 keyboardType: TextInputType.text,
+                decoration: InputDecoration(labelText: '제목'),
               ),
+              Expanded(child: TextField(
+                controller: contentController,
+                keyboardType: TextInputType.multiline,
+                maxLines: 100,
+                decoration: InputDecoration(labelText: '내용'),
+              )),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(controller.value.text);
+                  Navigator.pop(context);
                 },
                 child: Text('게시하기'),
               ),
@@ -30,3 +48,4 @@ class PostingPage extends StatelessWidget {
     );
   }
 }
+
