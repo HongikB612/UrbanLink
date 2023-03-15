@@ -2,17 +2,18 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
-  const ProfileSettingPage({super.key});
+  final MyUser myUser;
+
+  const ProfileSettingPage({super.key, required this.myUser});
 
   @override
   State<ProfileSettingPage> createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<ProfileSettingPage> {
-  late MyUser _myUser;
-
   @override
   Widget build(BuildContext context) => Builder(
         builder: (context) => Scaffold(
@@ -29,27 +30,22 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
             padding: const EdgeInsets.symmetric(horizontal: 32),
             physics: const BouncingScrollPhysics(),
             children: [
-              ProfileWidget(
-                imagePath: user.imagePath,
-                isEdit: true,
-                onClicked: () async {},
-              ),
               const SizedBox(height: 24),
               TextFieldWidget(
                 label: 'Full Name',
-                text: user.name,
+                text: widget.myUser.userName,
                 onChanged: (name) {},
               ),
               const SizedBox(height: 24),
               TextFieldWidget(
                 label: 'Email',
-                text: user.email,
+                text: widget.myUser.userEmail,
                 onChanged: (email) {},
               ),
               const SizedBox(height: 24),
               TextFieldWidget(
                 label: 'About',
-                text: user.about,
+                text: widget.myUser.userExplanation,
                 maxLines: 5,
                 onChanged: (about) {},
               ),

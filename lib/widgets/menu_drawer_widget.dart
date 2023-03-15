@@ -34,28 +34,16 @@ class _MenuDrawerState extends State<MenuDrawer> {
               title: const Text('Profile Settings'),
               onTap: () {
                 logger.i('Profile Settings');
-                if (widget._myUser == null || widget._myUser!.userId.isEmpty) {
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: const Text('Login'),
-                            content: const Text('Please login first.'),
-                            actions: <Widget>[
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: const Text('Cancel')),
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                    Get.to(() => const LoginPage());
-                                  },
-                                  child: const Text('Login')),
-                            ],
-                          ));
+                if (widget._myUser == null) {
+                  needTologinAlertDialog(context);
                 } else {
-                  Get.to(() => const ProfileSettingPage());
+                  if (widget._myUser != null) {
+                    Get.to(() => ProfileSettingPage(
+                          myUser: widget._myUser!,
+                        ));
+                  } else {
+                    needTologinAlertDialog(context);
+                  }
                 }
               },
             ),
@@ -87,5 +75,27 @@ class _MenuDrawerState extends State<MenuDrawer> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> needTologinAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Login'),
+              content: const Text('Please login first.'),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text('Cancel')),
+                TextButton(
+                    onPressed: () {
+                      Get.back();
+                      Get.to(() => const LoginPage());
+                    },
+                    child: const Text('Login')),
+              ],
+            ));
   }
 }
