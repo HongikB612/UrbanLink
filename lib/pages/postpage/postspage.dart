@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/components/post_list_component.dart';
+import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
 import 'package:urbanlink_project/repositories/post_database_service.dart';
 
