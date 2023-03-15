@@ -28,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _myUser = await UserDatabaseService.getUserById(
           currentUser.uid,
         );
+        logger.i('myUser : ${_myUser.toString()}');
       } on Exception catch (e) {
         logger.e(e);
       } catch (e) {
