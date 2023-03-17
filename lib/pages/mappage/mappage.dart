@@ -35,21 +35,30 @@ class _MapPageState extends State<MapPage> {
     );
     _markers.add(Marker(
       markerId: MarkerId("1"),
-      onTap: () => print("Marker!"),
+      onTap: () => {
+        print("1"),
+        Navigator.of(context).pushNamed('/posted')
+      },
       position: LatLng(	37.552635722509, 126.92436042413),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
     _markers.add(Marker(
       markerId: MarkerId("2"),
-      onTap: () => print("Marker!"),
+      onTap: () => {
+        print("2"),
+        Navigator.of(context).pushNamed('/posted')
+      },
       position: LatLng(	37.565643683342, 126.95524147826),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
     _markers.add(Marker(
       markerId: MarkerId("3"),
-      onTap: () => print("Marker!"),
+      onTap: () => {
+        print("3"),
+        Navigator.of(context).pushNamed('/posted')
+      },
       position: LatLng(	37.495172947072, 126.95453489844),
       icon: customMarkerIcon,
       alpha: 0.4,
