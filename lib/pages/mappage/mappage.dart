@@ -14,20 +14,29 @@ class _MapPageState extends State<MapPage> {
   TextEditingController textController = TextEditingController();
 
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  List<Marker> _markers = [];
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(37.51148310935, 	127.06033711446),
     zoom: 14.4746,
   );
 
   static const CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
+      target: LatLng(37.552635722509, 126.92436042413),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414
   );
-  //
 
+  void initState() {
+    super.initState();
+    _markers.add(Marker(
+        markerId: MarkerId("1"),
+        draggable: true,
+        onTap: () => print("Marker!"),
+        position: LatLng(	37.552635722509, 126.92436042413)));
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,12 +47,12 @@ class _MapPageState extends State<MapPage> {
         body: Stack(
           children: <Widget>[
             GoogleMap(
-              mapType: MapType.terrain,
+              mapType: MapType.satellite,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
               initialCameraPosition: _kGooglePlex,
-            //markers: Set<Marker>.of(markers.values)),
+              markers: Set.from(_markers),
             ),
 
             Positioned(
