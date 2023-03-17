@@ -37,7 +37,7 @@ class _MapPageState extends State<MapPage> {
       markerId: MarkerId("1"),
       onTap: () => {
         print("1"),
-        Navigator.of(context).pushNamed('/posted')
+        Navigator.of(context).pushNamed('/posts')
       },
       position: LatLng(	37.552635722509, 126.92436042413),
       icon: customMarkerIcon,
@@ -47,7 +47,7 @@ class _MapPageState extends State<MapPage> {
       markerId: MarkerId("2"),
       onTap: () => {
         print("2"),
-        Navigator.of(context).pushNamed('/posted')
+        Navigator.of(context).pushNamed('/posts')
       },
       position: LatLng(	37.565643683342, 126.95524147826),
       icon: customMarkerIcon,
@@ -57,7 +57,7 @@ class _MapPageState extends State<MapPage> {
       markerId: MarkerId("3"),
       onTap: () => {
         print("3"),
-        Navigator.of(context).pushNamed('/posted')
+        Navigator.of(context).pushNamed('/posts')
       },
       position: LatLng(	37.495172947072, 126.95453489844),
       icon: customMarkerIcon,
