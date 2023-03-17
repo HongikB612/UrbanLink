@@ -72,6 +72,8 @@ flutter:
     - 'assets/images/GoogleMapTA.jpeg'
     - 'assets/images/profileImage.jpeg'
     - 'assets/images/bee.png'
+    - 'assets/images/round.png'
+    - 'assets/images/position.png'
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

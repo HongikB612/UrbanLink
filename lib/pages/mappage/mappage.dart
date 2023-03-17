@@ -15,13 +15,9 @@ class _MapPageState extends State<MapPage> {
 
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
   List<Marker> _markers = [];
+  LatLng startLocation = LatLng(37.552635722509, 126.92436042413);
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.51148310935, 	127.06033711446),
-    zoom: 14.4746,
-  );
-
-  static const CameraPosition _kLake = CameraPosition(
+  static const CameraPosition _hongik = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(37.552635722509, 126.92436042413),
       tilt: 59.440717697143555,
@@ -30,13 +26,24 @@ class _MapPageState extends State<MapPage> {
 
   void initState() {
     super.initState();
-    _markers.add(Marker(
-        markerId: MarkerId("1"),
-        draggable: true,
-        onTap: () => print("Marker!"),
-        position: LatLng(	37.552635722509, 126.92436042413)));
-
+    addMarkers();
   }
+  addMarkers() async {
+    BitmapDescriptor customMarkerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(48,48),),
+        'assets/images/round.png',
+    );
+    _markers.add(Marker(
+      markerId: MarkerId("1"),
+      onTap: () => print("Marker!"),
+      position: LatLng(	37.552635722509, 126.92436042413),
+      icon: customMarkerIcon,
+      alpha: 0.4,
+    ));
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,11 +54,14 @@ class _MapPageState extends State<MapPage> {
         body: Stack(
           children: <Widget>[
             GoogleMap(
-              mapType: MapType.satellite,
+              mapType: MapType.normal,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
-              initialCameraPosition: _kGooglePlex,
+              initialCameraPosition: CameraPosition( //innital position in map
+                target: startLocation, //initial position
+                zoom: 15.0, //initial zoom level
+              ),
               markers: Set.from(_markers),
             ),
 
@@ -75,12 +85,12 @@ class _MapPageState extends State<MapPage> {
         floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheHome,
         label: const Text('To the home!'),
-        icon: const Icon(Icons.directions_boat),
+        //icon: const Icon(Icons.abc_rounded),
       ),
     );
   }
   Future<void> _goToTheHome() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    controller.animateCamera(CameraUpdate.newCameraPosition(_hongik));
   }
 }
