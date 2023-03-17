@@ -30,13 +30,27 @@ class _MapPageState extends State<MapPage> {
   }
   addMarkers() async {
     BitmapDescriptor customMarkerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48,48),),
-        'assets/images/round.png',
+        ImageConfiguration(size: Size(120,80),),
+        'assets/images/blueround.png',
     );
     _markers.add(Marker(
       markerId: MarkerId("1"),
       onTap: () => print("Marker!"),
       position: LatLng(	37.552635722509, 126.92436042413),
+      icon: customMarkerIcon,
+      alpha: 0.4,
+    ));
+    _markers.add(Marker(
+      markerId: MarkerId("2"),
+      onTap: () => print("Marker!"),
+      position: LatLng(	37.565643683342, 126.95524147826),
+      icon: customMarkerIcon,
+      alpha: 0.4,
+    ));
+    _markers.add(Marker(
+      markerId: MarkerId("3"),
+      onTap: () => print("Marker!"),
+      position: LatLng(	37.495172947072, 126.95453489844),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
@@ -53,6 +67,7 @@ class _MapPageState extends State<MapPage> {
 
         body: Stack(
           children: <Widget>[
+
             GoogleMap(
               mapType: MapType.normal,
               onMapCreated: (GoogleMapController controller) {
@@ -60,7 +75,7 @@ class _MapPageState extends State<MapPage> {
               },
               initialCameraPosition: CameraPosition( //innital position in map
                 target: startLocation, //initial position
-                zoom: 15.0, //initial zoom level
+                zoom: 12.0, //initial zoom level
               ),
               markers: Set.from(_markers),
             ),
