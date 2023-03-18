@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:urbanlink_project/models/comments.dart';
 
 /// Post model
 /// This model is used to store the post information
@@ -31,6 +32,8 @@ class Post {
   /// If the post is modified, this value should be updated
   DateTime postLastModified;
 
+  List<Comment> comments = [];
+
   Map<String, dynamic> toJson() {
     return {
       'postId': postId,
@@ -53,8 +56,10 @@ class Post {
       locationId: data['locationId'] ?? 'Unknown',
       postAuthorId: data['postAuthorId'] ?? 'Unknown',
       postContent: data['postContent'] ?? 'Unknown',
-      postCreatedTime: DateTime.parse(data['postCreatedTime']),
-      postLastModified: DateTime.parse(data['postLastModified']),
+      postCreatedTime:
+          DateTime.parse(data['postCreatedTime'] ?? DateTime.now().toString()),
+      postLastModified:
+          DateTime.parse(data['postLastModified'] ?? DateTime.now().toString()),
       postId: data['postId'] ?? 'Unknown',
       postTitle: data['postTitle'] ?? 'Unknown',
       authorName: data['authorName'] ?? 'Unknown',
