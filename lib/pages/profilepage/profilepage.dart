@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/repositories/user_database_service.dart';
@@ -17,7 +15,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  StreamSubscription<DocumentSnapshot>? _subscription;
+  StreamSubscription<MyUser?>? _subscription;
+
   MyUser? _myUser;
 
   @override
@@ -41,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           _myUser = myUser;
         });
-      }) as StreamSubscription<DocumentSnapshot<Object?>>?;
+      });
     }
   }
 

@@ -34,6 +34,7 @@ class PostDatabaseService {
 
     // create document and write data to Firebase
     await docPost.set(json);
+    await docPost.collection('comments').doc().set({});
 
     // return Post object with generated postId
     return Post(
@@ -130,6 +131,10 @@ class PostDatabaseService {
       {required String postId,
       required String field,
       required dynamic value}) async {
+    if (field == 'postAuthorId' || field == 'postId') {
+      logger.e('Cannot update postAuthorId or postId');
+      return;
+    }
     final docPost = _postsCollection.doc(postId);
     final postModifiedTime = DateTime.now();
 
@@ -225,6 +230,15 @@ class PostDatabaseService {
 
   static Future<void> deletePost({required String postId}) async {
     try {
+      await _postsCollection
+          .doc(postId)
+          .collection('comments')
+          .get()
+          .then((value) {
+        for (final doc in value.docs) {
+          doc.reference.delete();
+        }
+      });
       await _postsCollection.doc(postId).delete();
     } catch (e) {
       logger.e('Error: $e');
