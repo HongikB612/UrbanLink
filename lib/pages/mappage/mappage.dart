@@ -72,7 +72,7 @@ class _MapPageState extends State<MapPage> {
         logger.i("1"),
         Get.to(const PostsPage()),
       },
-      position: const LatLng(	37.552635722509, 126.92436042413),
+      position: const LatLng(37.552635722509, 126.92436042413),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
@@ -82,7 +82,7 @@ class _MapPageState extends State<MapPage> {
         logger.i("2"),
         Get.to(const PostsPage()),
       },
-      position: const LatLng(	37.565643683342, 126.95524147826),
+      position: const LatLng(37.565643683342, 126.95524147826),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
@@ -92,7 +92,7 @@ class _MapPageState extends State<MapPage> {
         logger.i("3"),
         Get.to(const PostsPage()),
       },
-      position: const LatLng(	37.495172947072, 126.95453489844),
+      position: const LatLng(37.495172947072, 126.95453489844),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
@@ -130,7 +130,6 @@ class _MapPageState extends State<MapPage> {
               },
               onSubmitted: (String searchQuery) {
                 _searchLocation(searchQuery);
-                _onMapCreated(mapController);
               },
             ),
           ),
