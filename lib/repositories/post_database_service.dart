@@ -34,6 +34,7 @@ class PostDatabaseService {
 
     // create document and write data to Firebase
     await docPost.set(json);
+    await docPost.collection('comments').doc().set({});
 
     // return Post object with generated postId
     return Post(

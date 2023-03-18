@@ -17,7 +17,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  StreamSubscription<DocumentSnapshot>? _subscription;
+  StreamSubscription<MyUser?>? _subscription;
+
   MyUser? _myUser;
 
   @override
@@ -41,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           _myUser = myUser;
         });
-      }) as StreamSubscription<DocumentSnapshot<Object?>>?;
+      });
     }
   }
 
