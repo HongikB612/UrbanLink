@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/pages/homepage/homepage.dart';
-import 'package:urbanlink_project/pages/postpage/postspage.dart';
-import 'package:urbanlink_project/pages/postpage/postingpage.dart';
-import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'services/firebase_options.dart';
 
 Future<void> main() async {

@@ -13,7 +13,7 @@ class PostListComponent {
       builder: (context, snapshot) {
         final authorName = snapshot.data?.userName ?? 'Unknown';
         return Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(5),
               bottomRight: Radius.circular(5),
@@ -22,7 +22,7 @@ class PostListComponent {
             ),
           ),
           color: Colors.white,
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
+          margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
           elevation: 5,
           child: ListTile(
             title: Text(

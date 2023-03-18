@@ -5,9 +5,6 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:urbanlink_project/pages/postpage/postspage.dart';
 import 'dart:async';
 import 'package:get/get.dart';
-
-import 'package:urbanlink_project/pages/postpage/postspage.dart';
-
 import 'package:urbanlink_project/services/auth.dart';
 
 class MapPage extends StatefulWidget {
@@ -70,32 +67,32 @@ class _MapPageState extends State<MapPage> {
       'assets/images/blueround.png',
     );
     _markers.add(Marker(
-      markerId: MarkerId("1"),
+      markerId: const MarkerId("1"),
       onTap: () => {
-        print("1"),
+        logger.i("1"),
         Get.to(const PostsPage()),
       },
-      position: LatLng(	37.552635722509, 126.92436042413),
+      position: const LatLng(	37.552635722509, 126.92436042413),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
     _markers.add(Marker(
-      markerId: MarkerId("2"),
+      markerId: const MarkerId("2"),
       onTap: () => {
-        print("2"),
+        logger.i("2"),
         Get.to(const PostsPage()),
       },
-      position: LatLng(	37.565643683342, 126.95524147826),
+      position: const LatLng(	37.565643683342, 126.95524147826),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
     _markers.add(Marker(
-      markerId: MarkerId("3"),
+      markerId: const MarkerId("3"),
       onTap: () => {
-        print("3"),
+        logger.i("3"),
         Get.to(const PostsPage()),
       },
-      position: LatLng(	37.495172947072, 126.95453489844),
+      position: const LatLng(	37.495172947072, 126.95453489844),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
