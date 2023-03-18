@@ -1,7 +1,13 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:urbanlink_project/models/posts.dart';
-import 'package:urbanlink_project/pages/loginpage/login.dart';
+import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
+import 'package:urbanlink_project/widgets/post_list_component.dart';
+import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -11,69 +17,63 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  static const double _profileHeight = 200;
-  static const double _profileRound = 40;
-
-  final String userName = '@UserName';
-  final String explanation = 'Explain';
-
-  List<Post> _postList = <Post>[];
+  StreamSubscription<DocumentSnapshot>? _subscription;
+  MyUser? _myUser;
 
   @override
   void initState() {
     super.initState();
-
-    _postList.add(Post(
-        postId: 0,
-        postTitle: '풉',
-        postContent: '잔뜩 플러터',
-        communityId: 0,
-        postAuthorId: 0,
-        postDatetime: DateTime.now()));
-    for (var i = 1; i < 20; i++) {
-      _postList.add(Post(
-          postId: i,
-          postTitle: 'Post $i',
-          postContent: 'Content $i',
-          communityId: i,
-          postAuthorId: i,
-          postDatetime: DateTime.now()));
-    }
+    _subscribeToUserChanges();
   }
 
   @override
-  Widget build(BuildContext context) {
-    const textProfileUserStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    var textProfileDescriptionStyle = const TextStyle(fontSize: 20);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.logout),
-              tooltip: 'Logout',
-              onPressed: () {
-                // goto Login Page
-                Get.offAll(const LoginPage());
-              },
-            )
-          ],
-        ),
-        body: Column(
-          children: <Widget>[
-            profileBox(textProfileUserStyle, textProfileDescriptionStyle),
-            const Text('Post List', style: textProfileUserStyle),
-            postListView(context),
-          ],
-        ));
+  void dispose() {
+    _unsubscribeFromUserChanges();
+    super.dispose();
   }
 
-  Container profileBox(
-      TextStyle textProfileUserStyle, TextStyle textProfileDescriptionStyle) {
+  void _subscribeToUserChanges() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      _subscription = UserDatabaseService.getUserById(currentUser.uid)
+          .asStream()
+          .listen((myUser) {
+        setState(() {
+          _myUser = myUser;
+        });
+      }) as StreamSubscription<DocumentSnapshot<Object?>>?;
+    }
+  }
+
+  void _unsubscribeFromUserChanges() {
+    _subscription?.cancel();
+    _subscription = null;
+  }
+
+  Widget profileBox(MyUser? profileUser) {
+    const textProfileUserStyle =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    const textProfileDescriptionStyle = TextStyle(fontSize: 20);
+    const double profileHeight = 200;
+    const double profileRound = 40;
     return Container(
-        height: _profileHeight,
-        decoration: profileBoxDecoration(),
+        height: profileHeight,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 10,
+            ),
+          ],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(profileRound),
+            topRight: Radius.circular(profileRound),
+            bottomLeft: Radius.circular(profileRound),
+            bottomRight: Radius.circular(profileRound),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,8 +95,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(userName, style: textProfileUserStyle),
-                      Text(explanation, style: textProfileDescriptionStyle),
+                      Text(profileUser?.userName ?? 'Unknown',
+                          style: textProfileUserStyle),
+                      Text(profileUser?.userExplanation ?? '',
+                          style: textProfileDescriptionStyle),
                     ],
                   ),
                 ),
@@ -106,36 +108,28 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
   }
 
-  BoxDecoration profileBoxDecoration() {
-    return const BoxDecoration(
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 10,
-          spreadRadius: 10,
-        ),
-      ],
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(_profileRound),
-        topRight: Radius.circular(_profileRound),
-        bottomLeft: Radius.circular(_profileRound),
-        bottomRight: Radius.circular(_profileRound),
+  @override
+  Widget build(BuildContext context) {
+    final postListComponent = PostListComponent();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
       ),
-    );
-  }
-
-  Expanded postListView(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: _postList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: const Icon(Icons.arrow_right),
-              title: Text(_postList[index].postTitle),
-            );
-          }),
+      endDrawer: MenuDrawer(
+        myUser: _myUser,
+      ),
+      body: Column(
+        children: <Widget>[
+          profileBox(_myUser),
+          const Text('Post List', style: TextStyle(fontSize: 30)),
+          Expanded(
+            child: postListComponent.postStreamBuilder(
+              PostDatabaseService.getPostsByUserId(
+                  _myUser?.userId ?? 'Unknown'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -20,11 +20,27 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController =
       TextEditingController(); //입력되는 값을 제어
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
 
-  // 로그인 폼 상단에 이미지가 표시된다. 이미지가 없어도 동작은 하나, X표시 처리.
-  final String _imageFile = 'assets/images/profileImage.jpeg';
+  Widget _userNameWidget() {
+    return TextFormField(
+      controller: _userNameController,
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: '이름',
+      ),
+      validator: (String? value) {
+        if (value!.isEmpty) {
+          // == null or isEmpty
+          return '이름을 입력해주세요.';
+        }
+        return null;
+      },
+    );
+  }
 
-  Widget _userIdWidget() {
+  Widget _userEmailWidget() {
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
@@ -70,35 +86,44 @@ class _RegisterPageState extends State<RegisterPage> {
         centerTitle: true,
       ),
       body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Image(width: 400.0, height: 250.0, image: AssetImage(_imageFile)),
-              const SizedBox(height: 20.0),
-              _userIdWidget(),
-              const SizedBox(height: 20.0),
-              _passwordWidget(),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton(
-                    onPressed: () => _authProvider(),
-                    child: const Text("회원가입")),
-              ),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
-                  ),
-                  onPressed: () => Get.off(const LoginPage()),
-                  child: const Text('뒤로 가기')),
-            ],
-          ),
-        ),
-      ),
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ListView(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                _userNameWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _userEmailWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _passwordWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _authProvider();
+                  },
+                  child: const Text('회원가입'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.offAll(() => const LoginPage());
+                  },
+                  child: const Text('로그인 페이지로 돌아가기'),
+                ),
+              ],
+            ),
+          )),
     );
   }
 
@@ -123,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
       // Firebase 사용자 인증, 사용자 등록
       try {
-        await _auth.registerWithEmailAndPassword(
+        await _auth.registerWithEmailAndPassword(_userNameController.text,
             _emailController.text, _passwordController.text);
 
         Get.offAll(() => const MainPage());

@@ -1,27 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:urbanlink_project/widgets/post_list_component.dart';
+import 'package:urbanlink_project/pages/postpage/postingpage.dart';
+import 'package:urbanlink_project/repositories/post_database_service.dart';
 
-class PostsPage extends StatefulWidget{
+class PostsPage extends StatefulWidget {
+  const PostsPage({super.key});
+
   @override
-  State<StatefulWidget> createState() => _SubDetail();
+  State<PostsPage> createState() => _PostsPageState();
 }
 
-class _SubDetail extends State<PostsPage>{
-
-  List<String> posts = new List.empty(growable: true);
+class _PostsPageState extends State<PostsPage> {
+  final _postListComponent = PostListComponent();
 
   @override
   void initState() {
     super.initState();
-    posts.add('글1');
-    posts.add('글2');
-    posts.add('글3');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posts'),
+        title: const Text('Posts'),
+      ),
+      body:
+          _postListComponent.postStreamBuilder(PostDatabaseService.getPosts()),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (FirebaseAuth.instance.currentUser == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('로그인이 필요합니다.'),
+              ),
+            );
+            return;
+          }
+          Get.to(const PostingPage());
+        },
+        child: const Icon(Icons.post_add),
       ),
       body: ListView.builder(itemBuilder: (context, index){
         return GestureDetector(
@@ -93,11 +112,4 @@ class _SubDetail extends State<PostsPage>{
       }, child: Icon(Icons.add),),
     );
   }
-  void _addNavigation(BuildContext context) async {
-    final result = await Navigator.of(context).pushNamed('/posting');
-    setState(() {
-      posts.add(result as String);
-    });
-  }
-
 }
