@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'dart:async';
@@ -15,21 +16,46 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   TextEditingController textController = TextEditingController();
 
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  late GoogleMapController mapController;
   final List<Marker> _markers = [];
-  LatLng startLocation = const LatLng(37.552635722509, 126.92436042413);
-
-  static const CameraPosition _hongik = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.552635722509, 126.92436042413),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  LatLng displayLocation = const LatLng(37.552635722509, 126.92436042413);
 
   @override
   void initState() {
     super.initState();
     addMarkers();
+  }
+
+  Future<void> _searchLocation(String query) async {
+    try {
+      List<Location> locations = await locationFromAddress(query);
+
+      if (locations.isNotEmpty) {
+        final LatLng newCenter =
+            LatLng(locations.first.latitude, locations.first.longitude);
+
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: newCenter,
+              zoom: 11.0,
+            ),
+          ),
+        );
+
+        setState(() {
+          displayLocation = newCenter;
+        });
+      }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+    });
   }
 
   addMarkers() async {
@@ -72,13 +98,10 @@ class _MapPageState extends State<MapPage> {
       body: Stack(
         children: <Widget>[
           GoogleMap(
-            mapType: MapType.normal,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
+            onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               //innital position in map
-              target: startLocation, //initial position
+              target: displayLocation, //initial position
               zoom: 12.0, //initial zoom level
             ),
             markers: Set.from(_markers),
@@ -95,7 +118,10 @@ class _MapPageState extends State<MapPage> {
                   textController.clear();
                 });
               },
-              onSubmitted: (String _) {},
+              onSubmitted: (String searchQuery) {
+                _searchLocation(searchQuery);
+                _onMapCreated(mapController);
+              },
             ),
           ),
         ],
