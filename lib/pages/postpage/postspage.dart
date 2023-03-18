@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
 
 class PostsPage extends StatefulWidget {
@@ -12,7 +11,7 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
-  List<Post> posts = [];
+  List<String> posts = List.empty(growable: true);
   @override
   void initState() {
     super.initState();

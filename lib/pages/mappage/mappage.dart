@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:urbanlink_project/pages/postpage/postspage.dart';
 import 'dart:async';
+import 'package:get/get.dart';
+
+import 'package:urbanlink_project/pages/postpage/postspage.dart';
 
 import 'package:urbanlink_project/services/auth.dart';
 
@@ -66,23 +70,32 @@ class _MapPageState extends State<MapPage> {
       'assets/images/blueround.png',
     );
     _markers.add(Marker(
-      markerId: const MarkerId("1"),
-      onTap: () => {logger.i("1"), Navigator.of(context).pushNamed('/posts')},
-      position: const LatLng(37.552635722509, 126.92436042413),
+      markerId: MarkerId("1"),
+      onTap: () => {
+        print("1"),
+        Get.to(const PostsPage()),
+      },
+      position: LatLng(	37.552635722509, 126.92436042413),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
     _markers.add(Marker(
-      markerId: const MarkerId("2"),
-      onTap: () => {logger.i("2"), Navigator.of(context).pushNamed('/posts')},
-      position: const LatLng(37.565643683342, 126.95524147826),
+      markerId: MarkerId("2"),
+      onTap: () => {
+        print("2"),
+        Get.to(const PostsPage()),
+      },
+      position: LatLng(	37.565643683342, 126.95524147826),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
     _markers.add(Marker(
-      markerId: const MarkerId("3"),
-      onTap: () => {logger.i("3"), Navigator.of(context).pushNamed('/posts')},
-      position: const LatLng(37.495172947072, 126.95453489844),
+      markerId: MarkerId("3"),
+      onTap: () => {
+        print("3"),
+        Get.to(const PostsPage()),
+      },
+      position: LatLng(	37.495172947072, 126.95453489844),
       icon: customMarkerIcon,
       alpha: 0.4,
     ));
