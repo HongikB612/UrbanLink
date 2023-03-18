@@ -14,7 +14,7 @@ class PostsPage extends StatefulWidget {
 
 class _PostsPageState extends State<PostsPage> {
   final _postListComponent = PostListComponent();
-
+  List<String> posts = new List.empty(growable: true);
   @override
   void initState() {
     super.initState();
@@ -42,6 +42,7 @@ class _PostsPageState extends State<PostsPage> {
         },
         child: const Icon(Icons.post_add),
       ),
+      /*
       body: ListView.builder(itemBuilder: (context, index){
         return GestureDetector(
           child: Container(
@@ -107,9 +108,8 @@ class _PostsPageState extends State<PostsPage> {
           },
         );
       }, itemCount: posts.length,),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        _addNavigation(context);
-      }, child: Icon(Icons.add),),
+
+       */
     );
   }
 }
