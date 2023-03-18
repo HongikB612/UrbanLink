@@ -12,46 +12,59 @@ class PostListComponent {
       stream: UserDatabaseService.getUserStreamById(post.postAuthorId),
       builder: (context, snapshot) {
         final authorName = snapshot.data?.userName ?? 'Unknown';
-        return ListTile(
-          title: Text(
-            post.postTitle,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(5),
+              bottomRight: Radius.circular(5),
+              topLeft: Radius.zero,
+              topRight: Radius.zero,
             ),
           ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                post.postContent,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+          color: Colors.white,
+          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
+          elevation: 5,
+          child: ListTile(
+            title: Text(
+              post.postTitle,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-              Row(
-                children: [
-                  Text(
-                    authorName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  post.postContent,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      authorName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const Text(
-                    ' | ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                    const Text(
+                      ' | ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Text(
+                      '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            onTap: () {
+              Get.to(() => const PostedPage(), arguments: post);
+            },
           ),
-          onTap: () {
-            Get.to(() => const PostedPage(), arguments: post);
-          },
         );
       },
     );
