@@ -56,8 +56,10 @@ class Post {
       locationId: data['locationId'] ?? 'Unknown',
       postAuthorId: data['postAuthorId'] ?? 'Unknown',
       postContent: data['postContent'] ?? 'Unknown',
-      postCreatedTime: DateTime.parse(data['postCreatedTime']),
-      postLastModified: DateTime.parse(data['postLastModified']),
+      postCreatedTime:
+          DateTime.parse(data['postCreatedTime'] ?? DateTime.now().toString()),
+      postLastModified:
+          DateTime.parse(data['postLastModified'] ?? DateTime.now().toString()),
       postId: data['postId'] ?? 'Unknown',
       postTitle: data['postTitle'] ?? 'Unknown',
       authorName: data['authorName'] ?? 'Unknown',
