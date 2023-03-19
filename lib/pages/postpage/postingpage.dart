@@ -20,6 +20,8 @@ class _PostingPageState extends State<PostingPage> {
   Widget build(BuildContext context) {
     String headline = '';
     String content = '';
+    String locationId = ''; // to store selected location
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -30,19 +32,21 @@ class _PostingPageState extends State<PostingPage> {
           child: Column(
             children: <Widget>[
               TextFieldWidget(
-                  label: '제목',
-                  text: '',
-                  onChanged: (headlinecontroller) {
-                    headline = headlinecontroller;
-                  }),
+                label: '제목',
+                text: '',
+                onChanged: (headlinecontroller) {
+                  headline = headlinecontroller;
+                }
+              ),
               const SizedBox(height: 10),
               TextFieldWidget(
-                  label: '내용',
-                  text: '',
-                  maxLines: 10,
-                  onChanged: (contentcontroller) {
-                    content = contentcontroller;
-                  }),
+                label: '내용',
+                text: '',
+                maxLines: 10,
+                onChanged: (contentcontroller) {
+                  content = contentcontroller;
+                }
+              ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () async {
@@ -57,13 +61,24 @@ class _PostingPageState extends State<PostingPage> {
                     logger.e(e);
                     currentAddress = '위치 정보를 가져올 수 없습니다.';
                   }
-
+                  
+                  // show location search dialog
+                  final selectedLocation = await showDialog<String>(
+                    context: context,
+                    builder: (context) => LocationSearchDialog(),
+                  );
+                  
+                  if (selectedLocation != null) {
+                    locationId = selectedLocation;
+                  } else {
+                    locationId = currentAddress;
+                  }
+                  
                   if (FirebaseAuth.instance.currentUser != null) {
                     final myUser = await UserDatabaseService.getUserById(
                         FirebaseAuth.instance.currentUser!.uid);
 
                     const communityId = '';
-                    final locationId = currentAddress;
                     PostingService.postingByPosts(
                         myUser!, content, headline, communityId, locationId);
                   } else {
@@ -80,4 +95,5 @@ class _PostingPageState extends State<PostingPage> {
       ),
     );
   }
+
 }
