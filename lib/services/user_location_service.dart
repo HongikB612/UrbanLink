@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class UserLocatonService {
@@ -39,5 +40,13 @@ class UserLocatonService {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     return position;
+  }
+
+  static Future<String> getCurrentAddress(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark placemark = placemarks[0];
+    String formattedAddress = '${placemark.locality}, ${placemark.country}';
+    return formattedAddress;
   }
 }
