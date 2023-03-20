@@ -1,4 +1,3 @@
-import 'package:address_search_field/address_search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,7 +6,6 @@ import 'package:urbanlink_project/repositories/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
 import 'package:urbanlink_project/services/user_location_service.dart';
-import 'package:urbanlink_project/widgets/location_search_dialog.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class PostingPage extends StatefulWidget {
