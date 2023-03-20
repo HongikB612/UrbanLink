@@ -49,4 +49,8 @@ class UserLocatonService {
     String formattedAddress = '${placemark.locality}, ${placemark.country}';
     return formattedAddress;
   }
+
+  static Future<List<Location>> searchLocation(String query) {
+    return locationFromAddress(query);
+  }
 }
