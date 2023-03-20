@@ -45,7 +45,7 @@ class _LocationSearchDialogState extends State<LocationSearchDialog> {
         lng: currentLocation.longitude!,
       ),
       radius: 10000,
-      language: "en",
+      language: "kr",
       mode: Mode.fullscreen,
       types: [],
     );

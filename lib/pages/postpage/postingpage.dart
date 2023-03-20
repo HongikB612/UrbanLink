@@ -1,3 +1,4 @@
+import 'package:address_search_field/address_search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
