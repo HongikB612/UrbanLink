@@ -64,6 +64,12 @@ class AuthService {
     }
   }
 
+  //Send Password Reset Email
+  Future<void> sendPasswordResetEmail(String email) async{
+    await FirebaseAuth.instance.setLanguageCode("kr");
+    await FirebaseAuth.instance.sendPasswordResetEmail(email:email);
+  }
+
   //Sign In Anonymously
   Future<MyUser?> signInAnon() async {
     try {
@@ -83,5 +89,10 @@ class AuthService {
     } on FirebaseAuthException {
       rethrow;
     }
+  }
+
+  Future<void> updateUserName(String name) async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user?.updateDisplayName(name);
   }
 }

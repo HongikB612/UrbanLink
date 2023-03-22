@@ -127,6 +127,9 @@ class UserDatabaseService {
     // create document and write data to Firebase
     await docUser.update(json).then((value) => logger.i('User Name updated'),
         onError: (error) => logger.e('Failed to update user: $error'));
+
+    AuthService authService = AuthService();
+    await authService.updateUserName(name);
   }
 
   /// This method do not sign out the user
