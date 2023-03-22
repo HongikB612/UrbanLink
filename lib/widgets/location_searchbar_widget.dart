@@ -3,7 +3,10 @@ import 'package:geocoding/geocoding.dart';
 import 'package:logger/logger.dart';
 
 class LocationSearchbar extends StatefulWidget {
-  const LocationSearchbar({Key? key}) : super(key: key);
+  final ValueChanged<String> onChanged;
+
+  const LocationSearchbar({Key? key, required this.onChanged})
+      : super(key: key);
 
   @override
   State<LocationSearchbar> createState() => _LocationSearchbarState();
@@ -11,24 +14,21 @@ class LocationSearchbar extends StatefulWidget {
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
   List<String> _locationList = [];
+  String _selectedLocation = '';
 
   Future<void> _searchLocation(String query) async {
     try {
       List<Location> locations = await locationFromAddress(query);
 
-      //   List<Placemark> placemarks =
-      //     await placemarkFromCoordinates(position.latitude, position.longitude);
-      // Placemark placemark = placemarks[0];
-      // String formattedAddress = '${placemark.locality}, ${placemark.country}';
-
       List<String> locationList = [];
-      for (int i = 0; i < locations.length; i++) {
+      for (var location in locations) {
         List<Placemark> placemarks = await placemarkFromCoordinates(
-            locations[i].latitude, locations[i].longitude);
-        Placemark placemark = placemarks[0];
-        String formattedAddress =
-            '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}';
-        locationList.add(formattedAddress);
+            location.latitude, location.longitude);
+        for (var placemark in placemarks) {
+          String formattedAddress =
+              '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}';
+          locationList.add(formattedAddress);
+        }
       }
 
       setState(() {
@@ -64,8 +64,8 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
               const SizedBox(height: 16),
               Expanded(
                 child: SizedBox(
-                  height: 200,
-                  width: 200,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.7,
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: _locationList.length,
@@ -90,9 +90,12 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
   }
 
   void _selectLocation(BuildContext context, String location) {
+    setState(() {
+      widget.onChanged(location);
+      _selectedLocation = location;
+    });
     // Perform action when a location is selected
     Navigator.of(context).pop();
-    // ...
   }
 
   @override
@@ -102,6 +105,13 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
         ElevatedButton(
           onPressed: () => _showSearchDialog(context),
           child: const Text('Search Location'),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            '선택된 위치: $_selectedLocation',
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

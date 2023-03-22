@@ -18,7 +18,6 @@ class PostingPage extends StatefulWidget {
 
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
-  String _selectedLocation = '';
 
   @override
   void dispose() {
@@ -30,6 +29,7 @@ class _PostingPageState extends State<PostingPage> {
   Widget build(BuildContext context) {
     String headline = '';
     String content = '';
+    String location = '';
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -55,26 +55,14 @@ class _PostingPageState extends State<PostingPage> {
                       content = contentcontroller;
                     }),
                 const SizedBox(height: 10),
-                const LocationSearchbar(),
+                LocationSearchbar(
+                  onChanged: (value) {
+                    location = value;
+                  },
+                ),
                 ElevatedButton(
                   onPressed: () async {
-                    late Position currentPosition;
-                    late String currentAddress;
-                    try {
-                      currentPosition =
-                          await UserLocatonService.getCurrentLocation();
-                      currentAddress =
-                          await UserLocatonService.getCurrentAddress(
-                              currentPosition);
-                    } catch (e) {
-                      logger.e(e);
-                      currentAddress = '위치 정보를 가져올 수 없습니다.';
-                    }
-
-                    final locationId = _selectedLocation.isNotEmpty
-                        ? _selectedLocation
-                        : currentAddress;
-
+                    final locationId = location;
                     if (FirebaseAuth.instance.currentUser != null) {
                       final myUser = await UserDatabaseService.getUserById(
                           FirebaseAuth.instance.currentUser!.uid);
