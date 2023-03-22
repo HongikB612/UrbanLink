@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user.dart';
-import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
