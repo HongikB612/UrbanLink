@@ -596,6 +596,8 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - address_search_field (5.0.0):
+    - Flutter
   - BoringSSL-GRPC (0.0.24):
     - BoringSSL-GRPC/Implementation (= 0.0.24)
     - BoringSSL-GRPC/Interface (= 0.0.24)
@@ -747,6 +749,7 @@ PODS:
   - PromisesObjC (2.2.0)
 
 DEPENDENCIES:
+  - address_search_field (from `.symlinks/plugins/address_search_field/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -778,6 +781,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  address_search_field:
+    :path: ".symlinks/plugins/address_search_field/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   firebase_auth:
@@ -801,6 +806,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
+  address_search_field: baa1d1b1b47eb5445f26f8a7fb33885179f5b6de
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cloud_firestore: 612a89fe1210990e2ba642b850e8faf7d393eedd
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
