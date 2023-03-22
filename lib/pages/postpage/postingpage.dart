@@ -37,60 +37,61 @@ class _PostingPageState extends State<PostingPage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              TextFieldWidget(
-                  label: '제목',
-                  text: '',
-                  onChanged: (headlinecontroller) {
-                    headline = headlinecontroller;
-                  }),
-              const SizedBox(height: 10),
-              TextFieldWidget(
-                  label: '내용',
-                  text: '',
-                  maxLines: 10,
-                  onChanged: (contentcontroller) {
-                    content = contentcontroller;
-                  }),
-              const SizedBox(height: 10),
-              LocationSearchbar(
-              ),
-              ElevatedButton(
-                      onPressed: () async {
-                        late Position currentPosition;
-                        late String currentAddress;
-                        try {
-                          currentPosition =
-                              await UserLocatonService.getCurrentLocation();
-                          currentAddress =
-                              await UserLocatonService.getCurrentAddress(
-                                  currentPosition);
-                        } catch (e) {
-                          logger.e(e);
-                          currentAddress = '위치 정보를 가져올 수 없습니다.';
-                        }
+          child: Expanded(
+            child: Column(
+              children: <Widget>[
+                TextFieldWidget(
+                    label: '제목',
+                    text: '',
+                    onChanged: (headlinecontroller) {
+                      headline = headlinecontroller;
+                    }),
+                const SizedBox(height: 10),
+                TextFieldWidget(
+                    label: '내용',
+                    text: '',
+                    maxLines: 10,
+                    onChanged: (contentcontroller) {
+                      content = contentcontroller;
+                    }),
+                const SizedBox(height: 10),
+                const LocationSearchbar(),
+                ElevatedButton(
+                  onPressed: () async {
+                    late Position currentPosition;
+                    late String currentAddress;
+                    try {
+                      currentPosition =
+                          await UserLocatonService.getCurrentLocation();
+                      currentAddress =
+                          await UserLocatonService.getCurrentAddress(
+                              currentPosition);
+                    } catch (e) {
+                      logger.e(e);
+                      currentAddress = '위치 정보를 가져올 수 없습니다.';
+                    }
 
-                        final locationId = _selectedLocation.isNotEmpty
-                            ? _selectedLocation
-                            : currentAddress;
+                    final locationId = _selectedLocation.isNotEmpty
+                        ? _selectedLocation
+                        : currentAddress;
 
-                        if (FirebaseAuth.instance.currentUser != null) {
-                          final myUser = await UserDatabaseService.getUserById(
-                              FirebaseAuth.instance.currentUser!.uid);
+                    if (FirebaseAuth.instance.currentUser != null) {
+                      final myUser = await UserDatabaseService.getUserById(
+                          FirebaseAuth.instance.currentUser!.uid);
 
-                          const communityId = '';
-                          PostingService.postingByPosts(myUser!, content,
-                              headline, communityId, locationId);
-                        } else {
-                          Get.snackbar('로그인이 필요합니다.', '로그인 후 이용해주세요.');
-                        }
+                      const communityId = '';
+                      PostingService.postingByPosts(
+                          myUser!, content, headline, communityId, locationId);
+                    } else {
+                      Get.snackbar('로그인이 필요합니다.', '로그인 후 이용해주세요.');
+                    }
 
-                        Get.back();
-                      },
-                      child: const Text('게시하기'),
-                    ),
-            ],
+                    Get.back();
+                  },
+                  child: const Text('게시하기'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
