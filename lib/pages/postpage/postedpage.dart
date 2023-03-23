@@ -107,12 +107,12 @@ class PostedPage extends StatelessWidget {
                                 'Error: ${snapshot.error ?? 'Unknown error'}'),
                           );
                         } else if (snapshot.hasData) {
-                          final comments = snapshot.data ?? [];
+                          final comments = snapshot.data!;
                           return Container(
                             color: Colors.white,
                             padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                             child: ListView.separated(
-                                itemCount: 5,
+                                itemCount: comments.length,
                                 itemBuilder: (context, index) {
                                   return CommentWidget(
                                     comment: comments[index],
