@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user.dart';
-import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -14,6 +15,50 @@ class ProfileSettingPage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<ProfileSettingPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
+  late final String _email;
+
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = _auth.currentUser;
+    if (user != null) {
+      _email = user.email ?? '';
+    }
+  }
+
+  Future<void> _resetPassword() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        final navigator = Navigator.of(context);
+        await _auth.sendPasswordResetEmail(email: _email);
+        if (!mounted) return;
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Password Reset Email Sent'),
+            content: Text(
+                'A password reset link has been sent to $_email. Please follow the instructions in the email to reset your password.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => navigator.pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+        navigator.pop();
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          _errorMessage = e.message;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Builder(
         builder: (context) => Scaffold(
@@ -40,6 +85,38 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
                 onChanged: (explain) {
                   widget.myUser.userExplanation = explain;
                 },
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Reset Password'),
+                        content: const Text(
+                            'Are you sure you want to reset your password?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              _resetPassword();
+                              if (_errorMessage != null) {
+                                Get.snackbar(
+                                    '비밀번호를 변경할 수 없습니다', '$_errorMessage');
+                              }
+                            },
+                            child: const Text('Reset'),
+                          ),
+                        ],
+                      );
+                    }),
+                child: const Text('Reset Password'),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
