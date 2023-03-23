@@ -73,111 +73,20 @@ class PostedPage extends StatelessWidget {
                         thickness: 0.1,
                       ),
                       Row(
-                        //좋아요 버튼
                         children: <Widget>[
-                          LikeButton(
-                            circleColor: const CircleColor(
-                                start: Color(0xff00ddff),
-                                end: Color(0xff0099cc)),
-                            bubblesColor: const BubblesColor(
-                              dotPrimaryColor: Color(0xff33b5e5),
-                              dotSecondaryColor: Color(0xff0099cc),
-                            ),
-                            likeBuilder: (bool isLiked) {
-                              return Icon(
-                                Icons.favorite,
-                                color:
-                                    isLiked ? Colors.pinkAccent : Colors.grey,
-                              );
-                            },
-                            likeCount: post.postLikeCount,
-                            countBuilder:
-                                (int? count, bool isLiked, String text) {
-                              final ColorSwatch<int> color =
-                                  isLiked ? Colors.pinkAccent : Colors.grey;
-                              Widget result;
-                              if (count == 0) {
-                                result = Text(
-                                  "love",
-                                  style: TextStyle(color: color),
-                                );
-                              } else {
-                                result = Text(
-                                  text,
-                                  style: TextStyle(color: color),
-                                );
-                              }
-                              return result;
-                            },
-                            onTap: (isLiked) async {
-                              if (isLiked) {
-                                post.postLikeCount--;
-                              } else {
-                                post.postLikeCount++;
-                              }
-                              PostDatabaseService.updatePostLikeCount(
-                                  postId: post.postId,
-                                  postLikeCount: post.postLikeCount);
-                              return !isLiked;
-                            },
+                          //좋아요 버튼
+                          postLikeButton(post),
+                          const SizedBox(
+                            width: 10,
                           ),
+                          // 싫어요 버튼
+                          postDislikeButton(post),
                         ],
                       ),
                       const Divider(
                         color: Colors.grey,
                         thickness: 0.1,
                       ),
-                      Row(
-                        // 싫어요 버튼
-                        children: <Widget>[
-                          LikeButton(
-                            circleColor: const CircleColor(
-                                start: Color(0xff00ddff),
-                                end: Color(0xff0099cc)),
-                            bubblesColor: const BubblesColor(
-                              dotPrimaryColor: Color(0xff33b5e5),
-                              dotSecondaryColor: Color(0xff0099cc),
-                            ),
-                            likeBuilder: (bool isLiked) {
-                              return Icon(
-                                Icons.thumb_down,
-                                color:
-                                    isLiked ? Colors.pinkAccent : Colors.grey,
-                              );
-                            },
-                            likeCount: post.postDislikeCount,
-                            countBuilder:
-                                (int? count, bool isLiked, String text) {
-                              final ColorSwatch<int> color =
-                                  isLiked ? Colors.pinkAccent : Colors.grey;
-                              Widget result;
-                              if (count == 0) {
-                                result = Text(
-                                  "unlike",
-                                  style: TextStyle(color: color),
-                                );
-                              } else {
-                                result = Text(
-                                  text,
-                                  style: TextStyle(color: color),
-                                );
-                              }
-                              return result;
-                            },
-                            onTap: (isDisLiked) async {
-                              if (isDisLiked) {
-                                post.postDislikeCount--;
-                              } else {
-                                post.postDislikeCount++;
-                              }
-                              PostDatabaseService.updatePostDislikeCount(
-                                  postId: post.postId,
-                                  postDislikeCount: post.postDislikeCount);
-                              return !isDisLiked;
-                            },
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
@@ -232,6 +141,96 @@ class PostedPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  LikeButton postDislikeButton(Post post) {
+    return LikeButton(
+      circleColor:
+          const CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+      bubblesColor: const BubblesColor(
+        dotPrimaryColor: Color(0xff33b5e5),
+        dotSecondaryColor: Color(0xff0099cc),
+      ),
+      likeBuilder: (bool isLiked) {
+        return Icon(
+          Icons.thumb_down,
+          color: isLiked ? Colors.pinkAccent : Colors.grey,
+        );
+      },
+      likeCount: post.postDislikeCount,
+      countBuilder: (int? count, bool isLiked, String text) {
+        final ColorSwatch<int> color =
+            isLiked ? Colors.pinkAccent : Colors.grey;
+        Widget result;
+        if (count == 0) {
+          result = Text(
+            "unlike",
+            style: TextStyle(color: color),
+          );
+        } else {
+          result = Text(
+            text,
+            style: TextStyle(color: color),
+          );
+        }
+        return result;
+      },
+      onTap: (isDisLiked) async {
+        if (isDisLiked) {
+          post.postDislikeCount--;
+          PostDatabaseService.decreasePostDislikeCount(postId: post.postId);
+        } else {
+          post.postDislikeCount++;
+          PostDatabaseService.increasePostDislikeCount(postId: post.postId);
+        }
+        return !isDisLiked;
+      },
+    );
+  }
+
+  LikeButton postLikeButton(Post post) {
+    return LikeButton(
+      circleColor:
+          const CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+      bubblesColor: const BubblesColor(
+        dotPrimaryColor: Color(0xff33b5e5),
+        dotSecondaryColor: Color(0xff0099cc),
+      ),
+      likeBuilder: (bool isLiked) {
+        return Icon(
+          Icons.favorite,
+          color: isLiked ? Colors.pinkAccent : Colors.grey,
+        );
+      },
+      likeCount: post.postLikeCount,
+      countBuilder: (int? count, bool isLiked, String text) {
+        final ColorSwatch<int> color =
+            isLiked ? Colors.pinkAccent : Colors.grey;
+        Widget result;
+        if (count == 0) {
+          result = Text(
+            "love",
+            style: TextStyle(color: color),
+          );
+        } else {
+          result = Text(
+            text,
+            style: TextStyle(color: color),
+          );
+        }
+        return result;
+      },
+      onTap: (isLiked) async {
+        if (isLiked) {
+          post.postLikeCount--;
+          PostDatabaseService.decreasePostDislikeCount(postId: post.postId);
+        } else {
+          post.postLikeCount++;
+          PostDatabaseService.increasePostDislikeCount(postId: post.postId);
+        }
+        return !isLiked;
+      },
     );
   }
 }

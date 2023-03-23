@@ -213,6 +213,62 @@ class PostDatabaseService {
         onError: (error) => logger.e('Failed to update post: $error'));
   }
 
+  static Future<void> increasePostLikeCount({required String postId}) async {
+    final docPost = _postsCollection.doc(postId);
+
+    final json = {
+      'postId': docPost.id,
+      'postLikeCount': FieldValue.increment(1),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Like Count updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> decreasePostLikeCount({required String postId}) async {
+    final docPost = _postsCollection.doc(postId);
+
+    final json = {
+      'postId': docPost.id,
+      'postLikeCount': FieldValue.increment(-1),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Like Count updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> increasePostDislikeCount({required String postId}) async {
+    final docPost = _postsCollection.doc(postId);
+
+    final json = {
+      'postId': docPost.id,
+      'postDislikeCount': FieldValue.increment(1),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Dislike Count updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
+  static Future<void> decreasePostDislikeCount({required String postId}) async {
+    final docPost = _postsCollection.doc(postId);
+
+    final json = {
+      'postId': docPost.id,
+      'postDislikeCount': FieldValue.increment(-1),
+    };
+
+    // create document and write data to Firebase
+    await docPost.update(json).then(
+        (value) => logger.i('Post Dislike Count updated'),
+        onError: (error) => logger.e('Failed to update post: $error'));
+  }
+
   static Future<void> updatePostDislikeCount(
       {required String postId, required int postDislikeCount}) async {
     final docPost = _postsCollection.doc(postId);
