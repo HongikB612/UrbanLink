@@ -14,8 +14,8 @@ class Post {
     required this.postCreatedTime,
     required this.locationId,
     required this.authorName,
-    int postLikeCount = 0,
-    int postDislikeCount = 0,
+    this.postLikeCount = 0,
+    this.postDislikeCount = 0,
   });
   final String postId;
   final String postTitle;
@@ -26,8 +26,8 @@ class Post {
   final DateTime postCreatedTime;
   final String authorName;
 
-  int postLikeCount = 0;
-  int postDislikeCount = 0;
+  int postLikeCount;
+  int postDislikeCount;
 
   /// If the post is modified, this value should be updated
   DateTime postLastModified;
