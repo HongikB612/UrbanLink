@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Comment {
   final String commentId;
   final String commentAuthorId;
@@ -57,5 +59,9 @@ class Comment {
   @override
   String toString() {
     return 'Comment(commentId: $commentId, commentAuthorId: $commentAuthorId, commentContent: $commentContent, postId: $postId, commentDatetime: $commentDatetime)';
+  }
+
+  factory Comment.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    return Comment.fromJson(doc.data());
   }
 }

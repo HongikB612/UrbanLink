@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/database/comment_database_service.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/models/comments.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:like_button/like_button.dart';
+import 'package:urbanlink_project/services/auth.dart';
+import 'package:urbanlink_project/widgets/comment_widget.dart';
 
 class PostedPage extends StatelessWidget {
   const PostedPage({super.key});
@@ -92,49 +96,39 @@ class PostedPage extends StatelessWidget {
                 ),
                 Expanded(
                   //댓글창
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: ListView.separated(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
+                  child: StreamBuilder<List<Comment>>(
+                      stream: CommentDatabaseService.getCommentsByPostId(
+                          post.postId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          logger.e(snapshot.error ?? 'Unknown error');
+                          return Center(
+                            child: Text(
+                                'Error: ${snapshot.error ?? 'Unknown error'}'),
+                          );
+                        } else if (snapshot.hasData) {
+                          final comments = snapshot.data!;
                           return Container(
-                              padding: const EdgeInsets.fromLTRB(5, 3, 30, 0),
-                              color: Colors.white70,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    //누리꾼 정보
-                                    margin: const EdgeInsets.all(5),
-                                    child: const CircleAvatar(
-                                      backgroundColor: Colors.grey,
-                                      foregroundColor: Colors.white,
-                                      child: Icon(Icons.abc_sharp),
-                                    ),
-                                  ),
-                                  Column(
-                                    //댓글 내용
-                                    children: <Widget>[
-                                      const Text(
-                                        "이름",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 5.0),
-                                        child: const Text("댓글",
-                                            style: TextStyle(fontSize: 13)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ));
-                        },
-                        separatorBuilder: (BuildContext ctx, int dix) {
-                          return const Divider();
-                        }),
-                  ),
+                            color: Colors.white,
+                            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                            child: ListView.separated(
+                                itemCount: comments.length,
+                                itemBuilder: (context, index) {
+                                  return CommentWidget(
+                                    comment: comments[index],
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return const Divider();
+                                }),
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
                 ),
               ],
             ),
