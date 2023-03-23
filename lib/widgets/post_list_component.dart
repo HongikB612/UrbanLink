@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
-import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class PostListComponent {

@@ -127,12 +127,18 @@ class UserDatabaseService {
     // create document and write data to Firebase
     await docUser.update(json).then((value) => logger.i('User Name updated'),
         onError: (error) => logger.e('Failed to update user: $error'));
+
+    AuthService authService = AuthService();
+    await authService.updateUserName(name);
   }
 
   /// This method do not sign out the user
   static void deleteUser(MyUser user) async {
     try {
       await _usersCollection.doc(user.userId).delete();
+
+      AuthService authService = AuthService();
+      await authService.deleteUser();
     } catch (e) {
       logger.e('Error: $e');
     }

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:logger/logger.dart';
-import 'package:urbanlink_project/repositories/user_database_service.dart';
+import 'package:urbanlink_project/database/user_database_service.dart';
 
 final logger = Logger(
   printer: PrettyPrinter(),
@@ -64,6 +64,12 @@ class AuthService {
     }
   }
 
+  //Send Password Reset Email
+  Future<void> sendPasswordResetEmail(String email) async {
+    await FirebaseAuth.instance.setLanguageCode("kr");
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   //Sign In Anonymously
   Future<MyUser?> signInAnon() async {
     try {
@@ -83,5 +89,23 @@ class AuthService {
     } on FirebaseAuthException {
       rethrow;
     }
+  }
+
+  Future<void> updateUserName(String name) async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user?.updateDisplayName(name);
+  }
+
+  Future<void> updateUserPassword(
+      {required String password, required String email}) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    await _auth.sendPasswordResetEmail(email: email);
+    await user?.updatePassword(password);
+  }
+
+  Future<void> deleteUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user?.delete();
   }
 }

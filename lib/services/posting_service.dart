@@ -1,6 +1,6 @@
 
 import 'package:urbanlink_project/models/user.dart';
-import 'package:urbanlink_project/repositories/post_database_service.dart';
+import 'package:urbanlink_project/database/post_database_service.dart';
 
 class PostingService {
   static postingByPosts(MyUser myUser, String content, String headline,
