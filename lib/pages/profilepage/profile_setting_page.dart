@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/pages/profilepage/reset_password_page.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -41,6 +42,12 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
                   widget.myUser.userExplanation = explain;
                 },
               ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => const ResetPasswordPage());
+                  },
+                  child: const Text('Reset Password')),
               const SizedBox(height: 24),
               ElevatedButton(
                 child: const Text('Save'),
