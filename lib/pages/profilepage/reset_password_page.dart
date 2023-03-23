@@ -45,7 +45,30 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: _resetPassword,
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Reset Password'),
+                        content: const Text(
+                            'Are you sure you want to reset your password?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              _resetPassword();
+                            },
+                            child: const Text('Reset'),
+                          ),
+                        ],
+                      );
+                    }),
                 child: const Text('Reset Password'),
               ),
             ],
