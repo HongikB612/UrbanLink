@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/models/comments.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:like_button/like_button.dart';
@@ -93,17 +94,22 @@ class PostedPage extends StatelessWidget {
                 ),
                 Expanded(
                   //댓글창
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: ListView.separated(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return const CommentWidget();
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider();
-                        }),
+                  child: StreamBuilder<List<Comment>>(
+                    stream: PostDatabaseService.getCommentsStream(post.postId),
+                    builder: (context, snapshot) {
+                      return Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                        child: ListView.separated(
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return const CommentWidget();
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return const Divider();
+                            }),
+                      );
+                    }
                   ),
                 ),
               ],
