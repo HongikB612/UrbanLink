@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  address_search_field
   geolocator_windows
   permission_handler_windows
 )

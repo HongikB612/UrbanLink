@@ -17,9 +17,9 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   TextEditingController textController = TextEditingController();
 
-  late GoogleMapController mapController;
+  late GoogleMapController _mapController;
   final List<Marker> _markers = [];
-  LatLng displayLocation = const LatLng(37.552635722509, 126.92436042413);
+  LatLng _displayLocation = const LatLng(37.552635722509, 126.92436042413);
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _MapPageState extends State<MapPage> {
         final LatLng newCenter =
             LatLng(locations.first.latitude, locations.first.longitude);
 
-        mapController.animateCamera(
+        _mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
               target: newCenter,
@@ -45,7 +45,7 @@ class _MapPageState extends State<MapPage> {
         );
 
         setState(() {
-          displayLocation = newCenter;
+          _displayLocation = newCenter;
         });
       }
     } catch (e) {
@@ -55,7 +55,7 @@ class _MapPageState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
-      mapController = controller;
+      _mapController = controller;
     });
   }
 
@@ -111,7 +111,7 @@ class _MapPageState extends State<MapPage> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               //innital position in map
-              target: displayLocation, //initial position
+              target: _displayLocation, //initial position
               zoom: 12.0, //initial zoom level
             ),
             markers: Set.from(_markers),
