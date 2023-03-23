@@ -18,11 +18,12 @@ class PostedPage extends StatelessWidget {
         return Scaffold(
           body: Column(
             children: [
-              Card(
-                color: Colors.brown,
+              Container(
+                color: Colors.white,
                 child: Column(
                   children: <Widget>[
                     ListTile(
+                      leading: Icon(Icons.soap),
                       title: Text(
                         post.postTitle,
                       ),
@@ -48,12 +49,18 @@ class PostedPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text(
-                            post.postContent,
-                          ),
                         ],
                       ),
                     ),
+                    Container(
+                      height: 300,
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.all(20),
+                      child: Text(
+                        post.postContent,
+                      ),
+                    ),
+                    Divider(color: Colors.grey, thickness: 0.1,),
                     Row(
                       children: <Widget>[
                         LikeButton(
@@ -67,8 +74,7 @@ class PostedPage extends StatelessWidget {
                             return Icon(
                               Icons.favorite,
                               color: isLiked ? Colors.pinkAccent : Colors.grey,
-                            );
-                          },
+                            );},
                           likeCount: 665,
                           countBuilder: (int? count, bool isLiked, String text) {
                             final ColorSwatch<int> color = isLiked ? Colors.pinkAccent : Colors.grey;
@@ -83,11 +89,11 @@ class PostedPage extends StatelessWidget {
                                 text,
                                 style: TextStyle(color: color),
                               );
-                            return result;
-                          },
+                            return result;},
                         ),
                       ],
                     ),
+                    Divider(color: Colors.grey, thickness: 0.1,),
                   ],
                 ),
               ),
@@ -95,8 +101,29 @@ class PostedPage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: Text("댓글"),
+                    return Container(
+                      color: Colors.white70,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              foregroundColor: Colors.white,
+                              child: Text("이름"),
+                            ),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Text("이름"),
+                              Container(
+                                margin: const EdgeInsets.only(top: 5.0),
+                                child: Text("댓글"),
+                              )
+                            ],
+                          ),
+                        ],
+                      )
                     );},
                 ),
               ),
