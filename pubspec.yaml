@@ -47,6 +47,7 @@ dependencies:
   geolocator: ^9.0.2
   material_floating_search_bar: ^0.3.7
   cloud_firestore: ^4.4.4
+  like_button: ^2.0.5
   flutter_google_places: ^0.3.0
   google_maps_webservice: ^0.0.20-nullsafety.5
   location: ^4.4.0
