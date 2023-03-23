@@ -5,6 +5,7 @@ import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:like_button/like_button.dart';
+import 'package:urbanlink_project/widgets/comment_widget.dart';
 
 class PostedPage extends StatelessWidget {
   const PostedPage({super.key});
@@ -98,38 +99,7 @@ class PostedPage extends StatelessWidget {
                     child: ListView.separated(
                         itemCount: 5,
                         itemBuilder: (context, index) {
-                          return Container(
-                              padding: const EdgeInsets.fromLTRB(5, 3, 30, 0),
-                              color: Colors.white70,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    //누리꾼 정보
-                                    margin: const EdgeInsets.all(5),
-                                    child: const CircleAvatar(
-                                      backgroundColor: Colors.grey,
-                                      foregroundColor: Colors.white,
-                                      child: Icon(Icons.abc_sharp),
-                                    ),
-                                  ),
-                                  Column(
-                                    //댓글 내용
-                                    children: <Widget>[
-                                      const Text(
-                                        "이름",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 5.0),
-                                        child: const Text("댓글",
-                                            style: TextStyle(fontSize: 13)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ));
+                          return const CommentWidget();
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return const Divider();
