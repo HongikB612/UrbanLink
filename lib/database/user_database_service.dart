@@ -136,6 +136,9 @@ class UserDatabaseService {
   static void deleteUser(MyUser user) async {
     try {
       await _usersCollection.doc(user.userId).delete();
+
+      AuthService authService = AuthService();
+      await authService.deleteUser();
     } catch (e) {
       logger.e('Error: $e');
     }

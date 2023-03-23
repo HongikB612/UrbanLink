@@ -96,8 +96,11 @@ class AuthService {
     await user?.updateDisplayName(name);
   }
 
-  Future<void> updateUserPassword(String password) async {
+  Future<void> updateUserPassword(
+      {required String password, required String email}) async {
     final user = FirebaseAuth.instance.currentUser;
+
+    await _auth.sendPasswordResetEmail(email: email);
     await user?.updatePassword(password);
   }
 
