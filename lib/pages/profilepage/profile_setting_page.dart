@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -15,7 +16,6 @@ class ProfileSettingPage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<ProfileSettingPage> {
-  final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   late final String _email;
 
@@ -31,7 +31,7 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
   }
 
   Future<void> _resetPassword() async {
-    if (_formKey.currentState?.validate() ?? false) {
+    if (_auth.currentUser != null) {
       try {
         final navigator = Navigator.of(context);
         await _auth.sendPasswordResetEmail(email: _email);
@@ -44,7 +44,11 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
                 'A password reset link has been sent to $_email. Please follow the instructions in the email to reset your password.'),
             actions: <Widget>[
               TextButton(
-                onPressed: () => navigator.pop(),
+                onPressed: () {
+                  navigator.pop();
+                  _auth.signOut();
+                  Get.offAll(() => const LoginPage());
+                },
                 child: const Text('OK'),
               ),
             ],
@@ -56,6 +60,10 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
           _errorMessage = e.message;
         });
       }
+    } else {
+      setState(() {
+        _errorMessage = 'No user found';
+      });
     }
   }
 
@@ -107,8 +115,7 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
                               Navigator.of(context).pop();
                               _resetPassword();
                               if (_errorMessage != null) {
-                                Get.snackbar(
-                                    '비밀번호를 변경할 수 없습니다', '$_errorMessage');
+                                Get.snackbar('경고', _errorMessage!);
                               }
                             },
                             child: const Text('Reset'),
