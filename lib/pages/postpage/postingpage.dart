@@ -60,16 +60,28 @@ class _PostingPageState extends State<PostingPage> {
                 ElevatedButton(
                   onPressed: () async {
                     final locationId = location;
-                    if (FirebaseAuth.instance.currentUser != null) {
-                      final myUser = await UserDatabaseService.getUserById(
-                          FirebaseAuth.instance.currentUser!.uid);
-
-                      const communityId = '';
-                      PostingService.postingByPosts(
-                          myUser!, content, headline, communityId, locationId);
-                    } else {
+                    if (FirebaseAuth.instance.currentUser == null) {
                       Get.snackbar('로그인이 필요합니다.', '로그인 후 이용해주세요.');
+                      return;
                     }
+                    if (headline.isEmpty) {
+                      Get.snackbar('제목을 입력해주세요.', '제목을 입력해주세요.');
+                      return;
+                    }
+                    if (content.isEmpty) {
+                      Get.snackbar('내용을 입력해주세요.', '내용을 입력해주세요.');
+                      return;
+                    }
+                    if (location.isEmpty) {
+                      Get.snackbar('위치를 입력해주세요.', '위치를 입력해주세요.');
+                      return;
+                    }
+                    final myUser = await UserDatabaseService.getUserById(
+                        FirebaseAuth.instance.currentUser!.uid);
+
+                    const communityId = '';
+                    PostingService.postingByPosts(
+                        myUser!, content, headline, communityId, locationId);
 
                     Get.back();
                   },
