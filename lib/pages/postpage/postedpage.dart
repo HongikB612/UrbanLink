@@ -131,7 +131,7 @@ class PostedPage extends StatelessWidget {
                                 ],
                               ));
                         },
-                        separatorBuilder: (BuildContext ctx, int dix) {
+                        separatorBuilder: (BuildContext context, int index) {
                           return const Divider();
                         }),
                   ),
