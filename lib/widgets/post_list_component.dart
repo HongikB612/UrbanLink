@@ -80,7 +80,7 @@ class PostListComponent {
             child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
           );
         } else if (snapshot.hasData) {
-          final posts = snapshot.data!;
+          final posts = snapshot.data ?? [];
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {
