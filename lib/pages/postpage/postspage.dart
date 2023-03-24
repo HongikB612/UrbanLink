@@ -5,7 +5,6 @@ import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key});
