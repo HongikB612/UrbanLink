@@ -52,6 +52,7 @@ dependencies:
   google_maps_webservice: ^0.0.20-nullsafety.5
   location: ^4.4.0
   address_search_field: ^5.0.3
+  image_picker: ^0.8.7
   
 
 dev_dependencies:

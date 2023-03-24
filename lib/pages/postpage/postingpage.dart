@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
 import 'package:urbanlink_project/widgets/location_searchbar_widget.dart';
@@ -27,6 +28,7 @@ class _PostingPageState extends State<PostingPage> {
     String headline = '';
     String content = '';
     String location = '';
+    List<String> images = List.empty(growable: true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -51,6 +53,18 @@ class _PostingPageState extends State<PostingPage> {
                     onChanged: (contentcontroller) {
                       content = contentcontroller;
                     }),
+                const SizedBox(height: 10),
+                // image upload button
+                IconButton(
+                    onPressed: () async {
+                      final picker = ImagePicker();
+                      final pickedFile =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      if (pickedFile != null) {
+                        images.add(pickedFile.path);
+                      }
+                    },
+                    icon: const Icon(Icons.image)),
                 const SizedBox(height: 10),
                 LocationSearchbar(
                   onChanged: (value) {
