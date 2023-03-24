@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +18,7 @@ class PostingPage extends StatefulWidget {
 
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
-  var userImage = Get.arguments;
+  List<String> images = List.empty(growable: true);
 
   @override
   void dispose() {
@@ -29,7 +31,7 @@ class _PostingPageState extends State<PostingPage> {
     String headline = '';
     String content = '';
     String location = '';
-    List<String> images = List.empty(growable: true);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -47,13 +49,6 @@ class _PostingPageState extends State<PostingPage> {
                       headline = headlinecontroller;
                     }),
                 const SizedBox(height: 10),
-                Container(
-                    padding:
-                    EdgeInsets.zero,
-                    height: 300,
-                    width: 300,
-                    child: Image.network(userImage)
-                ),
                 TextFieldWidget(
                     label: '내용',
                     text: '',
@@ -74,6 +69,21 @@ class _PostingPageState extends State<PostingPage> {
                     },
                     icon: const Icon(Icons.image)),
                 const SizedBox(height: 10),
+                // image preview list
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: images.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: const EdgeInsets.all(8),
+                        height: 100,
+                        width: 100,
+                        child: Image.file(images[index] as File),
+                      );
+                    },
+                  ),
+                ),
                 LocationSearchbar(
                   onChanged: (value) {
                     location = value;
