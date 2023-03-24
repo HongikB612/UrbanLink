@@ -16,6 +16,7 @@ class PostingPage extends StatefulWidget {
 
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
+  var userImage = Get.arguments;
 
   @override
   void dispose() {
@@ -46,6 +47,13 @@ class _PostingPageState extends State<PostingPage> {
                       headline = headlinecontroller;
                     }),
                 const SizedBox(height: 10),
+                Container(
+                    padding:
+                    EdgeInsets.zero,
+                    height: 300,
+                    width: 300,
+                    child: Image.network(userImage)
+                ),
                 TextFieldWidget(
                     label: '내용',
                     text: '',
