@@ -15,7 +15,7 @@ class PostsPage extends StatefulWidget {
 
 class _PostsPageState extends State<PostsPage> {
   List<String> posts = List.empty(growable: true);
-  var userImage;
+  late final String userImage;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _PostsPageState extends State<PostsPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async{
+        onPressed: () async {
           if (FirebaseAuth.instance.currentUser == null) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -51,7 +51,7 @@ class _PostsPageState extends State<PostsPage> {
           var picker = ImagePicker();
           var image = await picker.pickImage(source: ImageSource.gallery);
           //추후에 pickMultiImage로 바꾸기
-          if(image != null) {
+          if (image != null) {
             setState(() {
               userImage = image.path;
             });
