@@ -29,7 +29,8 @@ class PostListComponent {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 ListTile(
-                  leading: Column(  //프로필
+                  leading: Column(
+                    //프로필
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Icon(
@@ -45,19 +46,21 @@ class PostListComponent {
                       ),
                     ],
                   ),
-                  title: Text(  //제목
+                  title: Text(
+                    //제목
                     post.postTitle,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Column(  //본문
+                  subtitle: Column(
+                    //본문
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
                         //color: Colors.pinkAccent,
-                        padding: EdgeInsets.fromLTRB(0, 10, 2, 10),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 2, 10),
                         child: Text(
                           post.postContent,
                           maxLines: 1,
@@ -69,24 +72,25 @@ class PostListComponent {
                         height: 300,
                         child: Expanded(
                           //flex: ,
-                          child: Image.asset("assets/images/blueround.png", fit:BoxFit.contain),
+                          child: Image.asset("assets/images/blueround.png",
+                              fit: BoxFit.contain),
                         ),
                       ),
                       Text(
                         '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
-                        style: const TextStyle(fontWeight: FontWeight.bold,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   onTap: () {
                     Get.to(() => const PostedPage(), arguments: post);
-                    },
+                  },
                 ),
-
                 Container(
-                  //좋아요 버튼
-                ),
+                    //좋아요 버튼
+                    ),
               ],
             ),
           ),
