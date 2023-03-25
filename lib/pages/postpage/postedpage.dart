@@ -118,14 +118,30 @@ class _PostedPageState extends State<PostedPage> {
                             return SizedBox(
                               width: 200,
                               height: 200,
-                              child: Image.network(
-                                images[index],
-                                fit: BoxFit.cover,
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        child: Image.network(
+                                          images[index],
+                                          fit: BoxFit.contain,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Image.network(
+                                  images[index],
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             );
                           },
                         ),
                       ),
+
                       const Divider(
                         color: Colors.grey,
                         thickness: 0.1,
