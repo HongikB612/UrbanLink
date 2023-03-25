@@ -19,4 +19,22 @@ class CommentDatabaseService {
       return const Stream.empty();
     }
   }
+
+  static createComment(Comment comment) {
+    final docPost = _postsCollection.doc(comment.postId);
+    final docComment = docPost.collection('comments').doc();
+
+    final json = {
+      'commentId': docComment.id,
+      'commentAuthorId': comment.commentAuthorId,
+      'commentContent': comment.commentContent,
+      'commentDate': comment.commentDatetime.toString(),
+      'postId': comment.postId,
+    };
+    try {
+      docComment.set(json);
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+  }
 }
