@@ -21,6 +21,9 @@ class PostingPage extends StatefulWidget {
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
   List<File> images = List.empty(growable: true);
+  String headline = '';
+  String content = '';
+  String location = '';
 
   @override
   void dispose() {
@@ -30,10 +33,6 @@ class _PostingPageState extends State<PostingPage> {
 
   @override
   Widget build(BuildContext context) {
-    String headline = '';
-    String content = '';
-    String location = '';
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
