@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
@@ -15,8 +18,24 @@ class PostDatabaseService {
     required DateTime postLastModified,
     required String locationId,
     required String authorName,
+    List<File>? postImages,
   }) async {
     final docPost = _postsCollection.doc();
+
+    if (postImages != null) {
+      int index = 0;
+      for (var file in postImages) {
+        final storage = FirebaseStorage.instance;
+        final storageRef = storage.ref();
+        final fileRef = storageRef.child(
+            'posts/${docPost.id}/${postAuthorId + file.path + index.toString()}');
+        try {
+          await fileRef.putFile(file).then((p0) => {index++});
+        } on FirebaseException catch (e) {
+          logger.e('Error: $e');
+        }
+      }
+    }
 
     final json = {
       'postId': docPost.id,
