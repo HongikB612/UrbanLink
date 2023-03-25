@@ -12,58 +12,83 @@ class PostListComponent {
       stream: UserDatabaseService.getUserStreamById(post.postAuthorId),
       builder: (context, snapshot) {
         final authorName = snapshot.data?.userName ?? 'Unknown';
-        return Card(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(5),
-              bottomRight: Radius.circular(5),
-              topLeft: Radius.zero,
-              topRight: Radius.zero,
-            ),
-          ),
-          color: Colors.white,
-          margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
-          elevation: 5,
-          child: ListTile(
-            title: Text(
-              post.postTitle,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+        return Container(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+          color: const Color.fromRGBO(153, 153, 153, 0.3),
+          child: Card(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(5),
+                bottomRight: Radius.circular(5),
+                topLeft: Radius.zero,
+                topRight: Radius.zero,
               ),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  post.postContent,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+            elevation: 5,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: Column(  //프로필
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.ice_skating,
+                        size: 30,
+                      ),
+                      Text(
+                        authorName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  title: Text(  //제목
+                    post.postTitle,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Column(  //본문
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        //color: Colors.pinkAccent,
+                        padding: EdgeInsets.fromLTRB(0, 10, 2, 10),
+                        child: Text(
+                          post.postContent,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 300,
+                        child: Expanded(
+                          //flex: ,
+                          child: Image.asset("assets/images/blueround.png", fit:BoxFit.contain),
+                        ),
+                      ),
+                      Text(
+                        '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
+                        style: const TextStyle(fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    Get.to(() => const PostedPage(), arguments: post);
+                    },
                 ),
-                Row(
-                  children: [
-                    Text(
-                      authorName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text(
-                      ' | ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+
+                Container(
+                  //좋아요 버튼
                 ),
               ],
             ),
-            onTap: () {
-              Get.to(() => const PostedPage(), arguments: post);
-            },
           ),
         );
       },
