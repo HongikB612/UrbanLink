@@ -55,8 +55,8 @@ class _ImageContainer extends StatelessWidget {
             Positioned.fill(
               child: Image.file(
                 image,
-                alignment: Alignment.center,
                 fit: BoxFit.cover,
+                alignment: Alignment.center,
               ),
             ),
             Positioned(
