@@ -143,27 +143,26 @@ class _PostedPageState extends State<PostedPage> {
                           },
                         ),
                       ),
-                      const Divider(
-                        color: Colors.grey,
-                        thickness: 0.1,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          //좋아요 버튼
-                          postLikeButton(post),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          // 싫어요 버튼
-                          postDislikeButton(post),
-                        ],
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                        thickness: 0.1,
-                      ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: Row(
+                    children: <Widget>[
+                      //좋아요 버튼
+                      postLikeButton(post),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      // 싫어요 버튼
+                      postDislikeButton(post),
+                    ],
+                  ),
+                ),
+                const Divider(
+                  color: Colors.grey,
+                  thickness: 0.1,
                 ),
                 // 댓글 입력창
                 Container(
