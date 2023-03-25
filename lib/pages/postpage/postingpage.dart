@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
 import 'package:urbanlink_project/widgets/location_searchbar_widget.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
@@ -58,16 +59,25 @@ class _PostingPageState extends State<PostingPage> {
                     }),
                 const SizedBox(height: 10),
                 // image upload button
-                IconButton(
-                    onPressed: () async {
-                      final picker = ImagePicker();
-                      final pickedFile =
-                          await picker.pickImage(source: ImageSource.gallery);
-                      if (pickedFile != null) {
-                        images.add(pickedFile.path);
-                      }
-                    },
-                    icon: const Icon(Icons.image)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () async {
+                          try {
+                            final picker = ImagePicker();
+                            final pickedFile = await picker.pickImage(
+                                source: ImageSource.camera);
+                            if (pickedFile != null) {
+                              images.add(pickedFile.path);
+                            }
+                          } catch (e) {
+                            logger.e(e);
+                          }
+                        },
+                        icon: const Icon(Icons.image)),
+                  ],
+                ),
                 const SizedBox(height: 10),
                 // image preview list
                 Expanded(
