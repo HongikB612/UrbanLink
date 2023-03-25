@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
+import 'package:urbanlink_project/widgets/image_list_builder.dart';
 import 'package:urbanlink_project/widgets/location_searchbar_widget.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
@@ -19,7 +20,7 @@ class PostingPage extends StatefulWidget {
 
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> images = List.empty(growable: true);
+  List<File> images = List.empty(growable: true);
 
   @override
   void dispose() {
@@ -67,9 +68,11 @@ class _PostingPageState extends State<PostingPage> {
                           try {
                             final picker = ImagePicker();
                             final pickedFile = await picker.pickImage(
-                                source: ImageSource.camera);
+                                source: ImageSource.gallery);
                             if (pickedFile != null) {
-                              images.add(pickedFile.path);
+                              setState(() {
+                                images.add(File(pickedFile.path));
+                              });
                             }
                           } catch (e) {
                             logger.e(e);
@@ -80,20 +83,8 @@ class _PostingPageState extends State<PostingPage> {
                 ),
                 const SizedBox(height: 10),
                 // image preview list
-                Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: images.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.all(8),
-                        height: 100,
-                        width: 100,
-                        child: Image.file(images[index] as File),
-                      );
-                    },
-                  ),
-                ),
+                Expanded(child: ImageListBuilder(images: images)),
+                const SizedBox(height: 10),
                 LocationSearchbar(
                   onChanged: (value) {
                     location = value;
