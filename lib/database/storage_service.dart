@@ -43,17 +43,16 @@ class StorageService {
     }
   }
 
-  static Future<List<File>> getImagesByPostId(String postId) async {
+  static Future<List<String>> getImagesByPostId(String postId) async {
     final storage = FirebaseStorage.instance;
     final storageRef = storage.ref();
     final fileRef = storageRef.child('posts/$postId');
     try {
       final listResult = await fileRef.listAll();
-      final files = <File>[];
+      final files = <String>[];
       for (final item in listResult.items) {
         final url = await item.getDownloadURL();
-        final file = File.fromUri(Uri.parse(url));
-        files.add(file);
+        files.add(url);
       }
       return files;
     } on FirebaseException catch (e) {

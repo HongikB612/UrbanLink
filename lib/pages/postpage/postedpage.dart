@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/comment_database_service.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
+import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/models/comments.dart';
 import 'package:urbanlink_project/models/posts.dart';
@@ -10,10 +11,45 @@ import 'package:like_button/like_button.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/comment_widget.dart';
 
-class PostedPage extends StatelessWidget {
+class PostedPage extends StatefulWidget {
   const PostedPage({super.key});
+
+  @override
+  State<PostedPage> createState() => _PostedPageState();
+}
+
+class _PostedPageState extends State<PostedPage> {
+  List<String> images = List.empty(growable: true);
+  bool isLoading = true;
+
+  void _fetchImages() async {
+    final Post post = Get.arguments;
+    var imgs = await StorageService.getImagesByPostId(post.postId);
+    setState(() {
+      images = imgs;
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchImages();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('게시물'),
+        ),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     final Post post = Get.arguments;
     return Scaffold(
       appBar: AppBar(
@@ -70,6 +106,24 @@ class PostedPage extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         child: Text(
                           post.postContent,
+                        ),
+                      ),
+                      // image list
+                      SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: images.length,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              width: 200,
+                              height: 200,
+                              child: Image.network(
+                                images[index],
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
                         ),
                       ),
                       const Divider(
