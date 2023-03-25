@@ -173,13 +173,14 @@ class _PostedPageState extends State<PostedPage> {
                     children: [
                       Expanded(
                         child: TextFieldWidget(
-                          text: '댓글을 입력하세요',
+                          hintText: '댓글을 입력하세요',
                           onChanged: (value) {
                             setState(() {
                               _comment = value;
                             });
                           },
                           label: '댓글',
+                          text: '',
                         ),
                       ),
                       IconButton(

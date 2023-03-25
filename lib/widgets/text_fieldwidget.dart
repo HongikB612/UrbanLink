@@ -4,6 +4,7 @@ class TextFieldWidget extends StatefulWidget {
   final int maxLines;
   final String label;
   final String text;
+  final String hintText;
   final ValueChanged<String> onChanged;
 
   const TextFieldWidget({
@@ -12,6 +13,7 @@ class TextFieldWidget extends StatefulWidget {
     required this.label,
     required this.text,
     required this.onChanged,
+    this.hintText = '',
   }) : super(key: key);
 
   @override
@@ -51,6 +53,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            hintText: widget.hintText,
           ),
           maxLines: widget.maxLines,
           onChanged: (value) => widget.onChanged(value),
