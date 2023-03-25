@@ -21,6 +21,9 @@ class PostingPage extends StatefulWidget {
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
   List<File> images = List.empty(growable: true);
+  String _headline = '';
+  String _content = '';
+  String _location = '';
 
   @override
   void dispose() {
@@ -30,10 +33,6 @@ class _PostingPageState extends State<PostingPage> {
 
   @override
   Widget build(BuildContext context) {
-    String headline = '';
-    String content = '';
-    String location = '';
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -48,7 +47,7 @@ class _PostingPageState extends State<PostingPage> {
                     label: '제목',
                     text: '',
                     onChanged: (headlinecontroller) {
-                      headline = headlinecontroller;
+                      _headline = headlinecontroller;
                     }),
                 const SizedBox(height: 10),
                 TextFieldWidget(
@@ -56,7 +55,7 @@ class _PostingPageState extends State<PostingPage> {
                     text: '',
                     maxLines: 10,
                     onChanged: (contentcontroller) {
-                      content = contentcontroller;
+                      _content = contentcontroller;
                     }),
                 const SizedBox(height: 10),
                 // image upload button
@@ -103,25 +102,25 @@ class _PostingPageState extends State<PostingPage> {
                 const SizedBox(height: 10),
                 LocationSearchbar(
                   onChanged: (value) {
-                    location = value;
+                    _location = value;
                   },
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    final locationId = location;
+                    final locationId = _location;
                     if (FirebaseAuth.instance.currentUser == null) {
                       Get.snackbar('로그인이 필요합니다.', '로그인 후 이용해주세요.');
                       return;
                     }
-                    if (headline.isEmpty) {
+                    if (_headline.isEmpty) {
                       Get.snackbar('제목을 입력해주세요.', '제목을 입력해주세요.');
                       return;
                     }
-                    if (content.isEmpty) {
+                    if (_content.isEmpty) {
                       Get.snackbar('내용을 입력해주세요.', '내용을 입력해주세요.');
                       return;
                     }
-                    if (location.isEmpty) {
+                    if (_location.isEmpty) {
                       Get.snackbar('위치를 입력해주세요.', '위치를 입력해주세요.');
                       return;
                     }
@@ -129,8 +128,8 @@ class _PostingPageState extends State<PostingPage> {
                         FirebaseAuth.instance.currentUser!.uid);
 
                     const communityId = '';
-                    PostingService.postingByPosts(
-                        myUser!, content, headline, communityId, locationId);
+                    PostingService.postingByPosts(myUser!, _content, _headline,
+                        communityId, locationId, images);
 
                     Get.back();
                   },
