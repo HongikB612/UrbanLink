@@ -22,9 +22,17 @@ class CommentDatabaseService {
 
   static createComment(Comment comment) {
     final docPost = _postsCollection.doc(comment.postId);
+    final docComment = docPost.collection('comments').doc();
 
+    final json = {
+      'commentId': docComment.id,
+      'commentAuthorId': comment.commentAuthorId,
+      'commentContent': comment.commentContent,
+      'commentDate': comment.commentDatetime.toString(),
+      'postId': comment.postId,
+    };
     try {
-      docPost.collection('comments').add(comment.toJson());
+      docComment.set(json);
     } catch (e) {
       logger.e('Error: $e');
     }
