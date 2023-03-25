@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
-import 'package:image_picker/image_picker.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key});
@@ -15,7 +14,6 @@ class PostsPage extends StatefulWidget {
 
 class _PostsPageState extends State<PostsPage> {
   List<String> posts = List.empty(growable: true);
-  late final String userImage;
 
   @override
   void initState() {
@@ -48,16 +46,8 @@ class _PostsPageState extends State<PostsPage> {
             );
             return;
           }
-          var picker = ImagePicker();
-          var image = await picker.pickImage(source: ImageSource.gallery);
-          //추후에 pickMultiImage로 바꾸기
-          if (image != null) {
-            setState(() {
-              userImage = image.path;
-            });
-          }
 
-          Get.to(const PostingPage(), arguments: userImage);
+          Get.to(const PostingPage());
         },
         child: const Icon(Icons.post_add),
       ),
