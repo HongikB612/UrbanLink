@@ -98,7 +98,7 @@ class _PostingPageState extends State<PostingPage> {
                 ),
                 const SizedBox(height: 10),
                 // image preview list
-                Expanded(child: ImageListBuilder(images: images)),
+                ImageListBuilder(images: images),
                 const SizedBox(height: 10),
                 LocationSearchbar(
                   onChanged: (value) {

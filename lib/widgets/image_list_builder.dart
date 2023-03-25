@@ -17,20 +17,27 @@ class ImageListBuilder extends StatefulWidget {
 class _ImageListBuilderState extends State<ImageListBuilder> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: widget.images.length,
-      itemBuilder: (context, index) {
-        return _ImageContainer(
-          image: widget.images[index],
-          onDelete: () {
-            // Remove the image from the list when the delete button is pressed
-            setState(() {
-              widget.images.removeAt(index);
-            });
-          },
-        );
-      },
+    return SizedBox(
+      height: 100,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: widget.images.length,
+        itemBuilder: (context, index) {
+          return SizedBox(
+            height: 100,
+            width: 100,
+            child: _ImageContainer(
+              image: widget.images[index],
+              onDelete: () {
+                // Remove the image from the list when the delete button is pressed
+                setState(() {
+                  widget.images.removeAt(index);
+                });
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -47,32 +54,42 @@ class _ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      width: 120,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Stack(
-          children: [
-            // Display the image with a square aspect ratio and fit it inside the container
-            Positioned.fill(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Stack(
+        children: [
+          // Display the image with a square aspect ratio and fit it inside the container
+          Positioned.fill(
+            child: InkWell(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: Image.file(
+                          image,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    });
+              },
               child: Image.file(
                 image,
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
               ),
             ),
-            // Display the delete button at the top right corner
-            Positioned(
-              top: 0,
-              right: 0,
-              child: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: onDelete,
-              ),
+          ),
+          // Display the delete button at the top right corner
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: onDelete,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
