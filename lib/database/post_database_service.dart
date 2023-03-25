@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -22,8 +21,9 @@ class PostDatabaseService {
     List<File>? postImages,
   }) async {
     final docPost = _postsCollection.doc();
+    String? imageFolderPath;
 
-    if (postImages != null) {
+    if (postImages != null && postImages.isNotEmpty) {
       int index = 0;
       for (var file in postImages) {
         StorageService.uploadPostImage(
@@ -33,6 +33,7 @@ class PostDatabaseService {
             index: index);
         index++;
       }
+      imageFolderPath = 'posts/${docPost.id}';
     }
 
     final json = {
@@ -47,6 +48,7 @@ class PostDatabaseService {
       'authorName': authorName,
       'postLikeCount': 0,
       'postDislikeCount': 0,
+      'imageFolderPath': imageFolderPath ?? '',
     };
 
     // create document and write data to Firebase
@@ -64,6 +66,9 @@ class PostDatabaseService {
       postLastModified: postLastModified,
       locationId: locationId,
       authorName: authorName,
+      postLikeCount: 0,
+      postDislikeCount: 0,
+      imageFolderPath: imageFolderPath,
     );
   }
 

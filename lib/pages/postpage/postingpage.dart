@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
@@ -129,8 +130,8 @@ class _PostingPageState extends State<PostingPage> {
                         FirebaseAuth.instance.currentUser!.uid);
 
                     const communityId = '';
-                    PostingService.postingByPosts(
-                        myUser!, content, headline, communityId, locationId);
+                    PostingService.postingByPosts(myUser!, content, headline,
+                        communityId, locationId, images);
 
                     Get.back();
                   },
