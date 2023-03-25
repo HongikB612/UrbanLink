@@ -179,7 +179,7 @@ class _PostedPageState extends State<PostedPage> {
                             });
                           },
                           label: '댓글',
-                          text: '',
+                          text: _comment,
                         ),
                       ),
                       IconButton(
