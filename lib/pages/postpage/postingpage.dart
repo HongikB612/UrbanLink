@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
+import 'package:urbanlink_project/widgets/image_list_builder.dart';
 import 'package:urbanlink_project/widgets/location_searchbar_widget.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
@@ -15,7 +20,7 @@ class PostingPage extends StatefulWidget {
 
 class _PostingPageState extends State<PostingPage> {
   final TextEditingController _searchController = TextEditingController();
-  var userImage = Get.arguments;
+  List<File> images = List.empty(growable: true);
 
   @override
   void dispose() {
@@ -28,6 +33,7 @@ class _PostingPageState extends State<PostingPage> {
     String headline = '';
     String content = '';
     String location = '';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posting'),
@@ -45,13 +51,6 @@ class _PostingPageState extends State<PostingPage> {
                       headline = headlinecontroller;
                     }),
                 const SizedBox(height: 10),
-                Container(
-                    padding:
-                    EdgeInsets.zero,
-                    height: 300,
-                    width: 300,
-                    child: Image.network(userImage)
-                ),
                 TextFieldWidget(
                     label: '내용',
                     text: '',
@@ -59,6 +58,32 @@ class _PostingPageState extends State<PostingPage> {
                     onChanged: (contentcontroller) {
                       content = contentcontroller;
                     }),
+                const SizedBox(height: 10),
+                // image upload button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () async {
+                          try {
+                            final picker = ImagePicker();
+                            final pickedFile = await picker.pickImage(
+                                source: ImageSource.gallery);
+                            if (pickedFile != null) {
+                              setState(() {
+                                images.add(File(pickedFile.path));
+                              });
+                            }
+                          } catch (e) {
+                            logger.e(e);
+                          }
+                        },
+                        icon: const Icon(Icons.image)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                // image preview list
+                Expanded(child: ImageListBuilder(images: images)),
                 const SizedBox(height: 10),
                 LocationSearchbar(
                   onChanged: (value) {
@@ -68,16 +93,28 @@ class _PostingPageState extends State<PostingPage> {
                 ElevatedButton(
                   onPressed: () async {
                     final locationId = location;
-                    if (FirebaseAuth.instance.currentUser != null) {
-                      final myUser = await UserDatabaseService.getUserById(
-                          FirebaseAuth.instance.currentUser!.uid);
-
-                      const communityId = '';
-                      PostingService.postingByPosts(
-                          myUser!, content, headline, communityId, locationId);
-                    } else {
+                    if (FirebaseAuth.instance.currentUser == null) {
                       Get.snackbar('로그인이 필요합니다.', '로그인 후 이용해주세요.');
+                      return;
                     }
+                    if (headline.isEmpty) {
+                      Get.snackbar('제목을 입력해주세요.', '제목을 입력해주세요.');
+                      return;
+                    }
+                    if (content.isEmpty) {
+                      Get.snackbar('내용을 입력해주세요.', '내용을 입력해주세요.');
+                      return;
+                    }
+                    if (location.isEmpty) {
+                      Get.snackbar('위치를 입력해주세요.', '위치를 입력해주세요.');
+                      return;
+                    }
+                    final myUser = await UserDatabaseService.getUserById(
+                        FirebaseAuth.instance.currentUser!.uid);
+
+                    const communityId = '';
+                    PostingService.postingByPosts(
+                        myUser!, content, headline, communityId, locationId);
 
                     Get.back();
                   },
