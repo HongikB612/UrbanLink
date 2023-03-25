@@ -75,7 +75,10 @@ class PostDatabaseService {
 
   static Stream<List<Post>> getPosts() {
     try {
-      return _postsCollection.snapshots().map((snapshot) {
+      return _postsCollection
+          .orderBy('postCreatedTime', descending: true)
+          .snapshots()
+          .map((snapshot) {
         return snapshot.docs
             .map((doc) => Post.fromSnapshot(doc))
             .toList(growable: false);
@@ -90,6 +93,7 @@ class PostDatabaseService {
     try {
       return _postsCollection
           .where('communityId', isEqualTo: communityId)
+          .orderBy('postCreatedTime', descending: true)
           .snapshots()
           .map((snapshot) {
         return snapshot.docs
@@ -106,6 +110,7 @@ class PostDatabaseService {
     try {
       return _postsCollection
           .where('postAuthorId', isEqualTo: userId)
+          .orderBy('postCreatedTime', descending: true)
           .snapshots()
           .map((snapshot) {
         return snapshot.docs
