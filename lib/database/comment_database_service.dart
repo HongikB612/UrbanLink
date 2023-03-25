@@ -19,4 +19,14 @@ class CommentDatabaseService {
       return const Stream.empty();
     }
   }
+
+  static createComment(Comment comment) {
+    final docPost = _postsCollection.doc(comment.postId);
+
+    try {
+      docPost.collection('comments').add(comment.toJson());
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+  }
 }

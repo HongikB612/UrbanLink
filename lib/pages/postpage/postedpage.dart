@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/comment_database_service.dart';
@@ -10,6 +11,7 @@ import 'package:urbanlink_project/models/user.dart';
 import 'package:like_button/like_button.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/comment_widget.dart';
+import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class PostedPage extends StatefulWidget {
   const PostedPage({super.key});
@@ -19,6 +21,7 @@ class PostedPage extends StatefulWidget {
 }
 
 class _PostedPageState extends State<PostedPage> {
+  String _comment = '';
   List<String> images = List.empty(growable: true);
   bool isLoading = true;
 
@@ -101,7 +104,6 @@ class _PostedPageState extends State<PostedPage> {
                       ),
                       Container(
                         //게시 내용
-                        height: 300,
                         alignment: Alignment.topLeft,
                         padding: const EdgeInsets.all(20),
                         child: Text(
@@ -141,7 +143,6 @@ class _PostedPageState extends State<PostedPage> {
                           },
                         ),
                       ),
-
                       const Divider(
                         color: Colors.grey,
                         thickness: 0.1,
@@ -160,6 +161,49 @@ class _PostedPageState extends State<PostedPage> {
                       const Divider(
                         color: Colors.grey,
                         thickness: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+                // 댓글 입력창
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFieldWidget(
+                          text: '댓글을 입력하세요',
+                          onChanged: (value) {
+                            setState(() {
+                              _comment = value;
+                            });
+                          },
+                          label: '댓글',
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.send),
+                        onPressed: () async {
+                          if (_comment.isNotEmpty) {
+                            final user = FirebaseAuth.instance.currentUser;
+                            if (user == null) {
+                              Get.snackbar('로그인을 해야 합니다', '');
+                              return;
+                            }
+                            final comment = Comment(
+                              commentId: '',
+                              commentAuthorId: user.uid,
+                              commentContent: _comment,
+                              commentDatetime: DateTime.now(),
+                              postId: post.postId,
+                            );
+                            await CommentDatabaseService.createComment(comment);
+                            setState(() {
+                              _comment = '';
+                            });
+                          }
+                        },
                       ),
                     ],
                   ),
