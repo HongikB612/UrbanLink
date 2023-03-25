@@ -6,8 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class StorageService {
-  static final FirebaseStorage _storage = FirebaseStorage.instance;
-
   static Future<String> uploadPostImage({
     required String postId,
     required String userId,
