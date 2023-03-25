@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
@@ -25,15 +26,12 @@ class PostDatabaseService {
     if (postImages != null) {
       int index = 0;
       for (var file in postImages) {
-        final storage = FirebaseStorage.instance;
-        final storageRef = storage.ref();
-        final fileRef = storageRef.child(
-            'posts/${docPost.id}/${postAuthorId + file.path + index.toString()}');
-        try {
-          await fileRef.putFile(file).then((p0) => {index++});
-        } on FirebaseException catch (e) {
-          logger.e('Error: $e');
-        }
+        StorageService.uploadPostImage(
+            postId: docPost.id,
+            userId: postAuthorId,
+            image: file,
+            index: index);
+        index++;
       }
     }
 
