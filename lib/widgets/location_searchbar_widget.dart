@@ -13,7 +13,7 @@ class LocationSearchbar extends StatefulWidget {
 }
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
-  List<String> _locationList = [];
+  final List<String> _locationList = [];
   String _selectedLocation = '';
 
   Future<void> _searchLocation(String query) async {
@@ -32,7 +32,8 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
       }
 
       setState(() {
-        _locationList = locationList;
+        _locationList.clear();
+        _locationList.addAll(locationList);
       });
     } catch (e) {
       Logger().e(e);
