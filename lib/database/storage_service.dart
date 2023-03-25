@@ -14,8 +14,8 @@ class StorageService {
   }) async {
     final storage = FirebaseStorage.instance;
     final storageRef = storage.ref();
-    final fileRef = storageRef
-        .child('posts/$postId/${userId + image.path + index.toString()}');
+    final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    final fileRef = storageRef.child('posts/$postId/${timestamp}_$index');
     try {
       await fileRef.putFile(image);
       final url = await fileRef.getDownloadURL();
@@ -40,6 +40,25 @@ class StorageService {
     } on FirebaseException catch (e) {
       logger.e('Error: $e');
       return '';
+    }
+  }
+
+  static Future<List<File>> getImagesByPostId(String postId) async {
+    final storage = FirebaseStorage.instance;
+    final storageRef = storage.ref();
+    final fileRef = storageRef.child('posts/$postId');
+    try {
+      final listResult = await fileRef.listAll();
+      final files = <File>[];
+      for (final item in listResult.items) {
+        final url = await item.getDownloadURL();
+        final file = File.fromUri(Uri.parse(url));
+        files.add(file);
+      }
+      return files;
+    } on FirebaseException catch (e) {
+      logger.e('Error: $e');
+      return [];
     }
   }
 }

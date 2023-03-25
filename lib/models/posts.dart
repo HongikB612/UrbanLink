@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_maps_webservice/directions.dart';
 import 'package:urbanlink_project/models/comments.dart';
 
 /// Post model

@@ -24,9 +24,10 @@ class PostDatabaseService {
     String? imageFolderPath;
 
     if (postImages != null && postImages.isNotEmpty) {
+      logger.i('post images size : ${postImages.length}');
       int index = 0;
-      for (var file in postImages) {
-        StorageService.uploadPostImage(
+      for (final file in postImages) {
+        await StorageService.uploadPostImage(
             postId: docPost.id,
             userId: postAuthorId,
             image: file,
