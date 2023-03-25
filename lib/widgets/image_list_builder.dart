@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class ImageListBuilder extends StatefulWidget {
   const ImageListBuilder({
-    super.key,
+    Key? key,
     required this.images,
-  });
+  }) : super(key: key);
 
   final List<File> images;
 
@@ -24,6 +24,7 @@ class _ImageListBuilderState extends State<ImageListBuilder> {
         return _ImageContainer(
           image: widget.images[index],
           onDelete: () {
+            // Remove the image from the list when the delete button is pressed
             setState(() {
               widget.images.removeAt(index);
             });
@@ -36,9 +37,10 @@ class _ImageListBuilderState extends State<ImageListBuilder> {
 
 class _ImageContainer extends StatelessWidget {
   const _ImageContainer({
+    Key? key,
     required this.image,
     required this.onDelete,
-  });
+  }) : super(key: key);
 
   final File image;
   final VoidCallback onDelete;
@@ -52,6 +54,7 @@ class _ImageContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: Stack(
           children: [
+            // Display the image with a square aspect ratio and fit it inside the container
             Positioned.fill(
               child: Image.file(
                 image,
@@ -59,6 +62,7 @@ class _ImageContainer extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            // Display the delete button at the top right corner
             Positioned(
               top: 0,
               right: 0,
