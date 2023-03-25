@@ -288,10 +288,10 @@ class _PostedPageState extends State<PostedPage> {
       onTap: (isLiked) async {
         if (isLiked) {
           post.postLikeCount--;
-          PostDatabaseService.decreasePostDislikeCount(postId: post.postId);
+          PostDatabaseService.decreasePostLikeCount(postId: post.postId);
         } else {
           post.postLikeCount++;
-          PostDatabaseService.increasePostDislikeCount(postId: post.postId);
+          PostDatabaseService.increasePostLikeCount(postId: post.postId);
         }
         return !isLiked;
       },
