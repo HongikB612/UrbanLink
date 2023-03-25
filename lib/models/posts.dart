@@ -16,6 +16,7 @@ class Post {
     required this.authorName,
     this.postLikeCount = 0,
     this.postDislikeCount = 0,
+    this.imageFolderPath,
   });
   final String postId;
   final String postTitle;
@@ -34,6 +35,8 @@ class Post {
 
   List<Comment> comments = [];
 
+  String? imageFolderPath; // image path for the post
+
   Map<String, dynamic> toJson() {
     return {
       'postId': postId,
@@ -47,6 +50,7 @@ class Post {
       'postLikeCount': postLikeCount,
       'postDislikeCount': postDislikeCount,
       'authorName': authorName,
+      'imagePath': imageFolderPath ?? '',
     };
   }
 
@@ -65,6 +69,7 @@ class Post {
       authorName: data['authorName'] ?? 'Unknown',
       postLikeCount: data['postLikeCount'] ?? 0,
       postDislikeCount: data['postDislikeCount'] ?? 0,
+      imageFolderPath: data['imagePath'] ?? '',
     );
   }
 
@@ -81,7 +86,9 @@ class Post {
         other.locationId == locationId &&
         other.postCreatedTime == postCreatedTime &&
         other.postLastModified == postLastModified &&
-        other.postLikeCount == postLikeCount;
+        other.postLikeCount == postLikeCount &&
+        other.postDislikeCount == postDislikeCount &&
+        other.imageFolderPath == imageFolderPath;
   }
 
   @override
@@ -94,7 +101,9 @@ class Post {
         locationId.hashCode ^
         postCreatedTime.hashCode ^
         postLastModified.hashCode ^
-        postLikeCount.hashCode;
+        postLikeCount.hashCode ^
+        postDislikeCount.hashCode ^
+        imageFolderPath.hashCode;
   }
 
   @override
