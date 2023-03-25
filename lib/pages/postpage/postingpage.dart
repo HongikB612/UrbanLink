@@ -79,6 +79,22 @@ class _PostingPageState extends State<PostingPage> {
                           }
                         },
                         icon: const Icon(Icons.image)),
+                    IconButton(
+                        onPressed: () async {
+                          try {
+                            final picker = ImagePicker();
+                            final pickedFile = await picker.pickImage(
+                                source: ImageSource.camera);
+                            if (pickedFile != null) {
+                              setState(() {
+                                images.add(File(pickedFile.path));
+                              });
+                            }
+                          } catch (e) {
+                            logger.e(e);
+                          }
+                        },
+                        icon: const Icon(Icons.camera_alt)),
                   ],
                 ),
                 const SizedBox(height: 10),
