@@ -53,5 +53,11 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+		<key>NSPhotoLibraryUsageDescription</key>
+        <string>"URBANLINK"이(가) 사진첩에 접근하도록 허용하시겠습니까?</string>
+        <key>NSCameraUsageDescription</key>
+        <string>"URBANLINK"이(가) 카메라에 접근하도록 허용하시겠습니까?</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>"URBANLINK"이(가) 마이크에 접근하도록 허용하시겠습니까?</string>
 	</dict>
 </plist>
