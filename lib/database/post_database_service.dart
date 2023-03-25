@@ -93,7 +93,6 @@ class PostDatabaseService {
     try {
       return _postsCollection
           .where('communityId', isEqualTo: communityId)
-          .orderBy('postCreatedTime', descending: true)
           .snapshots()
           .map((snapshot) {
         return snapshot.docs
