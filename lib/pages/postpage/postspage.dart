@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
-import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/location_drawer_widget.dart';
 import 'package:urbanlink_project/widgets/post_list_widget.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
@@ -20,7 +19,7 @@ class PostsPage extends StatefulWidget {
 class _PostsPageState extends State<PostsPage> {
   late Post post;
   List<String> posts = List.empty(growable: true);
-  String fakeLocation = Get.arguments ?? "location";
+  String location = Get.arguments ?? "location";
   @override
   void initState() {
     super.initState();
@@ -28,11 +27,10 @@ class _PostsPageState extends State<PostsPage> {
 
   @override
   Widget build(BuildContext context) {
-    widget.postStream == null ? logger.i('null') : logger.i('not null');
     return Scaffold(
       backgroundColor: Colors.white24,
       appBar: AppBar(
-        title: Text(fakeLocation),
+        title: Text(location),
         backgroundColor: const Color.fromARGB(250, 63, 186, 219),
         shadowColor: Colors.grey,
       ),
