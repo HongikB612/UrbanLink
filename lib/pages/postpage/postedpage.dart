@@ -9,6 +9,7 @@ import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/comment_widget.dart';
+import 'package:urbanlink_project/widgets/image_list_widget.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 import 'package:urbanlink_project/widgets/like_button.dart';
 
@@ -196,80 +197,6 @@ class _PostedPageState extends State<PostedPage> {
                       }),
                 ),
               ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class ImageList extends StatefulWidget {
-  const ImageList({
-    super.key,
-  });
-
-  @override
-  State<ImageList> createState() => _ImageListState();
-}
-
-class _ImageListState extends State<ImageList> {
-  bool isLoading = true;
-  late List<String> images;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchImages();
-  }
-
-  void _fetchImages() async {
-    if (mounted) {
-      final Post post = Get.arguments;
-      var imgs = await StorageService.getImagesByPostId(post.postId);
-
-      setState(() {
-        images = imgs;
-        isLoading = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return SizedBox(
-      height: 200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: images.length,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            width: 200,
-            height: 200,
-            child: InkWell(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                      child: Image.network(
-                        images[index],
-                        fit: BoxFit.contain,
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Image.network(
-                images[index],
-                fit: BoxFit.cover,
-              ),
             ),
           );
         },
