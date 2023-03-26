@@ -47,6 +47,7 @@ class PostListComponent {
                     fontSize: 15,
                   ),
                 ),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Text(
