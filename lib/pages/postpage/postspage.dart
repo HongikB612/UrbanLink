@@ -33,10 +33,8 @@ class _PostsPageState extends State<PostsPage> {
         title: Text(fakeLocation),
         backgroundColor: const Color.fromARGB(250, 63, 186, 219),
         shadowColor: Colors.grey,
-        actions: const <Widget>[
-          LocationDrawerWidget(),
-        ],
       ),
+      endDrawer: const LocationDrawerWidget(),
       body: Column(
         children: <Widget>[
           Expanded(

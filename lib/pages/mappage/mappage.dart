@@ -112,7 +112,7 @@ class _MapPageState extends State<MapPage> {
         shadowColor: Colors.grey,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      endDrawer: LocationDrawerWidget(),
+      endDrawer: const LocationDrawerWidget(),
       body: Stack(
         children: <Widget>[
           GoogleMap(
@@ -146,5 +146,3 @@ class _MapPageState extends State<MapPage> {
     );
   }
 }
-
-
