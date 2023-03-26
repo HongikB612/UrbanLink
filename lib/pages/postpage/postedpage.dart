@@ -95,9 +95,7 @@ class _PostedPageState extends State<PostedPage> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  '${post.postCreatedTime.month}/${post
-                                      .postCreatedTime.day}/${post
-                                      .postCreatedTime.year}',
+                                  '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -256,5 +254,4 @@ class _PostedPageState extends State<PostedPage> {
       ),
     );
   }
-
 }
