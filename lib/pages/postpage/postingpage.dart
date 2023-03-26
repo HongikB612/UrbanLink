@@ -72,9 +72,12 @@ class _PostingPageState extends State<PostingPage> {
                             final pickedFile = await picker.pickImage(
                                 source: ImageSource.gallery);
                             if (pickedFile != null) {
-                              setState(() {
-                                images.add(File(pickedFile.path));
-                              });
+                              
+                              if (mounted) {
+                                setState(() {
+                                  images.add(File(pickedFile.path));
+                                });
+                              }
                             }
                           } catch (e) {
                             logger.e(e);

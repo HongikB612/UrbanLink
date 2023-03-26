@@ -25,12 +25,15 @@ class _PostedPageState extends State<PostedPage> {
   bool isLoading = true;
 
   void _fetchImages() async {
-    final Post post = Get.arguments;
-    var imgs = await StorageService.getImagesByPostId(post.postId);
-    setState(() {
-      images = imgs;
-      isLoading = false;
-    });
+    if (mounted) {
+      final Post post = Get.arguments;
+      var imgs = await StorageService.getImagesByPostId(post.postId);
+
+      setState(() {
+        images = imgs;
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -177,9 +180,11 @@ class _PostedPageState extends State<PostedPage> {
                         child: TextFieldWidget(
                           hintText: '댓글을 입력하세요',
                           onChanged: (value) {
-                            setState(() {
-                              _comment = value;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                _comment = value;
+                              });
+                            }
                           },
                           label: '댓글',
                           text: _comment,
@@ -202,9 +207,11 @@ class _PostedPageState extends State<PostedPage> {
                               postId: post.postId,
                             );
                             await CommentDatabaseService.createComment(comment);
-                            setState(() {
-                              _comment = '';
-                            });
+                            if (mounted) {
+                              setState(() {
+                                _comment = '';
+                              });
+                            }
                           }
                         },
                       ),
