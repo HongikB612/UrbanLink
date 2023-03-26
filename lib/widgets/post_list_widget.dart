@@ -114,6 +114,11 @@ class _PostListState extends State<PostList> {
           );
         } else if (snapshot.hasData) {
           final posts = snapshot.data!;
+          if (posts.isEmpty) {
+            return const Center(
+              child: Text('이 커뮤니티에는 포스트가 없습니다.\n글을 작성하여 이곳에 첫 포스트를 남겨보세요!'),
+            );
+          }
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {

@@ -28,7 +28,6 @@ class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white24,
       appBar: AppBar(
         title: Text(location),
         backgroundColor: const Color.fromARGB(250, 63, 186, 219),
