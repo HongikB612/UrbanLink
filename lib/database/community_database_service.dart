@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:urbanlink_project/models/communities.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
@@ -30,6 +29,26 @@ class CommunityDatabaseService {
   static Stream<List<Community>> getCommunities() {
     try {
       return _communityCollection.snapshots().map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Community.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
+  }
+
+  /// Get communities by query
+  /// Query means community name search
+  /// Return the community that contains the query
+  static Stream<List<Community>> getCommunitiesByQuery(String query) {
+    try {
+      return _communityCollection
+          .where('communityName', isGreaterThanOrEqualTo: query)
+          .where('communityName', isLessThan: '${query}z')
+          .snapshots()
+          .map((snapshot) {
         return snapshot.docs
             .map((doc) => Community.fromSnapshot(doc))
             .toList(growable: false);
