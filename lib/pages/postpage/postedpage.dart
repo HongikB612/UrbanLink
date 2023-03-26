@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/comment_database_service.dart';
-import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/models/comments.dart';
 import 'package:urbanlink_project/models/posts.dart';
@@ -90,7 +89,7 @@ class _PostedPageState extends State<PostedPage> {
                         ),
                       ),
                       // image list
-                      const ImageList(),
+                      ImageList(post: post),
                     ],
                   ),
                 ),

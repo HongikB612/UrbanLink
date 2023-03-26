@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/models/posts.dart';
 
 class ImageList extends StatefulWidget {
   const ImageList({
     super.key,
+    required this.post,
   });
+
+  final Post post;
 
   @override
   State<ImageList> createState() => _ImageListState();
@@ -24,13 +26,14 @@ class _ImageListState extends State<ImageList> {
 
   void _fetchImages() async {
     if (mounted) {
-      final Post post = Get.arguments;
-      var imgs = await StorageService.getImagesByPostId(post.postId);
+      var imgs = await StorageService.getImagesByPostId(widget.post.postId);
 
-      setState(() {
-        images = imgs;
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          images = imgs;
+          isLoading = false;
+        });
+      }
     }
   }
 
