@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/database/community_database_service.dart';
+import 'package:urbanlink_project/models/communities.dart';
 import 'package:urbanlink_project/pages/postpage/postspage.dart';
 
 class LocationDrawerWidget extends StatefulWidget {
@@ -12,33 +14,40 @@ class LocationDrawerWidget extends StatefulWidget {
 }
 
 class _LocationDrawerWidgetState extends State<LocationDrawerWidget> {
-  List<String> locations = [];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    _getLocations();
-  }
+  List<String> locations = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: ListView.builder(
-      itemCount: locations.length,
-      itemBuilder: (c, i) => Card(
-        child: ListTile(
-          title: Text(locations[i]),
-          onTap: () {
-            Get.to(() => const PostsPage(), arguments: locations[i]);
-          },
-        ),
-      ),
+        child: StreamBuilder<List<Community>>(
+      stream: CommunityDatabaseService.getCommunities(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('Error'),
+          );
+        } else if (snapshot.hasData) {
+          final List<Community> communities = snapshot.data!;
+          return ListView.builder(
+            itemCount: communities.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(communities[index].communityName),
+                onTap: () {
+                  Get.to(
+                    const PostsPage(),
+                    arguments: communities[index].communityName,
+                  );
+                },
+              );
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     ));
-  }
-  
-  Future<void> _getLocations() async {
-    
   }
 }
