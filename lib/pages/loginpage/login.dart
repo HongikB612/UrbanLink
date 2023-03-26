@@ -66,6 +66,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     Animation<double> _animation = Tween(begin:4.0, end:2.2).animate(_animationController);
     return Scaffold(
+      backgroundColor: Colors.white24,
       resizeToAvoidBottomInset: false,
       body: Form(
         key: _formKey,
@@ -153,7 +154,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 GestureDetector(
                   child: const Text(
                     '로그인 하지 않고 이용하기',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Color.fromARGB(250, 63, 186, 219),),
                   ),
                   onTap: () {
                     Get.offAll(() => const MainPage());

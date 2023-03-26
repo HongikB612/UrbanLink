@@ -102,10 +102,12 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white38,
       appBar: AppBar(
-        title: const Text('Map', style: TextStyle(color: Colors.black87),),
-        backgroundColor: const Color(0xffe4e6e9),
-        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text('Map', style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromARGB(250, 63, 186, 219),
+        shadowColor: Colors.grey,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       endDrawer: Drawer(
           child: ListView.builder(

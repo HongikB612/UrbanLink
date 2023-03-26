@@ -47,6 +47,8 @@ class _PostedPageState extends State<PostedPage> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('게시물'),
+          backgroundColor: const Color.fromARGB(250, 63, 186, 219),
+          shadowColor: Colors.grey,
         ),
         body: const Center(
           child: CircularProgressIndicator(),
@@ -55,8 +57,10 @@ class _PostedPageState extends State<PostedPage> {
     }
     final Post post = Get.arguments;
     return Scaffold(
+      backgroundColor: Colors.white24,
       appBar: AppBar(
-        title: const Text('게시물'),
+        title: const Text('Post'),
+        backgroundColor: const Color.fromARGB(250, 63, 186, 219),
       ),
       body: StreamBuilder<MyUser?>(
         stream: UserDatabaseService.getUserStreamById(post.postAuthorId),

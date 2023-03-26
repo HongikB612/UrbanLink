@@ -34,8 +34,11 @@ class _PostingPageState extends State<PostingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white24,
       appBar: AppBar(
         title: const Text('Posting'),
+        backgroundColor: const Color.fromARGB(250, 63, 186, 219),
+        shadowColor: Colors.grey,
       ),
       body: Center(
         child: Padding(

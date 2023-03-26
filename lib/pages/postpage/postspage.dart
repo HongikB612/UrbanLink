@@ -26,8 +26,11 @@ class _PostsPageState extends State<PostsPage> {
 
     final postListComponent = PostListComponent();
     return Scaffold(
+      backgroundColor: Colors.white24,
       appBar: AppBar(
         title: Text(fakeLocation),
+        backgroundColor: const Color.fromARGB(250, 63, 186, 219),
+        shadowColor: Colors.grey,
         actions: <Widget>[
           IconButton(
             onPressed: ()=>{

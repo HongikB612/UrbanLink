@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
               spreadRadius: 1.0,
             ),
           ],
-          color: const Color.fromRGBO(153, 153, 153, 0.3),
+          color: Color.fromRGBO(153, 153, 153, 0.3),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
@@ -118,9 +118,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final postListComponent = PostListComponent();
     return Scaffold(
-      backgroundColor: Color(0xffddc9),
+      backgroundColor: Colors.white38,
       appBar: AppBar(
         title: const Text('Profile'),
+        backgroundColor: const Color.fromARGB(250, 63, 186, 219),
+        shadowColor: Colors.grey,
       ),
       endDrawer: MenuDrawer(
         myUser: _myUser,

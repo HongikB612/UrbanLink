@@ -22,7 +22,7 @@ class PostListComponent {
             ),
           ),
           color: Colors.white,
-          margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
+          margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
           elevation: 5,
           child: ListTile(
             title: Text(
