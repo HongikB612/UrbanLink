@@ -69,7 +69,6 @@ class PostDatabaseService {
       authorName: authorName,
       postLikeCount: 0,
       postDislikeCount: 0,
-      imageFolderPath: imageFolderPath,
     );
   }
 

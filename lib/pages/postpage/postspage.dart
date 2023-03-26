@@ -5,7 +5,6 @@ import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
 import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
-import 'package:urbanlink_project/widgets/like_button.dart';
 import 'package:urbanlink_project/models/posts.dart';
 
 class PostsPage extends StatefulWidget {
@@ -35,7 +34,7 @@ class _PostsPageState extends State<PostsPage> {
         shadowColor: Colors.grey,
         actions: <Widget>[
           IconButton(
-            onPressed: ()=>{
+            onPressed: () => {
               Get.to(() => const ProfilePage()),
             },
             icon: const Icon(Icons.person),
@@ -47,20 +46,6 @@ class _PostsPageState extends State<PostsPage> {
           Expanded(
             child: postListComponent.postStreamBuilder(
               PostDatabaseService.getPosts(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Row(
-              children: <Widget>[
-                //좋아요 버튼
-                postLikeButton(post),
-                const SizedBox(
-                  width: 10,
-                ),
-                // 싫어요 버튼
-                postDislikeButton(post),
-              ],
             ),
           ),
         ],
