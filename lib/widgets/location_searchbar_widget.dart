@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:urbanlink_project/services/auth.dart';
 
 class LocationSearchbar extends StatefulWidget {
   final ValueChanged<String> onChanged;
@@ -12,49 +11,54 @@ class LocationSearchbar extends StatefulWidget {
 }
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
-  final List<String> _locationList = [];
+  List<String> searchResult = [];
   String _selectedLocation = '';
 
   List<String> fakeLocations = [
-    "서울 마포구 창천동",
-    "서울 마포구 동교동",
-    "서울 서대문구 창천동",
-    "서울 마포구 서강동",
-    "서울 마포구 노고산동",
-    "서울 마포구 서교동",
-    "서울 마포구 상수동",
-    "서울 마포구 신수동",
-    "서울 마포구 구수동",
-    "서울 마포구 하중동",
-    "서울 마포구 신정동",
-    "서울 마포구 대흥동",
-    "서울 마포구 연남동",
-    "서울 마포구 현석동",
-    "서울 마포구 당인동",
-    "서울 마포구 용강동",
-    "서울 서대문구 대현동",
-    "서울 서대문구 신촌동",
-    "서울 마포구 염리동",
-    "서울 서대문구 대신동",
-    "서울 마포구 토정동",
-    "서울 마포구 망원제1동",
-    "서울 마포구 합정동",
-    "서울 마포구 성산제1동"
+    "대한민국 서울시 마포구 창천동",
+    "대한민국 서울시 마포구 동교동",
+    "대한민국 서울시 서대문구 창천동",
+    "대한민국 서울시 마포구 서강동",
+    "대한민국 서울시 마포구 노고산동",
+    "대한민국 서울시 마포구 서교동",
+    "대한민국 서울시 마포구 상수동",
+    "대한민국 서울시 마포구 신수동",
+    "대한민국 서울시 마포구 구수동",
+    "대한민국 서울시 마포구 하중동",
+    "대한민국 서울시 마포구 신정동",
+    "대한민국 서울시 마포구 대흥동",
+    "대한민국 서울시 마포구 연남동",
+    "대한민국 서울시 마포구 현석동",
+    "대한민국 서울시 마포구 당인동",
+    "대한민국 서울시 마포구 용강동",
+    "대한민국 서울시 서대문구 대현동",
+    "대한민국 서울시 서대문구 신촌동",
+    "대한민국 서울시 마포구 염리동",
+    "대한민국 서울시 서대문구 대신동",
+    "대한민국 서울시 마포구 토정동",
+    "대한민국 서울시 마포구 망원제1동",
+    "대한민국 서울시 마포구 합정동",
+    "대한민국 서울시 마포구 성산제1동"
   ];
 
-  Future<void> _searchLocation(String query) async {
-    try {
-      List<String> results = [];
-      results.addAll(fakeLocations);
-      results.retainWhere(
-          (location) => location.toLowerCase().contains(query.toLowerCase()));
-      setState(() {
-        _locationList.clear();
-        _locationList.addAll(results);
-      });
-    } catch (e) {
-      logger.e(e);
-    }
+  Future<List<String>> _fetchSearch(String name) async {
+    List<String> results = [];
+    final List<String> parsedResponse = [];
+    parsedResponse.addAll(fakeLocations);
+    parsedResponse.retainWhere(
+        (location) => location.toLowerCase().contains(name.toLowerCase()));
+
+    results.clear();
+    results.addAll(parsedResponse);
+    return results;
+  }
+
+  _setResults(String query) async {
+    final List<String> results = await _fetchSearch(query);
+    setState(() {
+      searchResult.clear();
+      searchResult.addAll(results);
+    });
   }
 
   void _showSearchDialog(BuildContext context) {
@@ -67,6 +71,7 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
+                controller: TextEditingController(),
                 decoration: const InputDecoration(
                   hintText: '위치를 입력하세요.',
                   icon: Padding(
@@ -76,29 +81,38 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                 ),
                 keyboardType: TextInputType.text,
                 onChanged: (text) {
-                  _searchLocation(text);
+                  _setResults(text);
                 },
               ),
               const SizedBox(height: 16),
               Expanded(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _locationList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final location = _locationList[index];
-
-                      return ListTile(
-                        title: Text(location),
-                        onTap: () {
-                          _selectLocation(context, location);
-                        },
-                      );
-                    },
-                  ),
-                ),
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: FutureBuilder<List<String>>(
+                      future: _fetchSearch(''),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: searchResult.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Text(searchResult[index]),
+                                onTap: () {
+                                  _selectLocation(context, searchResult[index]);
+                                },
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    )),
               ),
             ],
           ),
