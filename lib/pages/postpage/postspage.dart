@@ -53,7 +53,7 @@ class _PostsPageState extends State<PostsPage> {
             return;
           }
 
-          Get.to(const PostingPage());
+          Get.to(const PostingPage(), arguments: Get.arguments);
         },
         child: const Icon(Icons.post_add),
       ),
