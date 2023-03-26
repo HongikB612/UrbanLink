@@ -131,6 +131,7 @@ class _PostingPageState extends State<PostingPage> {
                         FirebaseAuth.instance.currentUser!.uid);
 
                     const communityId = '';
+
                     PostingService.postingByPosts(myUser!, _content, _headline,
                         communityId, locationId, images);
 
