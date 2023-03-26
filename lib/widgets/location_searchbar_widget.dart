@@ -14,33 +14,28 @@ class LocationSearchbar extends StatefulWidget {
 }
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
-  final _searchQueryController = BehaviorSubject<String>();
-  Stream<List<Community>> _communitiesStream = Stream.value([]);
+  final TextEditingController _searchQueryController = TextEditingController();
+  FocusNode focusNode = FocusNode();
+  String _searchQuery = '';
+  BehaviorSubject<List<Community>> _communitiesStream =
+      BehaviorSubject<List<Community>>.seeded([]);
 
   String _selectedLocation = '';
 
   @override
   void initState() {
     super.initState();
-    _communitiesStream = _searchQueryController
-        .distinct()
-        .debounceTime(const Duration(milliseconds: 300))
-        .switchMap(
-            (query) => CommunityDatabaseService.getCommunitiesByQuery(query))
-        .share();
-  }
-
-  Future<void> _fetchCommunities(String query) async {
-    _communitiesStream = CommunityDatabaseService.getCommunitiesByQuery(query);
   }
 
   @override
   void dispose() {
-    _searchQueryController.close();
+    _searchQueryController.dispose();
     super.dispose();
   }
 
   void _showSearchDialog(BuildContext context) {
+    _communitiesStream.addStream(
+        CommunityDatabaseService.getCommunitiesByQuery(_searchQuery));
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -51,14 +46,16 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
             children: [
               TextField(
                 onChanged: (value) {
-                  _searchQueryController.add(value);
+                  setState(() {
+                    _searchQuery = value;
+                  });
                 },
                 decoration: const InputDecoration(
                   hintText: 'Enter search query',
                 ),
               ),
               StreamBuilder<List<Community>>(
-                  stream: _communitiesStream,
+                  stream: _communitiesStream.stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Text('No communities found');
