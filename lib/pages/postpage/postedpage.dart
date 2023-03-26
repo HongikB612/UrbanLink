@@ -21,42 +21,14 @@ class PostedPage extends StatefulWidget {
 
 class _PostedPageState extends State<PostedPage> {
   String _comment = '';
-  List<String> images = List.empty(growable: true);
-  bool isLoading = true;
-
-  void _fetchImages() async {
-    if (mounted) {
-      final Post post = Get.arguments;
-      var imgs = await StorageService.getImagesByPostId(post.postId);
-
-      setState(() {
-        images = imgs;
-        isLoading = false;
-      });
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-
-    _fetchImages();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('게시물'),
-          backgroundColor: const Color.fromARGB(250, 63, 186, 219),
-          shadowColor: Colors.grey,
-        ),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
     final Post post = Get.arguments;
     return Scaffold(
       backgroundColor: Colors.white24,
@@ -117,38 +89,7 @@ class _PostedPageState extends State<PostedPage> {
                         ),
                       ),
                       // image list
-                      SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              width: 200,
-                              height: 200,
-                              child: InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: Image.network(
-                                          images[index],
-                                          fit: BoxFit.contain,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Image.network(
-                                  images[index],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      const ImageList(),
                     ],
                   ),
                 ),
@@ -255,6 +196,80 @@ class _PostedPageState extends State<PostedPage> {
                       }),
                 ),
               ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ImageList extends StatefulWidget {
+  const ImageList({
+    super.key,
+  });
+
+  @override
+  State<ImageList> createState() => _ImageListState();
+}
+
+class _ImageListState extends State<ImageList> {
+  bool isLoading = true;
+  late List<String> images;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchImages();
+  }
+
+  void _fetchImages() async {
+    if (mounted) {
+      final Post post = Get.arguments;
+      var imgs = await StorageService.getImagesByPostId(post.postId);
+
+      setState(() {
+        images = imgs;
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          return SizedBox(
+            width: 200,
+            height: 200,
+            child: InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      child: Image.network(
+                        images[index],
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Image.network(
+                images[index],
+                fit: BoxFit.cover,
+              ),
             ),
           );
         },
