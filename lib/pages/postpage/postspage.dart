@@ -5,6 +5,8 @@ import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/widgets/post_list_component.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
 import 'package:urbanlink_project/pages/profilepage/profilepage.dart';
+import 'package:urbanlink_project/widgets/like_button.dart';
+import 'package:urbanlink_project/models/posts.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key});
@@ -14,6 +16,7 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
+  late Post post;
   List<String> posts = List.empty(growable: true);
   String fakeLocation = Get.arguments ?? "location";
   @override
@@ -23,7 +26,6 @@ class _PostsPageState extends State<PostsPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final postListComponent = PostListComponent();
     return Scaffold(
       backgroundColor: Colors.white24,
@@ -45,6 +47,20 @@ class _PostsPageState extends State<PostsPage> {
           Expanded(
             child: postListComponent.postStreamBuilder(
               PostDatabaseService.getPosts(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+            child: Row(
+              children: <Widget>[
+                //좋아요 버튼
+                postLikeButton(post),
+                const SizedBox(
+                  width: 10,
+                ),
+                // 싫어요 버튼
+                postDislikeButton(post),
+              ],
             ),
           ),
         ],
