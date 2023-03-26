@@ -69,7 +69,6 @@ class PostDatabaseService {
       authorName: authorName,
       postLikeCount: 0,
       postDislikeCount: 0,
-      imageFolderPath: imageFolderPath,
     );
   }
 
@@ -93,6 +92,7 @@ class PostDatabaseService {
     try {
       return _postsCollection
           .where('communityId', isEqualTo: communityId)
+          .orderBy('postCreatedTime', descending: true)
           .snapshots()
           .map((snapshot) {
         return snapshot.docs
@@ -142,6 +142,7 @@ class PostDatabaseService {
     try {
       return _postsCollection
           .where('postTitle', isEqualTo: postTitle)
+          .orderBy('postCreatedTime', descending: true)
           .snapshots()
           .map((snapshot) {
         return snapshot.docs

@@ -12,7 +12,11 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  bool isDone = false;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController =
       TextEditingController(); //입력되는 값을 제어
@@ -20,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   final AuthService _auth = AuthService();
 
   // 로그인 폼 상단에 이미지가 표시된다. 이미지가 없어도 동작은 하나, X표시 처리.
-  final String _imageFile = 'assets/images/profileImage.jpeg';
 
   Widget _userIdWidget() {
     return TextFormField(
@@ -61,53 +64,130 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Animation<double> animation =
+        Tween(begin: 4.0, end: 2.2).animate(_animationController);
     return Scaffold(
+      backgroundColor: Colors.white24,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("로그인"),
-        centerTitle: true,
-      ),
       body: Form(
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Image(width: 400.0, height: 250.0, image: AssetImage(_imageFile)),
-              const SizedBox(height: 20.0),
-              _userIdWidget(),
-              const SizedBox(height: 20.0),
-              _passwordWidget(),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton(
-                    onPressed: () => _login(), child: const Text("로그인")),
-              ),
-              const SizedBox(height: 20.0),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton(
-                    onPressed: () => {
-                          Get.to(() => const RegisterPage()),
+          child: !isDone
+              ? Stack(
+                  children: [
+                    const Center(
+                      child: Text(
+                        "URBAN LINK",
+                        style: TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    ScaleTransition(
+                      scale: animation,
+                      child: SizedBox(
+                        width: 10000,
+                        height: 10000,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              top: -70,
+                              left: 2,
+                              child: Container(
+                                width: 500,
+                                height: 500,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/blueround.png'),
+                                      opacity: 0.8),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 150,
+                              left: 150,
+                              child: Container(
+                                width: 400,
+                                height: 400,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/blueround.png'),
+                                      opacity: 0.5),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 400,
+                              left: -90,
+                              child: Container(
+                                width: 550,
+                                height: 550,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/blueround.png'),
+                                      opacity: 0.7),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 150, 8, 0),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "URBAN LINK",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 30,
+                        ),
+                      ),
+                      const SizedBox(height: 100.0),
+                      _userIdWidget(),
+                      const SizedBox(height: 20.0),
+                      _passwordWidget(),
+                      const SizedBox(height: 50.0),
+                      Container(
+                        height: 70,
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: ElevatedButton(
+                            onPressed: () => _login(),
+                            child: const Text("로그인")),
+                      ),
+                      const SizedBox(height: 20.0),
+                      Container(
+                        height: 70,
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: ElevatedButton(
+                            onPressed: () => {
+                                  Get.to(() => const RegisterPage()),
+                                },
+                            child: const Text("회원가입")),
+                      ),
+                      const SizedBox(height: 20.0),
+                      GestureDetector(
+                        child: const Text(
+                          '로그인 하지 않고 이용하기',
+                          style: TextStyle(
+                            color: Color.fromARGB(250, 63, 186, 219),
+                          ),
+                        ),
+                        onTap: () {
+                          Get.offAll(() => const MainPage());
                         },
-                    child: const Text("회원가입")),
-              ),
-              const SizedBox(height: 20.0),
-              GestureDetector(
-                child: const Text(
-                  '로그인 하지 않고 이용하기',
-                  style: TextStyle(color: Colors.blue),
+                      )
+                    ],
+                  ),
                 ),
-                onTap: () {
-                  Get.offAll(() => const MainPage());
-                },
-              )
-            ],
-          ),
         ),
       ),
     );
@@ -117,6 +197,20 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     //해당 클래스가 호출되었을떄
     super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    );
+    _animationController.forward();
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          isDone = true;
+        });
+      } else if (status == AnimationStatus.dismissed) {
+        _animationController.forward();
+      }
+    });
   }
 
   @override

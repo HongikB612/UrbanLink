@@ -9,7 +9,11 @@ class CommentDatabaseService {
   static Stream<List<Comment>> getCommentsByPostId(String postId) {
     final docPost = _postsCollection.doc(postId);
     try {
-      return docPost.collection('comments').snapshots().map((snapshot) {
+      return docPost
+          .collection('comments')
+          .orderBy('commentDate', descending: true)
+          .snapshots()
+          .map((snapshot) {
         return snapshot.docs
             .map((doc) => Comment.fromSnapshot(doc))
             .toList(growable: false);
