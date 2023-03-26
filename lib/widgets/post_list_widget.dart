@@ -7,7 +7,16 @@ import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/like_button.dart';
 
-class PostListComponent {
+class PostList extends StatefulWidget {
+  final Stream<List<Post>>? postStream;
+
+  const PostList({Key? key, this.postStream}) : super(key: key);
+
+  @override
+  State<PostList> createState() => _PostListState();
+}
+
+class _PostListState extends State<PostList> {
   Widget _buildPost(Post post) {
     return StreamBuilder<MyUser?>(
       stream: UserDatabaseService.getUserStreamById(post.postAuthorId),
@@ -93,9 +102,10 @@ class PostListComponent {
     );
   }
 
-  StreamBuilder<List<Post>> postStreamBuilder(Stream<List<Post>>? function) {
+  @override
+  Widget build(BuildContext context) {
     return StreamBuilder<List<Post>>(
-      stream: function,
+      stream: widget.postStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           logger.e(snapshot.error ?? 'Unknown error');
@@ -104,6 +114,11 @@ class PostListComponent {
           );
         } else if (snapshot.hasData) {
           final posts = snapshot.data!;
+          if (posts.isEmpty) {
+            return const Center(
+              child: Text('이 커뮤니티에는 포스트가 없습니다.\n글을 작성하여 이곳에 첫 포스트를 남겨보세요!'),
+            );
+          }
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:urbanlink_project/models/communities.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
@@ -38,5 +37,31 @@ class CommunityDatabaseService {
       logger.e('Error: $e');
       return const Stream.empty();
     }
+  }
+
+  static Future<Community> getCommunityById(String communityId) async {
+    try {
+      final snapshot = await _communityCollection.doc(communityId).get();
+      if (snapshot.exists) {
+        return Community.fromSnapshot(snapshot);
+      }
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+    return Community(communityId: '', communityName: '', location: '');
+  }
+
+  static Future<Community> getCommunityByLocation(String location) async {
+    try {
+      final snapshot = await _communityCollection
+          .where('location', isEqualTo: location)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        return Community.fromSnapshot(snapshot.docs.first);
+      }
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+    return Community(communityId: '', communityName: '', location: '');
   }
 }

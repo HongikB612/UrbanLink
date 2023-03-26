@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/community_database_service.dart';
+import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/models/communities.dart';
 import 'package:urbanlink_project/pages/postpage/postspage.dart';
 
@@ -35,7 +36,10 @@ class _LocationDrawerWidgetState extends State<LocationDrawerWidget> {
                 title: Text(communities[index].communityName),
                 onTap: () {
                   Get.to(
-                    const PostsPage(),
+                    () => PostsPage(
+                      postStream: PostDatabaseService.getPostsByCommunityId(
+                          communities[index].communityId),
+                    ),
                     arguments: communities[index].communityName,
                   );
                 },
