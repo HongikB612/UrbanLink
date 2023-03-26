@@ -7,7 +7,16 @@ import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/like_button.dart';
 
-class PostListComponent {
+class PostList extends StatefulWidget {
+  final Stream<List<Post>>? postStream;
+
+  const PostList({Key? key, this.postStream}) : super(key: key);
+
+  @override
+  State<PostList> createState() => _PostListState();
+}
+
+class _PostListState extends State<PostList> {
   Widget _buildPost(Post post) {
     return StreamBuilder<MyUser?>(
       stream: UserDatabaseService.getUserStreamById(post.postAuthorId),
@@ -93,9 +102,10 @@ class PostListComponent {
     );
   }
 
-  StreamBuilder<List<Post>> postStreamBuilder(Stream<List<Post>>? function) {
+  @override
+  Widget build(BuildContext context) {
     return StreamBuilder<List<Post>>(
-      stream: function,
+      stream: widget.postStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           logger.e(snapshot.error ?? 'Unknown error');
