@@ -18,6 +18,8 @@ class _ImageListState extends State<ImageList> {
   bool isLoading = true;
   late List<String> images;
 
+  static const double _imageHeight = 200;
+
   @override
   void initState() {
     super.initState();
@@ -40,13 +42,16 @@ class _ImageListState extends State<ImageList> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return const SizedBox(
+        height: _imageHeight,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
 
     return SizedBox(
-      height: 200,
+      height: _imageHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
