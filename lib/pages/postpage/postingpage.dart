@@ -24,6 +24,7 @@ class _PostingPageState extends State<PostingPage> {
   String _headline = '';
   String _content = '';
   String _location = '';
+  int maxImageCount = 10;
 
   @override
   void dispose() {
@@ -72,7 +73,12 @@ class _PostingPageState extends State<PostingPage> {
                             final pickedFile = await picker.pickImage(
                                 source: ImageSource.gallery);
                             if (pickedFile != null) {
-                              
+                              if (images.length >= maxImageCount) {
+                                Get.snackbar(
+                                    '사진은 $maxImageCount장까지만 등록할 수 있습니다.',
+                                    '사진을 삭제하고 다시 등록해주세요.');
+                                return;
+                              }
                               if (mounted) {
                                 setState(() {
                                   images.add(File(pickedFile.path));
