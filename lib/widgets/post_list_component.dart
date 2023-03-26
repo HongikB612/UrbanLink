@@ -5,6 +5,7 @@ import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
+import 'package:urbanlink_project/widgets/like_button.dart';
 
 class PostListComponent {
   Widget _buildPost(Post post) {
@@ -25,10 +26,14 @@ class PostListComponent {
           margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
           elevation: 5,
           child: ListTile(
-            title: Text(
-              post.postTitle,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+            title: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
+              child: Text(
+                post.postTitle,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),
               ),
             ),
             subtitle: Column(
@@ -38,7 +43,11 @@ class PostListComponent {
                   post.postContent,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
                 ),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Text(
@@ -49,15 +58,29 @@ class PostListComponent {
                     ),
                     const Text(
                       ' | ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.w300),
                     ),
                     Text(
                       '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ],
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Row(
+                    children: <Widget>[
+                      //좋아요 버튼
+                      postLikeButton(post),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      // 싫어요 버튼
+                      postDislikeButton(post),
+                    ],
+                  ),
                 ),
               ],
             ),
