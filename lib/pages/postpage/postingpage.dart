@@ -24,7 +24,7 @@ class _PostingPageState extends State<PostingPage> {
   List<File> images = List.empty(growable: true);
   String _headline = '';
   String _content = '';
-  String _location = '';
+  String _location = Get.arguments ?? '';
   int maxImageCount = 10;
 
   @override
@@ -117,6 +117,7 @@ class _PostingPageState extends State<PostingPage> {
                   onChanged: (value) {
                     _location = value;
                   },
+                  selectedLocation: _location,
                 ),
                 ElevatedButton(
                   onPressed: () async {
