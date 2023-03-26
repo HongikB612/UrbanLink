@@ -18,12 +18,9 @@ class _LoginPageState extends State<LoginPage>
   bool isDone = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController =
-      TextEditingController(); //입력되는 값을 제어
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _auth = AuthService();
-
-  // 로그인 폼 상단에 이미지가 표시된다. 이미지가 없어도 동작은 하나, X표시 처리.
 
   Widget _userIdWidget() {
     return TextFormField(
@@ -67,7 +64,7 @@ class _LoginPageState extends State<LoginPage>
     Animation<double> animation =
         Tween(begin: 4.0, end: 2.2).animate(_animationController);
     return Scaffold(
-      backgroundColor: Colors.white24,
+      // backgroundColor: Colors.white24,
       resizeToAvoidBottomInset: false,
       body: Form(
         key: _formKey,
