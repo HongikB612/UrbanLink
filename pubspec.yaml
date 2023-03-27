@@ -54,6 +54,7 @@ dependencies:
   address_search_field: ^5.0.3
   image_picker: ^0.8.7
   firebase_storage: ^11.0.16
+  syncfusion_flutter_maps: ^21.1.35
   
 
 dev_dependencies:

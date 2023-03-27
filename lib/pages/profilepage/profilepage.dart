@@ -51,26 +51,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget profileBox(MyUser? profileUser) {
     const textProfileDescriptionStyle = TextStyle(fontSize: 20);
-    const double profileHeight = 200;
+    const double profileHeight = 150;
     const double profileRound = 40;
     return Container(
-        margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
         height: profileHeight,
         decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              offset: Offset(4.0, 4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
-            ),
-            BoxShadow(
-              color: Colors.white,
-              offset: Offset(-4.0, -4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
-            ),
-          ],
           color: Color.fromRGBO(153, 153, 153, 0.3),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
@@ -86,13 +72,27 @@ class _ProfilePageState extends State<ProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CircleAvatar(
-                  minRadius: 60.0,
-                  backgroundColor: Colors.grey,
-                  child: CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage:
-                        AssetImage('assets/images/profileImage.jpeg'),
+                Container(
+                  child: const CircleAvatar(
+                    minRadius: 40.0,
+                    backgroundColor: Colors.grey,
+                    child: CircleAvatar(
+                      radius: 35.0,
+                      backgroundImage:
+                          AssetImage('assets/images/profileImage.jpeg'),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.7),
+                          blurRadius: 5.0,
+                          spreadRadius: 0.0,
+                          offset: const Offset(0,7),
+                        )
+                      ]
                   ),
                 ),
                 Padding(
@@ -102,8 +102,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(profileUser?.userName ?? 'Unknown',
-                          style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w700)),
+                          style: TextStyle(
+                              fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5.0,
+                                color: Colors.grey.withOpacity(0.7),
+                                offset: const Offset(0,7),
+                              ),
+                            ])),
                       Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
@@ -118,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white38,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: const Color.fromARGB(250, 63, 186, 219),
@@ -130,16 +138,29 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Column(
         children: <Widget>[
           profileBox(_myUser),
+          SizedBox(height: 5,),
           Container(
+            width: double.infinity,
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.white,
+
+            ),
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(30, 20, 0, 10),
             child: const Text('My Posts',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal)),
           ),
+          SizedBox(height: 15),
           Expanded(
-            child: PostList(
-              postStream: PostDatabaseService.getPostsByUserId(
-                  _myUser?.userId ?? 'Unknown'),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 100, 00),
+                child: PostList(
+                  postStream: PostDatabaseService.getPostsByUserId(_myUser?.userId ?? 'Unknown'),
+                ),
+              ),
             ),
           ),
         ],

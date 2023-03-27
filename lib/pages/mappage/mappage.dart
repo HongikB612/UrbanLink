@@ -33,7 +33,7 @@ class _MapPageState extends State<MapPage> {
 
       if (locations.isNotEmpty) {
         final LatLng newCenter =
-            LatLng(locations.first.latitude, locations.first.longitude);
+        LatLng(locations.first.latitude, locations.first.longitude);
 
         _mapController.animateCamera(
           CameraUpdate.newCameraPosition(
