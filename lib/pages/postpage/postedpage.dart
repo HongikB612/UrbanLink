@@ -43,54 +43,59 @@ class _PostedPageState extends State<PostedPage> {
           return Scaffold(
             body: Column(
               children: [
-                Container(
-                  //게시물
-                  padding: const EdgeInsets.all(30),
-                  color: Colors.white,
-                  child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        //게시자 정보
-                        leading: const Icon(Icons.soap),
-                        title: Text(
-                          post.postTitle,
-                        ),
-                        subtitle: Column(
-                          children: [
-                            Row(
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: ListView(
+                        physics: const ClampingScrollPhysics(),
+                        children: [
+                          ListTile(
+                            //게시자 정보
+                            leading: const Icon(Icons.soap),
+                            title: Text(
+                              post.postTitle,
+                            ),
+                            subtitle: Column(
                               children: [
-                                Text(
-                                  authorName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const Text(
-                                  ' | ',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      authorName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const Text(
+                                      ' | ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        //게시 내용
-                        alignment: Alignment.topLeft,
-                        padding: const EdgeInsets.all(20),
-                        child: Text(
-                          post.postContent,
-                        ),
-                      ),
-                      // image list
-                      ImageList(post: post),
-                    ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Container(
+                                //게시 내용
+                                alignment: Alignment.topLeft,
+                                padding: const EdgeInsets.all(20),
+                                child: Text(
+                                  post.postContent,
+                                ),
+                              ),
+                              // image list
+                              ImageList(post: post),
+                            ],
+                          ),
+                        ]),
                   ),
                 ),
                 Padding(
@@ -109,7 +114,7 @@ class _PostedPageState extends State<PostedPage> {
                 ),
                 const Divider(
                   color: Colors.grey,
-                  thickness: 0.1,
+                  thickness: 0.2,
                 ),
                 // 댓글 입력창
                 Container(
