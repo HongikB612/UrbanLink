@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -76,13 +77,43 @@ class _PostListState extends State<PostList> {
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                 children: <Widget>[
-                  //좋아요 버튼
-                  postLikeButton(post),
+                  //좋아요 버튼 (누를 수는 없는 상태)
+                  Row(children: <Widget>[
+                    const Icon(Icons.favorite, color: Colors.grey),
+                    // like count
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                      child: Text(
+                        post.postLikeCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  //좋아요 버튼 (누를 수는 없는 상태)
                   const SizedBox(
                     width: 10,
                   ),
-                  // 싫어요 버튼
-                  postDislikeButton(post),
+                  Row(children: <Widget>[
+                    const Icon(Icons.thumb_down, color: Colors.grey),
+                    // like count
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                      child: Text(
+                        post.postDislikeCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                  ]),
+
+                  const SizedBox(
+                    width: 10,
+                  ),
                 ],
               ),
             ),
