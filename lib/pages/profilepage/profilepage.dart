@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
-import 'package:urbanlink_project/widgets/post_list_component.dart';
+import 'package:urbanlink_project/widgets/post_list_widget.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 
@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
     const double profileHeight = 200;
     const double profileRound = 40;
     return Container(
-      margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+        margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
         height: profileHeight,
         decoration: const BoxDecoration(
           boxShadow: [
@@ -102,7 +102,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(profileUser?.userName ?? 'Unknown',
-                          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
+                          style: const TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w700)),
                       Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
@@ -116,7 +117,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final postListComponent = PostListComponent();
     return Scaffold(
       backgroundColor: Colors.white38,
       appBar: AppBar(
@@ -133,11 +133,12 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(30, 20, 0, 10),
-            child: const Text('My Posts', style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+            child: const Text('My Posts',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
           ),
           Expanded(
-            child: postListComponent.postStreamBuilder(
-              PostDatabaseService.getPostsByUserId(
+            child: PostList(
+              postStream: PostDatabaseService.getPostsByUserId(
                   _myUser?.userId ?? 'Unknown'),
             ),
           ),

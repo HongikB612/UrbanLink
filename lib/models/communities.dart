@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:urbanlink_project/models/posts.dart';
 
 /// Community model
 /// This model is used to store the community information
 class Community {
   final String communityId;
-  final String communityTitle;
+  final String communityName;
 
   /// location of the community
   final String location;
@@ -13,14 +14,14 @@ class Community {
 
   Community({
     required this.communityId,
-    required this.communityTitle,
+    required this.communityName,
     required this.location,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'communityId': communityId,
-      'communityTitle': communityTitle,
+      'communityTitle': communityName,
       'locationId': location,
     };
   }
@@ -28,8 +29,8 @@ class Community {
   factory Community.fromJson(Map<String, dynamic> data) {
     return Community(
       communityId: data['communityId'] ?? 'Unknown',
-      communityTitle: data['communityTitle'] ?? 'Unknown',
-      location: data['locationId'] ?? '',
+      communityName: data['communityName'] ?? 'Unknown',
+      location: data['location'] ?? '',
     );
   }
 
@@ -39,12 +40,16 @@ class Community {
 
     return other is Community &&
         other.communityId == communityId &&
-        other.communityTitle == communityTitle &&
+        other.communityName == communityName &&
         other.location == location;
   }
 
   @override
   int get hashCode {
-    return communityId.hashCode ^ communityTitle.hashCode ^ location.hashCode;
+    return communityId.hashCode ^ communityName.hashCode ^ location.hashCode;
+  }
+
+  factory Community.fromSnapshot(DocumentSnapshot snapshot) {
+    return Community.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 }

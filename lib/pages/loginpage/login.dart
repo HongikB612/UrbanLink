@@ -201,9 +201,11 @@ class _LoginPageState extends State<LoginPage>
     _animationController.forward();
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          isDone = true;
-        });
+        if (mounted) {
+          setState(() {
+            isDone = true;
+          });
+        }
       } else if (status == AnimationStatus.dismissed) {
         _animationController.forward();
       }
