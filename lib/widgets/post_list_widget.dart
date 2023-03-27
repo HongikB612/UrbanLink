@@ -126,6 +126,7 @@ class _PostListState extends State<PostList> {
 
   @override
   Widget build(BuildContext context) {
+    final isPostsPage = Get.currentRoute == '/PostsPage';
     return StreamBuilder<List<Post>>(
       stream: widget.postStream,
       builder: (context, snapshot) {
@@ -136,7 +137,7 @@ class _PostListState extends State<PostList> {
           );
         } else if (snapshot.hasData) {
           final posts = snapshot.data!;
-          if (posts.isEmpty) {
+          if (posts.isEmpty && isPostsPage == true) {
             return const Center(
               child: Text('이 커뮤니티에는 포스트가 없습니다.\n글을 작성하여 이곳에 첫 포스트를 남겨보세요!'),
             );
