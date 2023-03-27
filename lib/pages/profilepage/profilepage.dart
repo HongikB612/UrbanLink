@@ -73,15 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  child: const CircleAvatar(
-                    minRadius: 40.0,
-                    backgroundColor: Colors.grey,
-                    child: CircleAvatar(
-                      radius: 35.0,
-                      backgroundImage:
-                          AssetImage('assets/images/profileImage.jpeg'),
-                    ),
-                  ),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
@@ -90,9 +81,17 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: Colors.grey.withOpacity(0.7),
                           blurRadius: 5.0,
                           spreadRadius: 0.0,
-                          offset: const Offset(0,7),
+                          offset: const Offset(0, 7),
                         )
-                      ]
+                      ]),
+                  child: const CircleAvatar(
+                    minRadius: 40.0,
+                    backgroundColor: Colors.grey,
+                    child: CircleAvatar(
+                      radius: 35.0,
+                      backgroundImage:
+                          AssetImage('assets/images/profileImage.jpeg'),
+                    ),
                   ),
                 ),
                 Padding(
@@ -104,14 +103,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       Text(profileUser?.userName ?? 'Unknown',
                           style: TextStyle(
                               fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5.0,
-                                color: Colors.grey.withOpacity(0.7),
-                                offset: const Offset(0,7),
-                              ),
-                            ])),
+                              fontWeight: FontWeight.w700,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 5.0,
+                                  color: Colors.grey.withOpacity(0.7),
+                                  offset: const Offset(0, 7),
+                                ),
+                              ])),
                       Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
@@ -138,27 +137,29 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Column(
         children: <Widget>[
           profileBox(_myUser),
-          SizedBox(height: 5,),
+          const SizedBox(
+            height: 5,
+          ),
           Container(
             width: double.infinity,
             height: 50,
-            decoration: BoxDecoration(
-                color: Colors.white,
-
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(30, 20, 0, 10),
             child: const Text('My Posts',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal)),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Expanded(
             child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 100, 00),
                 child: PostList(
-                  postStream: PostDatabaseService.getPostsByUserId(_myUser?.userId ?? 'Unknown'),
+                  postStream: PostDatabaseService.getPostsByUserId(
+                      _myUser?.userId ?? 'Unknown'),
                 ),
               ),
             ),

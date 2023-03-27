@@ -14,9 +14,9 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   static List<Widget> pages = <Widget>[
-    MapPage(),
-    PostsPage(),
-    ProfilePage(),
+    const MapPage(),
+    const PostsPage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {

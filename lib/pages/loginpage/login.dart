@@ -77,9 +77,10 @@ class _LoginPageState extends State<LoginPage>
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         "URBAN LINK",
-                        style: const TextStyle(
-                          color: Colors.black87,
-                            fontSize: 50, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     ScaleTransition(
