@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
     const double profileHeight = 150;
     const double profileRound = 40;
     return Container(
-        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+        margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         height: profileHeight,
         decoration: const BoxDecoration(
           color: Color.fromRGBO(153, 153, 153, 0.3),
@@ -79,9 +79,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.7),
-                          blurRadius: 5.0,
+                          blurRadius: 10.0,
                           spreadRadius: 0.0,
-                          offset: const Offset(0, 7),
+                          offset: const Offset(0, 3),
                         )
                       ]),
                   child: const CircleAvatar(
@@ -106,9 +106,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontWeight: FontWeight.w700,
                               shadows: [
                                 Shadow(
-                                  blurRadius: 5.0,
+                                  blurRadius: 9.0,
                                   color: Colors.grey.withOpacity(0.7),
-                                  offset: const Offset(0, 7),
+                                  offset: const Offset(0, 4),
                                 ),
                               ])),
                       Text(profileUser?.userExplanation ?? '',
@@ -156,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 100, 00),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: PostList(
                   postStream: PostDatabaseService.getPostsByUserId(
                       _myUser?.userId ?? 'Unknown'),
