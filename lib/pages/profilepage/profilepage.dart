@@ -57,7 +57,12 @@ class _ProfilePageState extends State<ProfilePage> {
         margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         height: profileHeight,
         decoration: const BoxDecoration(
-          color: Color.fromRGBO(153, 153, 153, 0.3),
+          border: Border(
+            top: BorderSide(width: 1.0, color: Colors.grey),
+            left: BorderSide(width: 1.0, color: Colors.grey),
+            right: BorderSide(width: 1.0, color: Colors.grey),
+            bottom: BorderSide(width: 1.0, color: Colors.grey),
+          ),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
@@ -73,17 +78,10 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.7),
-                          blurRadius: 10.0,
-                          spreadRadius: 0.0,
-                          offset: const Offset(0, 3),
-                        )
-                      ]),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
                   child: const CircleAvatar(
                     minRadius: 40.0,
                     backgroundColor: Colors.grey,
@@ -97,20 +95,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
                   child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(profileUser?.userName ?? 'Unknown',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              shadows: [
-                                Shadow(
-                                  blurRadius: 9.0,
-                                  color: Colors.grey.withOpacity(0.7),
-                                  offset: const Offset(0, 4),
-                                ),
-                              ])),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          )),
                       Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
