@@ -36,7 +36,7 @@ class _PostListState extends State<PostList> {
             post.postTitle,
             style: const TextStyle(
               fontWeight: FontWeight.w400,
-              fontSize: 20,
+              fontSize: 18,
             ),
           ),
         ),
