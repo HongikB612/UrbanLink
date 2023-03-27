@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:like_button/like_button.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
-import 'package:urbanlink_project/widgets/like_button.dart';
 
 class PostList extends StatefulWidget {
   final Stream<List<Post>>? postStream;
