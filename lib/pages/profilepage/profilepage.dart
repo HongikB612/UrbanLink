@@ -52,17 +52,19 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget profileBox(MyUser? profileUser) {
     const textProfileDescriptionStyle = TextStyle(fontSize: 20);
     const double profileHeight = 150;
-    const double profileRound = 40;
+    const double profileRound = 5;
     return Container(
         margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         height: profileHeight,
         decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(width: 1.0, color: Colors.grey),
-            left: BorderSide(width: 1.0, color: Colors.grey),
-            right: BorderSide(width: 1.0, color: Colors.grey),
-            bottom: BorderSide(width: 1.0, color: Colors.grey),
-          ),
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 5.0,
+              offset: Offset(0.0, 2),
+            ),
+          ],
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
