@@ -45,10 +45,11 @@ class _MapPageState extends State<MapPage>{
             ),
           ),
         );
-
-        setState(() {
-          _displayLocation = newCenter;
-        });
+        if (mounted) {
+          setState(() {
+            _displayLocation = newCenter;
+          });
+        }
       }
     } catch (e) {
       logger.e(e);
@@ -56,9 +57,11 @@ class _MapPageState extends State<MapPage>{
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      _mapController = controller;
-    });
+    if (mounted) {
+      setState(() {
+        _mapController = controller;
+      });
+    }
   }
 
   addMarkers() async {
@@ -148,9 +151,11 @@ class _MapPageState extends State<MapPage>{
               width: MediaQuery.of(context).size.width,
               textController: textController,
               onSuffixTap: () {
-                setState(() {
-                  textController.clear();
-                });
+                if (mounted) {
+                  setState(() {
+                    textController.clear();
+                  });
+                }
               },
               onSubmitted: (String searchQuery) {
                 _searchLocation(searchQuery);
