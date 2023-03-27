@@ -67,6 +67,7 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage> with TickerP
     bool selected = false;
     return Scaffold(
       appBar: AppBar(title: Text('Animate group of markers dynamically')),
+      endDrawer: const LocationDrawerWidget(),
       body: Stack(
         children: [
           MapTileLayer(
@@ -141,6 +142,7 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage> with TickerP
           },
         ),
       ),
+
     );
   }
   Future<void> _searchLocation(String query) async {

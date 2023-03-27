@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:urbanlink_project/database/community_database_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/services/posting_service.dart';
@@ -23,7 +24,8 @@ class _PostingPageState extends State<PostingPage> {
   List<File> images = List.empty(growable: true);
   String _headline = '';
   String _content = '';
-  String _location = '';
+  String _location = Get.arguments ?? '';
+  int maxImageCount = 10;
 
   @override
   void dispose() {
@@ -72,9 +74,17 @@ class _PostingPageState extends State<PostingPage> {
                             final pickedFile = await picker.pickImage(
                                 source: ImageSource.gallery);
                             if (pickedFile != null) {
-                              setState(() {
-                                images.add(File(pickedFile.path));
-                              });
+                              if (images.length >= maxImageCount) {
+                                Get.snackbar(
+                                    '사진은 $maxImageCount장까지만 등록할 수 있습니다.',
+                                    '사진을 삭제하고 다시 등록해주세요.');
+                                return;
+                              }
+                              if (mounted) {
+                                setState(() {
+                                  images.add(File(pickedFile.path));
+                                });
+                              }
                             }
                           } catch (e) {
                             logger.e(e);
@@ -107,6 +117,7 @@ class _PostingPageState extends State<PostingPage> {
                   onChanged: (value) {
                     _location = value;
                   },
+                  selectedLocation: _location,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -130,9 +141,12 @@ class _PostingPageState extends State<PostingPage> {
                     final myUser = await UserDatabaseService.getUserById(
                         FirebaseAuth.instance.currentUser!.uid);
 
-                    const communityId = '';
+                    final community =
+                        await CommunityDatabaseService.getCommunityByLocation(
+                            locationId);
+
                     PostingService.postingByPosts(myUser!, _content, _headline,
-                        communityId, locationId, images);
+                        community.communityId, locationId, images);
 
                     Get.back();
                   },

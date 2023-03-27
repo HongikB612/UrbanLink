@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class LocationSearchbar extends StatefulWidget {
   final ValueChanged<String> onChanged;
+  final String? selectedLocation;
 
-  const LocationSearchbar({Key? key, required this.onChanged})
+  const LocationSearchbar(
+      {Key? key, required this.onChanged, this.selectedLocation})
       : super(key: key);
 
   @override
@@ -13,6 +15,12 @@ class LocationSearchbar extends StatefulWidget {
 class _LocationSearchbarState extends State<LocationSearchbar> {
   List<String> searchResult = [];
   String _selectedLocation = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedLocation = widget.selectedLocation ?? '';
+  }
 
   List<String> fakeLocations = [
     "대한민국 서울 마포구 창전동",
