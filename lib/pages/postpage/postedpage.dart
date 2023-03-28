@@ -112,53 +112,49 @@ class _PostedPageState extends State<PostedPage> {
                         thickness: 0.2,
                       ),
                       // 댓글 입력창
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextFieldWidget(
-                                hintText: '댓글을 입력하세요',
-                                onChanged: (value) {
-                                  if (mounted) {
-                                    setState(() {
-                                      _comment = value;
-                                    });
-                                  }
-                                },
-                                label: '댓글',
-                                text: _comment,
-                              ),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.send),
-                              onPressed: () async {
-                                if (_comment.isNotEmpty) {
-                                  final user =
-                                      FirebaseAuth.instance.currentUser;
-                                  if (user == null) {
-                                    Get.snackbar('로그인을 해야 합니다', '');
-                                    return;
-                                  }
-                                  final comment = Comment(
-                                    commentId: '',
-                                    commentAuthorId: user.uid,
-                                    commentContent: _comment,
-                                    commentDatetime: DateTime.now(),
-                                    postId: post.postId,
-                                  );
-                                  await CommentDatabaseService.createComment(
-                                      comment);
-                                  if (mounted) {
-                                    setState(() {
-                                      _comment = '';
-                                    });
-                                  }
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFieldWidget(
+                              hintText: '댓글을 입력하세요',
+                              onChanged: (value) {
+                                if (mounted) {
+                                  setState(() {
+                                    _comment = value;
+                                  });
                                 }
                               },
+                              label: '댓글',
+                              text: _comment,
                             ),
-                          ],
-                        ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.send),
+                            onPressed: () async {
+                              if (_comment.isNotEmpty) {
+                                final user = FirebaseAuth.instance.currentUser;
+                                if (user == null) {
+                                  Get.snackbar('로그인을 해야 합니다', '');
+                                  return;
+                                }
+                                final comment = Comment(
+                                  commentId: '',
+                                  commentAuthorId: user.uid,
+                                  commentContent: _comment,
+                                  commentDatetime: DateTime.now(),
+                                  postId: post.postId,
+                                );
+                                await CommentDatabaseService.createComment(
+                                    comment);
+                                if (mounted) {
+                                  setState(() {
+                                    _comment = '';
+                                  });
+                                }
+                              }
+                            },
+                          ),
+                        ],
                       ),
                       StreamBuilder<List<Comment>>(
                           stream: CommentDatabaseService.getCommentsByPostId(
