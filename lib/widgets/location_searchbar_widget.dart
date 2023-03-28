@@ -18,7 +18,7 @@ class LocationSearchbar extends StatefulWidget {
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
   String? _selectedLocation;
-  final String _searchQuery = '';
+  final ValueNotifier<String> _searchQuery = ValueNotifier<String>('');
 
   @override
   void initState() {
@@ -42,8 +42,7 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      // _searchQuery = value;
-                      logger.i('search Query : $_searchQuery');
+                      _searchQuery.value = value;
                     });
                   },
                 ),
@@ -51,45 +50,51 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    StreamBuilder<List<Community>>(
-                        stream: CommunityDatabaseService
-                            .getCommunityStreamByLocation('대한민국 서울시 마포구 서교동'),
-                        builder: ((context, snapshot) {
-                          if (snapshot.hasError) {
-                            logger.e(snapshot.error ?? 'Unknown error');
-                            return Center(
-                              child: Text(
-                                  'Error: ${snapshot.error ?? 'Unknown error'}'),
-                            );
-                          } else if (snapshot.hasData) {
-                            final List<Community> communities = snapshot.data!;
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.5,
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: ListView.builder(
-                                itemCount: communities.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title:
-                                        Text(communities[index].communityName),
-                                    onTap: () {
-                                      setState(() {
-                                        _selectedLocation =
-                                            communities[index].communityName;
-                                      });
-                                      widget.onChanged(_selectedLocation!);
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        })),
+                    ValueListenableBuilder(
+                      valueListenable: _searchQuery,
+                      builder: (context, value, child) => StreamBuilder<
+                              List<Community>>(
+                          stream: CommunityDatabaseService
+                              .getCommunityStreamByLocation(_searchQuery.value),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasError) {
+                              logger.e(snapshot.error ?? 'Unknown error');
+                              return Center(
+                                child: Text(
+                                    'Error: ${snapshot.error ?? 'Unknown error'}'),
+                              );
+                            } else if (snapshot.hasData) {
+                              final List<Community> communities =
+                                  snapshot.data!;
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: ListView.builder(
+                                  itemCount: communities.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      title: Text(
+                                          communities[index].communityName),
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedLocation =
+                                              communities[index].communityName;
+                                        });
+                                        widget.onChanged(_selectedLocation!);
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })),
+                    ),
                   ],
                 )
               ],
