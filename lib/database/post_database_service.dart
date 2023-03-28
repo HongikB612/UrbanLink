@@ -25,17 +25,8 @@ class PostDatabaseService {
     String? imageFolderPath;
 
     if (postImages != null && postImages.isNotEmpty) {
-      logger.i('post images size : ${postImages.length}');
-      int index = 0;
-      for (final file in postImages) {
-        await StorageService.uploadPostImage(
-            postId: docPost.id,
-            userId: postAuthorId,
-            image: file,
-            index: index);
-        index++;
-      }
-      imageFolderPath = 'posts/${docPost.id}';
+      await StorageService.uploadPostImages(
+          postId: docPost.id, images: postImages);
     }
 
     final json = {
@@ -143,6 +134,25 @@ class PostDatabaseService {
     try {
       return _postsCollection
           .where('postTitle', isEqualTo: postTitle)
+          .orderBy('postCreatedTime', descending: true)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
+  }
+
+  static Stream<List<Post>> getPostsByUserIdAndCommunityId(
+      String userId, String communityId) {
+    try {
+      return _postsCollection
+          .where('postAuthorId', isEqualTo: userId)
+          .where('communityId', isEqualTo: communityId)
           .orderBy('postCreatedTime', descending: true)
           .snapshots()
           .map((snapshot) {
