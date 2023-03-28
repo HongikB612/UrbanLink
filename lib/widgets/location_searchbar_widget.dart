@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:urbanlink_project/database/community_database_service.dart';
 import 'package:urbanlink_project/models/communities.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class LocationSearchbar extends StatefulWidget {
   final ValueChanged<String> onChanged;
@@ -16,7 +18,7 @@ class LocationSearchbar extends StatefulWidget {
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
   String? _selectedLocation;
-  String _searchQuery = '';
+  String _searchQuery = '마포구';
 
   @override
   void initState() {
@@ -24,25 +26,14 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
     _selectedLocation = widget.selectedLocation;
   }
 
-  @override
-  void didUpdateWidget(covariant LocationSearchbar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedLocation != widget.selectedLocation) {
-      setState(() {
-        _selectedLocation = widget.selectedLocation;
-      });
-    }
-  }
-
-
-
   void _showSearchDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Search Location'),
-            content: Column(
+            content: SingleChildScrollView(
+                child: Column(
               children: [
                 TextField(
                   autofocus: true,
@@ -56,13 +47,52 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                   },
                 ),
                 const SizedBox(height: 10),
-                StreamBuilder<List<Community>>(
-                  stream: CommunityDatabaseService.getCommunityByLocation(
-                      _searchQuery),
-                  builder: 
-                  )
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    StreamBuilder<List<Community>>(
+                        stream: CommunityDatabaseService
+                            .getCommunityStreamByLocation(_searchQuery),
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasError) {
+                            logger.e(snapshot.error ?? 'Unknown error');
+                            return Center(
+                              child: Text(
+                                  'Error: ${snapshot.error ?? 'Unknown error'}'),
+                            );
+                          } else if (snapshot.hasData) {
+                            final List<Community> communities = snapshot.data!;
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              child: ListView.builder(
+                                itemCount: communities.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title:
+                                        Text(communities[index].communityName),
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedLocation =
+                                            communities[index].communityName;
+                                      });
+                                      widget.onChanged(_selectedLocation!);
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        })),
+                  ],
+                )
               ],
-            ),
+            )),
           );
         });
   }
@@ -72,7 +102,17 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
     return Column(
       children: [
         ElevatedButton(
-          onPressed: () => _showSearchDialog(),
+          onPressed: () {
+            try {
+              _showSearchDialog();
+            } on FlutterError catch (e) {
+              Get.snackbar('Error: Cannot open the widget', 'Error: $e');
+              logger.e(e);
+            } catch (e) {
+              Get.snackbar('Error: Cannot open the widget', 'Error: $e');
+              logger.e(e);
+            }
+          },
           child: const Text('Search Location'),
         ),
         Padding(
