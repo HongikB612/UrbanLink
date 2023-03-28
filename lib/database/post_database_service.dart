@@ -25,17 +25,8 @@ class PostDatabaseService {
     String? imageFolderPath;
 
     if (postImages != null && postImages.isNotEmpty) {
-      logger.i('post images size : ${postImages.length}');
-      int index = 0;
-      for (final file in postImages) {
-        await StorageService.uploadPostImage(
-            postId: docPost.id,
-            userId: postAuthorId,
-            image: file,
-            index: index);
-        index++;
-      }
-      imageFolderPath = 'posts/${docPost.id}';
+      await StorageService.uploadPostImages(
+          postId: docPost.id, images: postImages);
     }
 
     final json = {
