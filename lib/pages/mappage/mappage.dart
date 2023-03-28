@@ -75,7 +75,7 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
         children: [
           MapTileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            initialZoomLevel: 3,
+            initialZoomLevel: 13,
             initialFocalLatLng:
                 const MapLatLng(37.565643683342, 126.95524147826),
             controller: _tileLayerController,
@@ -98,7 +98,7 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
                 longitude: markerLatLng.longitude,
                 child: GestureDetector(
                   onTap: () {
-                    selected = true;
+                    selected = !selected;
                   },
                   child: selected
                       ? Transform.translate(
