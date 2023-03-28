@@ -64,4 +64,21 @@ class CommunityDatabaseService {
     }
     return Community(communityId: '', communityName: '', location: '');
   }
+
+  static Stream<List<Community>> getCommunityStreamByLocation(String query) {
+    try {
+      return _communityCollection
+          .where('location', isGreaterThanOrEqualTo: query)
+          .where('location', isLessThan: '${query}z')
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Community.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
+  }
 }
