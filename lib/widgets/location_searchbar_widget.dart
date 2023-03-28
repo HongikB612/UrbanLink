@@ -18,7 +18,7 @@ class LocationSearchbar extends StatefulWidget {
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
   String? _selectedLocation;
-  String _searchQuery = '마포구';
+  final String _searchQuery = '';
 
   @override
   void initState() {
@@ -42,7 +42,8 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _searchQuery = value;
+                      // _searchQuery = value;
+                      logger.i('search Query : $_searchQuery');
                     });
                   },
                 ),
@@ -50,9 +51,10 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    StreamBuilder<List<Community>>(
-                        stream: CommunityDatabaseService
-                            .getCommunityStreamByLocation(_searchQuery),
+                    FutureBuilder<List<Community>>(
+                        future:
+                            CommunityDatabaseService.getCommunitiesByLocation(
+                                _searchQuery),
                         builder: ((context, snapshot) {
                           if (snapshot.hasError) {
                             logger.e(snapshot.error ?? 'Unknown error');

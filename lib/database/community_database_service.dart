@@ -65,6 +65,23 @@ class CommunityDatabaseService {
     return Community(communityId: '', communityName: '', location: '');
   }
 
+  static Future<List<Community>> getCommunitiesByLocation(
+      String location) async {
+    try {
+      final snapshot = await _communityCollection
+          .where('location', isEqualTo: location)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs
+            .map((doc) => Community.fromSnapshot(doc))
+            .toList(growable: false);
+      }
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+    return <Community>[];
+  }
+
   static Stream<List<Community>> getCommunityStreamByLocation(String query) {
     try {
       return _communityCollection
