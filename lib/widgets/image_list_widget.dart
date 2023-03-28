@@ -50,6 +50,13 @@ class _ImageListState extends State<ImageList> {
       );
     }
 
+    if (images.isEmpty) {
+      // return empty container
+      return const SizedBox(
+        height: 0,
+      );
+    }
+
     return SizedBox(
       height: _imageHeight,
       child: ListView.builder(
