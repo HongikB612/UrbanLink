@@ -92,9 +92,13 @@ class CommunityDatabaseService {
   }
 
   static Stream<List<Community>> getCommunityStreamByLocation(String query) {
+    // Remove leading and trailing spaces
+    query = query.trim();
+
     List<String> words = query.split(' ');
     for (var word in words) {
       word = word.toLowerCase();
+      words.removeWhere((element) => element == ' ');
     }
 
     try {
@@ -103,12 +107,12 @@ class CommunityDatabaseService {
             .map((doc) => Community.fromSnapshot(doc))
             .where((community) {
           final List<String> searchList = setSearchParam(community.location);
-          for (var word in words) {
-            if (searchList.contains(word)) {
-              return true;
-            }
-          }
-          return false;
+
+          // Check if all words in the query are present in the searchList
+          bool allWordsPresent =
+              words.every((word) => searchList.contains(word));
+
+          return allWordsPresent;
         }).toList(growable: false);
       });
     } catch (e) {
