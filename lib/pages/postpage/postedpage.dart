@@ -113,7 +113,6 @@ class _PostedPageState extends State<PostedPage> {
                       ),
                       // 댓글 입력창
                       Container(
-                        color: Colors.white,
                         padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                         child: Row(
                           children: [
@@ -174,7 +173,6 @@ class _PostedPageState extends State<PostedPage> {
                             } else if (snapshot.hasData) {
                               final comments = snapshot.data!;
                               return Container(
-                                color: Colors.white,
                                 padding:
                                     const EdgeInsets.fromLTRB(30, 0, 30, 0),
                                 child: ListView.separated(
