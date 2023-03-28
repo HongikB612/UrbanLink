@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
-import 'package:urbanlink_project/widgets/post_list_component.dart';
+import 'package:urbanlink_project/widgets/post_list_widget.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 
@@ -51,27 +51,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget profileBox(MyUser? profileUser) {
     const textProfileDescriptionStyle = TextStyle(fontSize: 20);
-    const double profileHeight = 200;
-    const double profileRound = 40;
+    const double profileHeight = 150;
+    const double profileRound = 5;
     return Container(
-      margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+        margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         height: profileHeight,
         decoration: const BoxDecoration(
-          boxShadow: [
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              offset: Offset(4.0, 4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
-            ),
-            BoxShadow(
-              color: Colors.white,
-              offset: Offset(-4.0, -4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
+              blurRadius: 5.0,
+              offset: Offset(0.0, 2),
             ),
           ],
-          color: Color.fromRGBO(153, 153, 153, 0.3),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
@@ -86,23 +79,30 @@ class _ProfilePageState extends State<ProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CircleAvatar(
-                  minRadius: 60.0,
-                  backgroundColor: Colors.grey,
-                  child: CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage:
-                        AssetImage('assets/images/profileImage.jpeg'),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const CircleAvatar(
+                    minRadius: 40.0,
+                    backgroundColor: Colors.grey,
+                    child: CircleAvatar(
+                      radius: 35.0,
+                      backgroundImage:
+                          AssetImage('assets/images/profileImage.jpeg'),
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
                   child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(profileUser?.userName ?? 'Unknown',
-                          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          )),
                       Text(profileUser?.userExplanation ?? '',
                           style: textProfileDescriptionStyle),
                     ],
@@ -116,9 +116,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final postListComponent = PostListComponent();
     return Scaffold(
-      backgroundColor: Colors.white38,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: const Color.fromARGB(250, 63, 186, 219),
@@ -130,15 +129,31 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Column(
         children: <Widget>[
           profileBox(_myUser),
+          const SizedBox(
+            height: 5,
+          ),
           Container(
+            width: double.infinity,
+            height: 50,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(30, 20, 0, 10),
-            child: const Text('My Posts', style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+            child: const Text('My Posts',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal)),
           ),
+          const SizedBox(height: 15),
           Expanded(
-            child: postListComponent.postStreamBuilder(
-              PostDatabaseService.getPostsByUserId(
-                  _myUser?.userId ?? 'Unknown'),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: PostList(
+                  postStream: PostDatabaseService.getPostsByUserId(
+                      _myUser?.userId ?? 'Unknown'),
+                ),
+              ),
             ),
           ),
         ],

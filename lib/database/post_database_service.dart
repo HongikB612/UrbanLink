@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/models/posts.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -24,17 +25,8 @@ class PostDatabaseService {
     String? imageFolderPath;
 
     if (postImages != null && postImages.isNotEmpty) {
-      logger.i('post images size : ${postImages.length}');
-      int index = 0;
-      for (final file in postImages) {
-        await StorageService.uploadPostImage(
-            postId: docPost.id,
-            userId: postAuthorId,
-            image: file,
-            index: index);
-        index++;
-      }
-      imageFolderPath = 'posts/${docPost.id}';
+      await StorageService.uploadPostImages(
+          postId: docPost.id, images: postImages);
     }
 
     final json = {
@@ -161,7 +153,7 @@ class PostDatabaseService {
       required dynamic value}) async {
     if (field == 'postAuthorId' || field == 'postId') {
       logger.e('Cannot update postAuthorId or postId');
-      return;
+      throw Exception('Cannot update postAuthorId or postId');
     }
     final docPost = _postsCollection.doc(postId);
     final postModifiedTime = DateTime.now();
@@ -170,6 +162,7 @@ class PostDatabaseService {
       'postId': docPost.id,
       field: value,
       'postLastModified': postModifiedTime.toString(),
+      'postAuthorName': FirebaseAuth.instance.currentUser!.displayName,
     };
 
     // create document and write data to Firebase
@@ -186,6 +179,7 @@ class PostDatabaseService {
       'postId': docPost.id,
       'postContent': postContent,
       'postLastModified': postModifiedTime.toString(),
+      'postAuthorName': FirebaseAuth.instance.currentUser!.displayName,
     };
 
     // create document and write data to Firebase
@@ -202,6 +196,7 @@ class PostDatabaseService {
       'postId': docPost.id,
       'postTitle': postTitle,
       'postLastModified': postModifiedTime.toString(),
+      'postAuthorName': FirebaseAuth.instance.currentUser!.displayName,
     };
 
     // create document and write data to Firebase
@@ -218,6 +213,7 @@ class PostDatabaseService {
       'postId': docPost.id,
       'locationId': locationId,
       'postLastModified': postModifiedTime.toString(),
+      'postAuthorName': FirebaseAuth.instance.currentUser!.displayName,
     };
 
     // create document and write data to Firebase

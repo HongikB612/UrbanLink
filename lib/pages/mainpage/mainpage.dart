@@ -13,16 +13,18 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> pages = <Widget>[
-    MapPage(),
-    PostsPage(),
-    ProfilePage(),
+  static List<Widget> pages = <Widget>[
+    const MapPage(),
+    const PostsPage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (mounted) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override

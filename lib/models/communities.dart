@@ -29,8 +29,8 @@ class Community {
   factory Community.fromJson(Map<String, dynamic> data) {
     return Community(
       communityId: data['communityId'] ?? 'Unknown',
-      communityName: data['communityTitle'] ?? 'Unknown',
-      location: data['locationId'] ?? '',
+      communityName: data['communityName'] ?? 'Unknown',
+      location: data['location'] ?? '',
     );
   }
 

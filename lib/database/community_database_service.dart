@@ -39,23 +39,29 @@ class CommunityDatabaseService {
     }
   }
 
-  /// Get communities by query
-  /// Query means community name search
-  /// Return the community that contains the query
-  static Stream<List<Community>> getCommunitiesByQuery(String query) {
+  static Future<Community> getCommunityById(String communityId) async {
     try {
-      return _communityCollection
-          .where('communityName', isGreaterThanOrEqualTo: query)
-          .where('communityName', isLessThan: '${query}z')
-          .snapshots()
-          .map((snapshot) {
-        return snapshot.docs
-            .map((doc) => Community.fromSnapshot(doc))
-            .toList(growable: false);
-      });
+      final snapshot = await _communityCollection.doc(communityId).get();
+      if (snapshot.exists) {
+        return Community.fromSnapshot(snapshot);
+      }
     } catch (e) {
       logger.e('Error: $e');
-      return const Stream.empty();
     }
+    return Community(communityId: '', communityName: '', location: '');
+  }
+
+  static Future<Community> getCommunityByLocation(String location) async {
+    try {
+      final snapshot = await _communityCollection
+          .where('location', isEqualTo: location)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        return Community.fromSnapshot(snapshot.docs.first);
+      }
+    } catch (e) {
+      logger.e('Error: $e');
+    }
+    return Community(communityId: '', communityName: '', location: '');
   }
 }

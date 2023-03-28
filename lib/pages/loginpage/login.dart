@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     Animation<double> animation =
-        Tween(begin: 4.0, end: 2.2).animate(_animationController);
+        Tween(begin: 4.5, end: 2.2).animate(_animationController);
     return Scaffold(
       // backgroundColor: Colors.white24,
       resizeToAvoidBottomInset: false,
@@ -73,11 +73,14 @@ class _LoginPageState extends State<LoginPage>
           child: !isDone
               ? Stack(
                   children: [
-                    const Center(
-                      child: Text(
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
                         "URBAN LINK",
                         style: TextStyle(
-                            fontSize: 50, fontWeight: FontWeight.bold),
+                            color: Colors.black87,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     ScaleTransition(
@@ -195,15 +198,17 @@ class _LoginPageState extends State<LoginPage>
     //해당 클래스가 호출되었을떄
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       vsync: this,
     );
     _animationController.forward();
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          isDone = true;
-        });
+        if (mounted) {
+          setState(() {
+            isDone = true;
+          });
+        }
       } else if (status == AnimationStatus.dismissed) {
         _animationController.forward();
       }
