@@ -70,7 +70,7 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
     bool isbuttonPressed = false;
     bool selected = false;
     return Scaffold(
-      appBar: AppBar(title: const Text('Animate group of markers dynamically')),
+      appBar: AppBar(title: const Text('Map Page')),
       body: Stack(
         children: [
           MapTileLayer(
