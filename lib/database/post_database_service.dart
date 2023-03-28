@@ -147,6 +147,25 @@ class PostDatabaseService {
     }
   }
 
+  static Stream<List<Post>> getPostsByUserIdAndCommunityId(
+      String userId, String communityId) {
+    try {
+      return _postsCollection
+          .where('postAuthorId', isEqualTo: userId)
+          .where('communityId', isEqualTo: communityId)
+          .orderBy('postCreatedTime', descending: true)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Post.fromSnapshot(doc))
+            .toList(growable: false);
+      });
+    } catch (e) {
+      logger.e('Error: $e');
+      return const Stream.empty();
+    }
+  }
+
   static Future<void> updatePost(
       {required String postId,
       required String field,
