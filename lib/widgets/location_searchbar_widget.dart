@@ -51,10 +51,9 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FutureBuilder<List<Community>>(
-                        future:
-                            CommunityDatabaseService.getCommunitiesByLocation(
-                                _searchQuery),
+                    StreamBuilder<List<Community>>(
+                        stream: CommunityDatabaseService
+                            .getCommunityStreamByLocation('대한민국 서울시 마포구 서교동'),
                         builder: ((context, snapshot) {
                           if (snapshot.hasError) {
                             logger.e(snapshot.error ?? 'Unknown error');
