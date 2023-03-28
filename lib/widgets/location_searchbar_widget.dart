@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:urbanlink_project/database/community_database_service.dart';
+import 'package:urbanlink_project/models/communities.dart';
+import 'package:urbanlink_project/services/auth.dart';
 
 class LocationSearchbar extends StatefulWidget {
   final ValueChanged<String> onChanged;
@@ -13,191 +17,90 @@ class LocationSearchbar extends StatefulWidget {
 }
 
 class _LocationSearchbarState extends State<LocationSearchbar> {
-  List<String> searchResult = [];
-  String _selectedLocation = '';
+  String? _selectedLocation;
+  final ValueNotifier<String> _searchQuery = ValueNotifier<String>('');
 
   @override
   void initState() {
     super.initState();
-    _selectedLocation = widget.selectedLocation ?? '';
+    _selectedLocation = widget.selectedLocation;
   }
 
-  List<String> fakeLocations = [
-    "대한민국 서울 마포구 창전동",
-    "대한민국 서울 마포구 동교동",
-    "대한민국 서울 서대문구 창천동",
-    "대한민국 서울 마포구 서강동",
-    "대한민국 서울 마포구 노고산동",
-    "대한민국 서울 마포구 서교동",
-    "대한민국 서울 마포구 상수동",
-    "대한민국 서울 마포구 신수동",
-    "대한민국 서울 마포구 하중동",
-    "대한민국 서울 마포구 신정동",
-    "대한민국 서울 마포구 대흥동",
-    "대한민국 서울 마포구 현석동",
-    "대한민국 서울 마포구 당인동",
-    "대한민국 서울 마포구 용강동",
-    "대한민국 서울 서대문구 대현동",
-    "대한민국 서울 서대문구 신촌동",
-    "대한민국 서울 마포구 염리동",
-    "대한민국 서울 서대문구 대신동",
-    "대한민국 서울 마포구 토정동",
-    "대한민국 서울 마포구 망원제1동",
-    "대한민국 서울 마포구 합정동",
-    "대한민국 서울 마포구 성산제1동",
-    "대한민국 서울 서대문구 남가좌제1동",
-    "대한민국 서울 마포구 마포동",
-    "대한민국 서울 마포구 도화동",
-    "대한민국 서울 마포구 아현동",
-    "대한민국 서울 마포구 성산제2동",
-    "대한민국 서울 마포구 망원제2동",
-    "대한민국 서울 마포구 성산동",
-    "대한민국 서울 서대문구 북아현동",
-    "대한민국 서울 서대문구 충현동",
-    "대한민국 서울 서대문구 남가좌동",
-    "대한민국 서울 마포구 망원동",
-    "대한민국 서울 서대문구 봉원동",
-    "대한민국 서울 마포구 신공덕동",
-    "대한민국 서울 용산구 청암동",
-    "대한민국 서울 마포구 공덕동",
-    "대한민국 서울 서대문구 남가좌제2동",
-    "대한민국 서울 마포구 중동",
-    "대한민국 서울 서대문구 북가좌제1동",
-    "대한민국 서울 영등포구 여의도동",
-    "대한민국 서울 용산구 산천동",
-    "대한민국 서울용산구 도원동",
-    "대한민국 서울 용산구 원효로제2동",
-    "대한민국 서울 서대문구 홍은제2동",
-    "대한민국 서울 영등포구 당산동",
-    "대한민국 서울 용산구 용문동",
-    "대한민국 서울 서대문구 충정로3가",
-    "대한민국 서울 용산구 신창동",
-    "대한민국 서울 용산구 원효로4가",
-    "대한민국 서울 중구 만리동2가",
-    "대한민국 서울 서대문구 현저동",
-    "대한민국 서울 중구 중림동",
-    "대한민국 서울 서대문구 영천동",
-    "대한민국 서울 영등포구 당산동6가",
-    "대한민국 서울 서대문구 옥천동",
-    "대한민국 서울 용산구 효창동",
-    "대한민국 서울 서대문구 북가좌동",
-    "대한민국 서울 영등포구 당산제2동",
-    "대한민국 서울 서대문구 천연동",
-    "대한민국 서울 서대문구 냉천동",
-    "대한민국 서울 서대문구 충정로2가",
-    "대한민국 서울 용산구 원효로3가",
-    "대한민국 서울 용산구 서계동",
-    "대한민국 서울 중구 만리동1가",
-    "대한민국 서울 서대문구 합동",
-    "대한민국 서울 용산구 청파동2가",
-    "대한민국 서울 용산구 청파동1가",
-    "대한민국 서울 영등포구 양평제2동",
-    "대한민국 서울 서대문구 북가좌제2동",
-    "대한민국 서울 영등포구 당산동5가",
-    "대한민국 서울 종로구 교북동",
-    "대한민국 서울 영등포구 양평동4가",
-    "대한민국 서울 영등포구 영등포동8가",
-    "대한민국 서울 종로구 교남동",
-    "대한민국 서울 서대문구 미근동",
-    "대한민국 서울 용산구 청파동3가",
-    "대한민국 서울 종로구 무악동",
-    "대한민국 서울 영등포구 양화동",
-    "대한민국 서울 용산구 원효로2가",
-    "대한민국 서울 영등포구 양평동5가",
-    "대한민국 서울 종로구 홍파동",
-    "대한민국 서울 중구 의주로2가",
-    "대한민국 서울 종로구 송월동",
-    "대한민국 서울 종로구 평동",
-    "대한민국 서울 종로구 행촌동",
-  ];
-
-  Future<List<String>> _fetchSearch(String name) async {
-    List<String> results = [];
-    final List<String> parsedResponse = [];
-    parsedResponse.addAll(fakeLocations);
-    parsedResponse.retainWhere(
-        (location) => location.toLowerCase().contains(name.toLowerCase()));
-
-    results.clear();
-    results.addAll(parsedResponse);
-    return results;
-  }
-
-  _setResults(String query) async {
-    final List<String> results = await _fetchSearch(query);
-    setState(() {
-      searchResult.clear();
-      searchResult.addAll(results);
-    });
-  }
-
-  void _showSearchDialog(BuildContext context) {
+  void _showSearchDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Search Location'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: TextEditingController(),
-                decoration: const InputDecoration(
-                  hintText: '위치를 입력하세요.',
-                  icon: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search),
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Search Location'),
+            content: SingleChildScrollView(
+                child: Column(
+              children: [
+                TextField(
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    hintText: 'Search Location',
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery.value = value;
+                    });
+                  },
                 ),
-                keyboardType: TextInputType.text,
-                onChanged: (text) {
-                  _setResults(text);
-                },
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: FutureBuilder<List<String>>(
-                      future: _fetchSearch(''),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: searchResult.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                title: Text(searchResult[index]),
-                                onTap: () {
-                                  _selectLocation(context, searchResult[index]);
-                                },
+                const SizedBox(height: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ValueListenableBuilder(
+                      valueListenable: _searchQuery,
+                      builder: (context, value, child) => StreamBuilder<
+                              List<Community>>(
+                          stream: CommunityDatabaseService
+                              .getCommunityStreamByLocation(_searchQuery.value),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasError) {
+                              logger.e(snapshot.error ?? 'Unknown error');
+                              return Center(
+                                child: Text(
+                                    'Error: ${snapshot.error ?? 'Unknown error'}'),
                               );
-                            },
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    )),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _selectLocation(BuildContext context, String location) {
-    setState(() {
-      widget.onChanged(location);
-      _selectedLocation = location;
-    });
-    // Perform action when a location is selected
-    Navigator.of(context).pop();
+                            } else if (snapshot.hasData) {
+                              final List<Community> communities =
+                                  snapshot.data!;
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: ListView.builder(
+                                  itemCount: communities.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      title: Text(
+                                          communities[index].communityName),
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedLocation =
+                                              communities[index].communityName;
+                                        });
+                                        widget.onChanged(_selectedLocation!);
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })),
+                    ),
+                  ],
+                )
+              ],
+            )),
+          );
+        });
   }
 
   @override
@@ -205,7 +108,17 @@ class _LocationSearchbarState extends State<LocationSearchbar> {
     return Column(
       children: [
         ElevatedButton(
-          onPressed: () => _showSearchDialog(context),
+          onPressed: () {
+            try {
+              _showSearchDialog();
+            } on FlutterError catch (e) {
+              Get.snackbar('Error: Cannot open the widget', 'Error: $e');
+              logger.e(e);
+            } catch (e) {
+              Get.snackbar('Error: Cannot open the widget', 'Error: $e');
+              logger.e(e);
+            }
+          },
           child: const Text('Search Location'),
         ),
         Padding(
