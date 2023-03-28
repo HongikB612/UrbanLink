@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
@@ -42,14 +43,14 @@ class _PostsPageState extends State<PostsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // if (FirebaseAuth.instance.currentUser == null) {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text('로그인이 필요합니다.'),
-          //     ),
-          //   );
-          //   return;
-          // }
+          if (FirebaseAuth.instance.currentUser == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('로그인이 필요합니다.'),
+              ),
+            );
+            return;
+          }
 
           Get.to(const PostingPage(), arguments: Get.arguments);
         },
