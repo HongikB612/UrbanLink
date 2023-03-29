@@ -16,19 +16,7 @@ class PostList extends StatefulWidget {
 class _PostListState extends State<PostList> {
   Widget _buildPost(Post post) {
     final authorName = post.authorName;
-    return Card(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(5),
-          bottomRight: Radius.circular(5),
-          topLeft: Radius.zero,
-          topRight: Radius.zero,
-        ),
-      ),
-      color: Colors.white,
-      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
-      elevation: 5,
-      child: ListTile(
+    return ListTile(
         title: Padding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
           child: Text(
@@ -120,8 +108,7 @@ class _PostListState extends State<PostList> {
         onTap: () {
           Get.to(() => const PostedPage(), arguments: post);
         },
-      ),
-    );
+      );
   }
 
   @override
