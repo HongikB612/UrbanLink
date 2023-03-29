@@ -17,27 +17,31 @@ class ImageListBuilder extends StatefulWidget {
 class _ImageListBuilderState extends State<ImageListBuilder> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.images.length,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 100,
-            width: 100,
-            child: _ImageContainer(
-              image: widget.images[index],
-              onDelete: () {
-                // Remove the image from the list when the delete button is pressed
-                setState(() {
-                  widget.images.removeAt(index);
-                });
-              },
-            ),
-          );
-        },
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          height: 100,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.images.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 100,
+                width: 100,
+                child: _ImageContainer(
+                  image: widget.images[index],
+                  onDelete: () {
+                    // Remove the image from the list when the delete button is pressed
+                    setState(() {
+                      widget.images.removeAt(index);
+                    });
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
