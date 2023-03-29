@@ -158,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
       margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
       //height: profileHeight,
         decoration: const BoxDecoration(
-          color: Color.fromRGBO(225, 225, 225, 0.3),
+          //color: Color.fromRGBO(225, 225, 225, 0.3),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
@@ -186,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Padding(  //이름
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 7),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 7),
               child: Text(profileUser?.userName ?? 'Unknown',
                 style: const TextStyle(
                   fontSize: 20,
@@ -231,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         //color: Colors.indigoAccent,
                       ),
                     ),
-                    const Flexible(  //티켓: 좋아하는 장소 등록하기
+                    const Flexible(
                       flex: 6,
                       fit: FlexFit.tight,
                       child: SizedBox(
