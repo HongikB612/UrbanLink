@@ -72,39 +72,49 @@ class _MyPostListState extends State<MyPostList> {
   @override
   Widget build(BuildContext context) {
     final isPostsPage = Get.currentRoute == '/PostsPage';
-    return Expanded(
-      child: StreamBuilder<List<Post>>(
-        stream: widget.postStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            logger.e(snapshot.error ?? 'Unknown error');
-            return Center(
-              child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
-            );
-          } else if (snapshot.hasData) {
-            final posts = snapshot.data!;
-            if (posts.isEmpty && isPostsPage == true) {
+    return SizedBox(
+      height: 300,
+      child: Expanded(
+        child: StreamBuilder<List<Post>>(
+          stream: widget.postStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              logger.e(snapshot.error ?? 'Unknown error');
+              return Center(
+                child: Text('Error: ${snapshot.error ?? 'Unknown error'}'),
+              );
+            } else if (snapshot.hasData) {
+              final posts = snapshot.data!;
+              if (posts.isEmpty && isPostsPage == true) {
+                return const Center(
+                  child: Text('이 커뮤니티에는 포스트가 없습니다.\n글을 작성하여 이곳에 첫 포스트를 남겨보세요!'),
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) {
+                          return _buildPost(posts[index]);
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                          mainAxisSpacing: 1,
+                          childAspectRatio: 1,
+                        )),
+                  ),
+                ],
+              );
+            } else {
               return const Center(
-                child: Text('이 커뮤니티에는 포스트가 없습니다.\n글을 작성하여 이곳에 첫 포스트를 남겨보세요!'),
+                child: CircularProgressIndicator(),
               );
             }
-            return GridView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  return _buildPost(posts[index]);
-                },
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  mainAxisSpacing: 1,
-                  childAspectRatio: 1,
-                ));
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+          },
+        ),
       ),
     );
   }
@@ -215,53 +225,22 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Column(
         children: <Widget>[
-          Flexible(
-            flex: 3,
-            fit: FlexFit.tight,
-            child: Container(
-              color: const Color.fromARGB(250, 63, 186, 219),
-              child: Flexible(
-                //프로필+티켓
-                fit: FlexFit.tight,
-                child: Row(
-                  children: [
-                    Flexible(
-                      //프로필
-                      flex: 4,
-                      fit: FlexFit.tight,
-                      child: SizedBox(
-                        height: double.infinity,
-                        child: profileBox(_myUser),
-                        //color: Colors.indigoAccent,
-                      ),
-                    ),
-                    const Flexible(
-                      flex: 6,
-                      fit: FlexFit.tight,
-                      child: SizedBox(
-                        height: double.infinity,
-                        width: 50,
-                      ),
-                    )
-                  ],
+          Container(
+            color: const Color.fromARGB(250, 63, 186, 219),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 200,
+                  child: profileBox(_myUser),
+                  //color: Colors.indigoAccent,
                 ),
-              ),
+              ],
             ),
           ),
-          Flexible(
-            flex: 7,
-            child: Container(
-              color: Colors.white,
-              child: Stack(
-                children: [
-                  MyPostList(
-                    postStream: widget.postStream ??
-                        PostDatabaseService.getPostsByUserId(
-                            _myUser?.userId ?? 'Unknown'),
-                  ),
-                ],
-              ),
-            ),
+          MyPostList(
+            postStream: widget.postStream ??
+                PostDatabaseService.getPostsByUserId(
+                    _myUser?.userId ?? 'Unknown'),
           ),
         ],
       ),
