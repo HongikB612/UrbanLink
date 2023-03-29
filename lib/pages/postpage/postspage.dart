@@ -34,13 +34,23 @@ class _PostsPageState extends State<PostsPage> {
         shadowColor: Colors.grey,
       ),
       endDrawer: const LocationDrawerWidget(),
-      body: Column(
-        children: <Widget>[
-          PostList(
-            postStream: widget.postStream ?? PostDatabaseService.getPosts(),
+      body: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(5),
+            bottomRight: Radius.circular(5),
+            topLeft: Radius.zero,
+            topRight: Radius.zero,
           ),
-        ],
+        ),
+        color: Colors.white,
+        margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+        elevation: 5,
+        child: PostList(
+          postStream: widget.postStream ?? PostDatabaseService.getPosts(),
+        ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (FirebaseAuth.instance.currentUser == null) {
