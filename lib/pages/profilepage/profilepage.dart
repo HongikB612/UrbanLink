@@ -55,7 +55,9 @@ class _MyPostListState extends State<MyPostList> {
               ),
               Text(
                 '${post.postCreatedTime.month}/${post.postCreatedTime.day}/${post.postCreatedTime.year}',
-                style: const TextStyle(fontWeight: FontWeight.w300,),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ],
           ),
@@ -88,16 +90,15 @@ class _MyPostListState extends State<MyPostList> {
             }
             return GridView.builder(
                 scrollDirection: Axis.horizontal,
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return _buildPost(posts[index]);
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                mainAxisSpacing: 1,
-                childAspectRatio: 1,
-              )
-            );
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  return _buildPost(posts[index]);
+                },
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 1,
+                  childAspectRatio: 1,
+                ));
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -120,7 +121,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   StreamSubscription<MyUser?>? _subscription;
   MyUser? _myUser;
-
 
   @override
   void initState() {
@@ -155,8 +155,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget profileBox(MyUser? profileUser) {
     const double profileRound = 40;
     return Container(
-      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
-      //height: profileHeight,
+        margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+        //height: profileHeight,
         decoration: const BoxDecoration(
           //color: Color.fromRGBO(225, 225, 225, 0.3),
           borderRadius: BorderRadius.only(
@@ -169,7 +169,8 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(  //사진
+            Container(
+              //사진
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -181,13 +182,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: CircleAvatar(
                   radius: 37.0,
                   backgroundImage:
-                  AssetImage('assets/images/profileImage.jpeg'),
+                      AssetImage('assets/images/profileImage.jpeg'),
                 ),
               ),
             ),
-            Padding(  //이름
+            Padding(
+              //이름
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 7),
-              child: Text(profileUser?.userName ?? 'Unknown',
+              child: Text(
+                profileUser?.userName ?? 'Unknown',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -195,8 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 
   @override
@@ -218,16 +220,18 @@ class _ProfilePageState extends State<ProfilePage> {
             fit: FlexFit.tight,
             child: Container(
               color: const Color.fromARGB(250, 63, 186, 219),
-              child: Flexible(  //프로필+티켓
+              child: Flexible(
+                //프로필+티켓
                 fit: FlexFit.tight,
                 child: Row(
                   children: [
-                    Flexible(  //프로필
+                    Flexible(
+                      //프로필
                       flex: 4,
                       fit: FlexFit.tight,
                       child: SizedBox(
-                        child: profileBox(_myUser),
                         height: double.infinity,
+                        child: profileBox(_myUser),
                         //color: Colors.indigoAccent,
                       ),
                     ),
@@ -251,8 +255,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Stack(
                 children: [
                   MyPostList(
-                    postStream: widget.postStream ?? PostDatabaseService.getPostsByUserId(
-                        _myUser?.userId ?? 'Unknown'),
+                    postStream: widget.postStream ??
+                        PostDatabaseService.getPostsByUserId(
+                            _myUser?.userId ?? 'Unknown'),
                   ),
                 ],
               ),

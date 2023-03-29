@@ -50,7 +50,6 @@ class _PostsPageState extends State<PostsPage> {
           postStream: widget.postStream ?? PostDatabaseService.getPosts(),
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (FirebaseAuth.instance.currentUser == null) {
