@@ -36,8 +36,10 @@ class _PostsPageState extends State<PostsPage> {
       endDrawer: const LocationDrawerWidget(),
       body: Column(
         children: <Widget>[
-          PostList(
-            postStream: widget.postStream ?? PostDatabaseService.getPosts(),
+          Expanded(
+            child: PostList(
+              postStream: widget.postStream ?? PostDatabaseService.getPosts(),
+            ),
           ),
         ],
       ),
