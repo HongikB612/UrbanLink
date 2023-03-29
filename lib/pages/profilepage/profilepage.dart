@@ -144,15 +144,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal)),
           ),
           const SizedBox(height: 15),
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: PostList(
-                  postStream: PostDatabaseService.getPostsByUserId(
-                      _myUser?.userId ?? 'Unknown'),
-                ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Expanded(
+              child: PostList(
+                postStream: PostDatabaseService.getPostsByUserId(
+                    _myUser?.userId ?? 'Unknown'),
               ),
             ),
           ),
