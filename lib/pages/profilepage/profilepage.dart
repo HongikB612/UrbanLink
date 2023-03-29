@@ -145,14 +145,11 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 15),
           Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: PostList(
-                  postStream: PostDatabaseService.getPostsByUserId(
-                      _myUser?.userId ?? 'Unknown'),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: PostList(
+                postStream: PostDatabaseService.getPostsByUserId(
+                    _myUser?.userId ?? 'Unknown'),
               ),
             ),
           ),
