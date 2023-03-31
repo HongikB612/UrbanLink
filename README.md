@@ -1,15 +1,10 @@
 # Urbanlink
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/103521468/229154323-64367792-f505-47d9-b270-25e509b9a2cf.png">
 
-![urbanlink](https://user-images.githubusercontent.com/100724454/229036383-e0f78ce0-1c06-43f0-8bd1-e97b3ac88988.jpg)  
-You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=FfsPi4yWWLg)
 
 ## Who are we? <img src="https://raw.githubusercontent.com/MartinHeinz/MartinHeinz/master/wave.gif" width="30px">
 >Hi , we are Urbanlink team. We are a team of students from Hongik University in South Korea.
 >You can find us on github link.
-#### [Lee Jun Seon's github](https://github.com/nx006)
-#### [Kim Do Yeon's github](https://github.com/scarletKim2001)
-#### [Lee So Hyun's github](https://github.com/SHL3)
-#### [Kwon Jae Hyun's github](https://github.com/baebaebuae)
 
 <table>
     <tr aling="center">
@@ -17,6 +12,7 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
         <td><B>ML / 데이터베이스<B></td>
         <td><B>모바일<B></td>
         <td><B>데이터베이스<B></td>
+    </tr>
     <tr align="center">
         <td><B>이준선<B></td>
         <td><B>김도연<B></td>
@@ -56,6 +52,10 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 
 </br>
 
+### See Demo Video here! 📽️
+
+<br><a href="https://www.youtube.com/watch?v=EOs8m5CF9bQ"><I>See Demo videos here! 🎬</I></a></br>
+
 ### Functions
 * You can create a community based on the location keyword found.
 * You can create a post with a location tag and images.
@@ -69,20 +69,21 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 ## Configuration pages
 
 |First screen|Login|Profile|
-|---------|--------|------|
-|<img src="https://user-images.githubusercontent.com/100724454/229127348-0fb7302f-f338-471f-959f-8735cef44686.jpg" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229127752-5327dc41-e234-4d5a-a85e-c09db23c13b2.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229127955-9caf2eac-8dc9-4a74-9903-48b3c760d96a.png" width="250">|
+|:---:|:---:|:---:|
+|<img width="250" alt="first screen" src="https://user-images.githubusercontent.com/103521468/229154729-e0289e00-bff3-41f4-80e1-690bfd4edd5a.png">|<img width="250" alt ="login screen" src="https://user-images.githubusercontent.com/103521468/229152138-6160c3dc-f967-4a2d-83f9-15790518a321.png">|<img width="250" src="https://user-images.githubusercontent.com/103521468/229155590-f55a4609-8d72-4e02-9705-cb317595b3e2.png">|
+
 
 |Home|Map|
 |------|------|
-|<img src="https://user-images.githubusercontent.com/100724454/229128994-02c0bba2-4dc6-4a03-a27f-7fccaaf242df.png" width="300">|<img src="https://user-images.githubusercontent.com/100724454/229129415-f1203eb1-3aff-4be8-8822-3318c0130c2e.png" width="300">|
+|<img src="https://user-images.githubusercontent.com/103521468/229155970-42905c70-d13f-477e-be94-ec6c6605da62.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156088-70087fba-2c88-460d-a141-3b5221514ed3.png" width="250">|
 
 |Community|Searching for community location|Specific community|
 |------|------|------|
-|<img src="https://user-images.githubusercontent.com/100724454/229130459-8c13cb01-d4be-4234-baa3-fdc62027bd1f.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229131911-c6cbe443-d717-4df1-8598-34a606e0c6ae.pngg" width="250">|<img src="" width="250">|
+|<img src="https://user-images.githubusercontent.com/103521468/229156353-68331144-acb4-49b8-a1e0-64cdd0a41924.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156375-47f6a957-2bf5-40df-b025-78fda4cab497.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156437-8bcb3296-fe17-47ad-992d-83b835e94110.png" width="250">|
 
 |Posting - post and images|Searching for post location|Comments and appreciation|
 |------|------|------|
-|<img src="https://user-images.githubusercontent.com/100724454/229131903-5f8703b7-82ea-4f58-bca0-2d49ff79e67b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229147690-ef2248df-9e37-4f0b-8b17-5959a9da2f7b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229147678-24cb1b7b-876c-4ea8-8d1e-b5179824ac09.png" width="250">|
+|<img src="https://user-images.githubusercontent.com/103521468/229157072-461fac28-f955-44e4-a3d9-e1cdefa7e26e.gif" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229157464-bf4142f0-bbe7-4826-ab07-ca3f341c2f4b.gif" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229157643-0bc3b865-6a5b-4f29-83f6-579d8c057fe0.png" width="250">|
 
 </br>
 
