@@ -27,7 +27,7 @@ class CommentBuilder {
     return this;
   }
 
-  CommentBuilder setCommentDatetime(DateTime commentDatetime) {
+  CommentBuilder setCommentCreatedTime(DateTime commentDatetime) {
     _commentDatetime = commentDatetime;
     return this;
   }

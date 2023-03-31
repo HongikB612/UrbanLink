@@ -46,7 +46,7 @@ class CommentDatabaseService {
         .setCommentId(docComment.id)
         .setCommentAuthorId(comment.commentAuthorId)
         .setCommentContent(comment.commentContent)
-        .setCommentDatetime(comment.commentDatetime)
+        .setCommentCreatedTime(comment.commentDatetime)
         .setPostId(comment.postId)
         .build();
   }
