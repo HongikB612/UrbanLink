@@ -97,14 +97,14 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
                 longitude: markerLatLng.longitude,
                 child: GestureDetector(
                   child: Transform.translate(
-                          offset: Offset(0.0, -size / 2),
-                          child: _selectedMarkerIndices.contains(index)
-                              ? ScaleTransition(
-                                  alignment: Alignment.bottomCenter,
-                                  scale: _animation,
-                                  child: current)
-                              : current,
-                        ),
+                    offset: Offset(0.0, -size / 2),
+                    child: _selectedMarkerIndices.contains(index)
+                        ? ScaleTransition(
+                            alignment: Alignment.bottomCenter,
+                            scale: _animation,
+                            child: current)
+                        : current,
+                  ),
                 ),
               );
             },
