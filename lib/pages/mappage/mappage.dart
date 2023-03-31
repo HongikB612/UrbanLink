@@ -94,12 +94,17 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               return MapMarker(
                 latitude: markerLatLng.latitude,
                 longitude: markerLatLng.longitude,
-                child: _selectedMarkerIndices.contains(index)
-                    ? ScaleTransition(
-                        alignment: Alignment.bottomCenter,
-                        scale: _animation,
-                        child: current)
-                    : current,
+                child: GestureDetector(
+                  child: Transform.translate(
+                    offset: Offset(0.0, -size / 2),
+                    child: _selectedMarkerIndices.contains(index)
+                        ? ScaleTransition(
+                            alignment: Alignment.bottomCenter,
+                            scale: _animation,
+                            child: current)
+                        : current,
+                  ),
+                ),
               );
             },
           ),
