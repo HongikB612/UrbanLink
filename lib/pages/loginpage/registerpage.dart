@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:urbanlink_project/pages/loginpage/loginpage.dart';
+import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:get/get.dart';
