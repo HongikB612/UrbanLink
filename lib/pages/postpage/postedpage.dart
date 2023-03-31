@@ -168,24 +168,19 @@ class _PostedPageState extends State<PostedPage> {
                               );
                             } else if (snapshot.hasData) {
                               final comments = snapshot.data!;
-                              return Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                child: ListView.separated(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: comments.length,
-                                    itemBuilder: (context, index) {
-                                      return CommentWidget(
-                                        comment: comments[index],
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const Divider();
-                                    }),
-                              );
+                              return ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: comments.length,
+                                  itemBuilder: (context, index) {
+                                    return CommentWidget(
+                                      comment: comments[index],
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const Divider();
+                                  });
                             } else {
                               return const Center(
                                 child: CircularProgressIndicator(),
