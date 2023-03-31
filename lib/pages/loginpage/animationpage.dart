@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 
-class ScaleAnimation extends StatefulWidget {
-  const ScaleAnimation({Key? key}) : super(key: key);
+class _ScaleAnimation extends StatefulWidget {
+  const _ScaleAnimation({Key? key}) : super(key: key);
 
   @override
-  State<ScaleAnimation> createState() => _ScaleAnimationState();
+  State<_ScaleAnimation> createState() => _ScaleAnimationState();
 }
 
-class _ScaleAnimationState extends State<ScaleAnimation>
+class _ScaleAnimationState extends State<_ScaleAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
@@ -109,7 +109,7 @@ class _LandingAnimationPageState extends State<LandingAnimationPage> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        const ScaleAnimation(),
+        const _ScaleAnimation(),
       ],
     );
   }
