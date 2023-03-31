@@ -10,11 +10,10 @@ class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
   @override
-  State<MapPage> createState() => _AnimateGroupOfMarkersDynamicallyState();
+  State<MapPage> createState() => _MapPageState();
 }
 
-class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
-    with TickerProviderStateMixin {
+class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   late AnimationController _controller;
 
   late CurvedAnimation _animation;
@@ -68,7 +67,6 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
   @override
   Widget build(BuildContext context) {
     bool isbuttonPressed = false;
-    bool selected = false;
     return Scaffold(
       appBar: AppBar(title: const Text('Map Page')),
       body: Stack(
@@ -96,30 +94,12 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
               return MapMarker(
                 latitude: markerLatLng.latitude,
                 longitude: markerLatLng.longitude,
-                child: GestureDetector(
-                  onTap: () {
-                    selected = !selected;
-                  },
-                  child: selected
-                      ? Transform.translate(
-                          offset: Offset(0.0, -size),
-                          child: _selectedMarkerIndices.contains(index)
-                              ? ScaleTransition(
-                                  alignment: Alignment.bottomCenter,
-                                  scale: _animation,
-                                  child: current)
-                              : current,
-                        )
-                      : Transform.translate(
-                          offset: Offset(0.0, -size / 2),
-                          child: _selectedMarkerIndices.contains(index)
-                              ? ScaleTransition(
-                                  alignment: Alignment.bottomCenter,
-                                  scale: _animation,
-                                  child: current)
-                              : current,
-                        ),
-                ),
+                child: _selectedMarkerIndices.contains(index)
+                    ? ScaleTransition(
+                        alignment: Alignment.bottomCenter,
+                        scale: _animation,
+                        child: current)
+                    : current,
               );
             },
           ),
@@ -142,18 +122,16 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
           ),
         ],
       ),
-      floatingActionButton: GestureDetector(
-        child: FloatingActionButton(
-          child: const Icon(Icons.animation),
-          onPressed: () {
-            setState(() {
-              isbuttonPressed = !isbuttonPressed;
-            });
-            _selectedMarkerIndices = [0, 2, 4, 12];
-            _tileLayerController.updateMarkers(_selectedMarkerIndices);
-            _controller.forward(from: 0.2);
-          },
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.animation),
+        onPressed: () {
+          setState(() {
+            isbuttonPressed = !isbuttonPressed;
+          });
+          _selectedMarkerIndices = [0, 2, 4, 12];
+          _tileLayerController.updateMarkers(_selectedMarkerIndices);
+          _controller.forward(from: 0.2);
+        },
       ),
     );
   }
