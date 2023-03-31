@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanlink_project/database/storage_service.dart';
 import 'package:urbanlink_project/models/post/post.dart';
+import 'package:urbanlink_project/models/post/postbuilder.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class PostDatabaseService {
@@ -11,18 +12,10 @@ class PostDatabaseService {
       FirebaseFirestore.instance.collection('posts');
 
   static Future<Post> createPost({
-    required String postTitle,
-    required String postContent,
-    required String postAuthorId,
-    required String communityId,
-    required DateTime postCreatedTime,
-    required DateTime postLastModified,
-    required String locationId,
-    required String authorName,
+    required Post post,
     List<File>? postImages,
   }) async {
     final docPost = _postsCollection.doc();
-    String? imageFolderPath;
 
     if (postImages != null && postImages.isNotEmpty) {
       await StorageService.uploadPostImages(
@@ -31,17 +24,16 @@ class PostDatabaseService {
 
     final json = {
       'postId': docPost.id,
-      'postTitle': postTitle,
-      'postContent': postContent,
-      'postAuthorId': postAuthorId,
-      'communityId': communityId,
-      'postCreatedTime': postCreatedTime.toString(),
-      'postLastModified': postLastModified.toString(),
-      'locationId': locationId,
-      'authorName': authorName,
+      'postTitle': post.postTitle,
+      'postContent': post.postContent,
+      'postAuthorId': post.postAuthorId,
+      'communityId': post.communityId,
+      'postCreatedTime': post.postCreatedTime.toString(),
+      'postLastModified': post.postLastModified.toString(),
+      'locationId': post.locationId,
+      'authorName': post.authorName,
       'postLikeCount': 0,
       'postDislikeCount': 0,
-      'imageFolderPath': imageFolderPath ?? '',
     };
 
     // create document and write data to Firebase
@@ -49,19 +41,17 @@ class PostDatabaseService {
     docPost.collection('comments').doc();
 
     // return Post object with generated postId
-    return Post(
-      postId: docPost.id,
-      postTitle: postTitle,
-      postContent: postContent,
-      postAuthorId: postAuthorId,
-      communityId: communityId,
-      postCreatedTime: postCreatedTime,
-      postLastModified: postLastModified,
-      locationId: locationId,
-      authorName: authorName,
-      postLikeCount: 0,
-      postDislikeCount: 0,
-    );
+    return PostBuilder()
+        .setPostId(docPost.id)
+        .setPostTitle(post.postTitle)
+        .setPostContent(post.postContent)
+        .setAuthorName(post.authorName)
+        .setPostAuthorId(post.postAuthorId)
+        .setCommunityId(post.communityId)
+        .setPostCreatedTime(post.postCreatedTime)
+        .setPostLastModifiedTime(post.postLastModified)
+        .setLocationId(post.locationId)
+        .build();
   }
 
   static Stream<List<Post>> getPosts() {
