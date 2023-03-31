@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/post/post.dart';
 import 'package:urbanlink_project/pages/postpage/postedpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
 

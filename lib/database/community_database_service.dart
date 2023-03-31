@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:urbanlink_project/models/communities.dart';
+import 'package:urbanlink_project/models/community/community.dart';
+import 'package:urbanlink_project/models/community/communitybuilder.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class CommunityDatabaseService {
@@ -20,10 +21,11 @@ class CommunityDatabaseService {
       logger.e('Error: $e');
     }
 
-    return Community(
-        communityId: docCommunity.id,
-        communityName: community.communityName,
-        location: community.location);
+    return CommunityBuilder()
+        .setCommunityId(docCommunity.id)
+        .setCommunityName(community.communityName)
+        .setLocation(community.location)
+        .build();
   }
 
   static Stream<List<Community>> getCommunities() {
@@ -48,7 +50,9 @@ class CommunityDatabaseService {
     } catch (e) {
       logger.e('Error: $e');
     }
-    return Community(communityId: '', communityName: '', location: '');
+
+    // return default empty community
+    return CommunityBuilder().build();
   }
 
   static Future<Community> getCommunityByLocation(String location) async {

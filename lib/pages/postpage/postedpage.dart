@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/comment_database_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
-import 'package:urbanlink_project/models/comments.dart';
-import 'package:urbanlink_project/models/posts.dart';
-import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/models/comment/comment.dart';
+import 'package:urbanlink_project/models/comment/commentbuilder.dart';
+import 'package:urbanlink_project/models/post/post.dart';
+import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/services/auth.dart';
 import 'package:urbanlink_project/widgets/comment_widget.dart';
 import 'package:urbanlink_project/widgets/image_list_widget.dart';
@@ -137,13 +138,12 @@ class _PostedPageState extends State<PostedPage> {
                                   Get.snackbar('로그인을 해야 합니다', '');
                                   return;
                                 }
-                                final comment = Comment(
-                                  commentId: '',
-                                  commentAuthorId: user.uid,
-                                  commentContent: _comment,
-                                  commentDatetime: DateTime.now(),
-                                  postId: post.postId,
-                                );
+                                final comment = CommentBuilder()
+                                    .setCommentContent(_comment)
+                                    .setCommentAuthorId(user.uid)
+                                    .setCommentCreatedTime(DateTime.now())
+                                    .setPostId(post.postId)
+                                    .build();
                                 await CommentDatabaseService.createComment(
                                     comment);
                                 if (mounted) {
