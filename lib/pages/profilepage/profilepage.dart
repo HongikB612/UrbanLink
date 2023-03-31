@@ -6,7 +6,7 @@ import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
 import 'package:urbanlink_project/models/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/models/posts.dart';
-import 'package:urbanlink_project/widgets/post_list_square_widget.dart';
+import 'package:urbanlink_project/widgets/post_list_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key, this.postStream});
@@ -64,37 +64,48 @@ class _ProfilePageState extends State<ProfilePage> {
             bottomRight: Radius.circular(profileRound),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-              //사진
-              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const CircleAvatar(
-                minRadius: 40.0,
-                backgroundColor: Colors.grey,
-                child: CircleAvatar(
-                  radius: 37.0,
-                  backgroundImage:
-                      AssetImage('assets/images/profileImage.jpeg'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  //사진
+                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const CircleAvatar(
+                    minRadius: 40.0,
+                    backgroundColor: Colors.grey,
+                    child: CircleAvatar(
+                      radius: 37.0,
+                      backgroundImage:
+                          AssetImage('assets/images/profileImage.jpeg'),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              //이름
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 7),
-              child: Text(
-                profileUser?.userName ?? 'Unknown',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                Padding(
+                  //이름
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 7),
+                  child: Text(
+                    profileUser?.userName ?? 'Unknown',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
+            const SizedBox(
+              width: 20,
+            ),
+            Text(
+              profileUser?.userExplanation ?? '',
+            )
           ],
         ));
   }
@@ -124,11 +135,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          PostListSquareWidget(
-            postStream: widget.postStream ??
-                PostDatabaseService.getPostsByUserId(
-                    _myUser?.userId ?? 'Unknown'),
-          ),
+          Expanded(
+              child: PostList(
+            postStream:
+                PostDatabaseService.getPostsByUserId(_myUser?.userId ?? ''),
+          ))
         ],
       ),
     );
