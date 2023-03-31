@@ -7,6 +7,7 @@ import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/models/post/post.dart';
 import 'package:urbanlink_project/widgets/post_list_widget.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key, this.postStream});
@@ -56,7 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
         margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
         //height: profileHeight,
         decoration: const BoxDecoration(
-          //color: Color.fromRGBO(225, 225, 225, 0.3),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
@@ -65,13 +65,11 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  //사진
                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -88,7 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Padding(
-                  //이름
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 7),
                   child: Text(
                     profileUser?.userName ?? 'Unknown',
@@ -100,14 +97,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            const SizedBox(
-              width: 20,
+            Container(
+              padding: const EdgeInsets.only(left: 10, top: 35,),
+              child: BubbleSpecialOne(
+                text: profileUser?.userExplanation ?? 'Hi, How are you?',
+                isSender: false,
+                color: Colors.white.withOpacity(0.3),
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
             ),
-            Text(
-              profileUser?.userExplanation ?? '',
-            )
           ],
-        ));
+        )
+    );
   }
 
   @override
@@ -126,13 +131,10 @@ class _ProfilePageState extends State<ProfilePage> {
         children: <Widget>[
           Container(
             color: const Color.fromARGB(250, 63, 186, 219),
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 200,
-                  child: profileBox(_myUser),
-                ),
-              ],
+            child:
+            SizedBox(
+              height: 200,
+              child: profileBox(_myUser),
             ),
           ),
           Expanded(
