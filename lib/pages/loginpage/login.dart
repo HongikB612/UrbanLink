@@ -63,131 +63,135 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     Animation<double> animation =
         Tween(begin: 4.5, end: 2.2).animate(_animationController);
-    return Scaffold(
-      // backgroundColor: Colors.white24,
-      resizeToAvoidBottomInset: false,
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: !isDone
-              ? Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        "URBAN LINK",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ScaleTransition(
-                      scale: animation,
-                      child: SizedBox(
-                        width: 10000,
-                        height: 10000,
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                              top: -70,
-                              left: 2,
-                              child: Container(
-                                width: 500,
-                                height: 500,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/blueround.png'),
-                                      opacity: 0.8),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 150,
-                              left: 150,
-                              child: Container(
-                                width: 400,
-                                height: 400,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/blueround.png'),
-                                      opacity: 0.5),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 400,
-                              left: -90,
-                              child: Container(
-                                width: 550,
-                                height: 550,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/blueround.png'),
-                                      opacity: 0.7),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 150, 8, 0),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "URBAN LINK",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 30,
-                        ),
-                      ),
-                      const SizedBox(height: 100.0),
-                      _userIdWidget(),
-                      const SizedBox(height: 20.0),
-                      _passwordWidget(),
-                      const SizedBox(height: 50.0),
-                      Container(
-                        height: 70,
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ElevatedButton(
-                            onPressed: () => _login(),
-                            child: const Text("로그인")),
-                      ),
-                      const SizedBox(height: 20.0),
-                      Container(
-                        height: 70,
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ElevatedButton(
-                            onPressed: () => {
-                                  Get.to(() => const RegisterPage()),
-                                },
-                            child: const Text("회원가입")),
-                      ),
-                      const SizedBox(height: 20.0),
-                      GestureDetector(
-                        child: const Text(
-                          '로그인 하지 않고 이용하기',
-                          style: TextStyle(
-                            color: Color.fromARGB(250, 63, 186, 219),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: !isDone
+                  ? Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: const Text(
+                            "URBAN LINK",
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                        onTap: () {
-                          Get.offAll(() => const MainPage());
-                        },
-                      )
-                    ],
-                  ),
-                ),
+                        ScaleTransition(
+                          scale: animation,
+                          child: SizedBox(
+                            width: 10000,
+                            height: 10000,
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned(
+                                  top: -70,
+                                  left: 2,
+                                  child: Container(
+                                    width: 500,
+                                    height: 500,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/blueround.png'),
+                                          opacity: 0.8),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 150,
+                                  left: 150,
+                                  child: Container(
+                                    width: 400,
+                                    height: 400,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/blueround.png'),
+                                          opacity: 0.5),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 400,
+                                  left: -90,
+                                  child: Container(
+                                    width: 550,
+                                    height: 550,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/blueround.png'),
+                                          opacity: 0.7),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 150, 8, 0),
+                      child: Column(
+                        children: [
+                          const Text(
+                            "URBAN LINK",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 30,
+                            ),
+                          ),
+                          const SizedBox(height: 100.0),
+                          _userIdWidget(),
+                          const SizedBox(height: 20.0),
+                          _passwordWidget(),
+                          const SizedBox(height: 50.0),
+                          Container(
+                            height: 70,
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: ElevatedButton(
+                                onPressed: () => _login(),
+                                child: const Text("로그인")),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            height: 70,
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: ElevatedButton(
+                                onPressed: () => {
+                                      Get.to(() => const RegisterPage()),
+                                    },
+                                child: const Text("회원가입")),
+                          ),
+                          const SizedBox(height: 20.0),
+                          GestureDetector(
+                            child: const Text(
+                              '로그인 하지 않고 이용하기',
+                              style: TextStyle(
+                                color: Color.fromARGB(250, 63, 186, 219),
+                              ),
+                            ),
+                            onTap: () {
+                              Get.offAll(() => const MainPage());
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+            ),
+          ),
         ),
       ),
     );
