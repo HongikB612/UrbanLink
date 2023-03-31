@@ -20,6 +20,8 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
   late CurvedAnimation _animation;
   late MapTileLayerController _tileLayerController;
 
+  late MapZoomPanBehavior _zoomPanBehavior;
+
   late Map<String, MapLatLng> _markers;
 
   List<int> _selectedMarkerIndices = [];
@@ -33,6 +35,11 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
     _tileLayerController = MapTileLayerController();
+
+    _zoomPanBehavior = MapZoomPanBehavior()
+      ..zoomLevel = 12
+      ..focalLatLng = const MapLatLng(37.565643683342, 126.95524147826)
+      ..toolbarSettings = const MapToolbarSettings();
 
     _markers = <String, MapLatLng>{
       'Sogu': const MapLatLng(37.552635722509, 126.92436042413),
@@ -72,43 +79,42 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
       appBar: AppBar(title: const Text('Map Page')),
       body: Stack(
         children: [
-          MapTileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            initialZoomLevel: 13,
-            initialFocalLatLng:
-                const MapLatLng(37.565643683342, 126.95524147826),
-            controller: _tileLayerController,
-            initialMarkersCount: _markers.length,
-            zoomPanBehavior: MapZoomPanBehavior(
-              enableMouseWheelZooming: true,
-              showToolbar: true,
-            ),
-            markerBuilder: (BuildContext context, int index) {
-              final double size =
-                  _selectedMarkerIndices.contains(index) ? 400 : 300;
-              final MapLatLng markerLatLng = _markers.values.elementAt(index);
-              Widget current = Icon(Icons.circle,
-                  color: isbuttonPressed
-                      ? Colors.pinkAccent.withOpacity(0.5)
-                      : Colors.lightBlueAccent.withOpacity(0.5),
-                  size: size);
-              return MapMarker(
-                latitude: markerLatLng.latitude,
-                longitude: markerLatLng.longitude,
-                child: GestureDetector(
-                  child: Transform.translate(
-                    offset: Offset(0.0, -size / 2),
-                    child: _selectedMarkerIndices.contains(index)
-                        ? ScaleTransition(
-                            alignment: Alignment.bottomCenter,
-                            scale: _animation,
-                            child: current)
-                        : current,
+          SfMaps(layers: [
+            MapTileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              initialZoomLevel: 13,
+              initialFocalLatLng:
+                  const MapLatLng(37.565643683342, 126.95524147826),
+              controller: _tileLayerController,
+              initialMarkersCount: _markers.length,
+              zoomPanBehavior: _zoomPanBehavior,
+              markerBuilder: (BuildContext context, int index) {
+                final double size =
+                    _selectedMarkerIndices.contains(index) ? 400 : 300;
+                final MapLatLng markerLatLng = _markers.values.elementAt(index);
+                Widget current = Icon(Icons.circle,
+                    color: isbuttonPressed
+                        ? Colors.pinkAccent.withOpacity(0.5)
+                        : Colors.lightBlueAccent.withOpacity(0.5),
+                    size: size);
+                return MapMarker(
+                  latitude: markerLatLng.latitude,
+                  longitude: markerLatLng.longitude,
+                  child: GestureDetector(
+                    child: Transform.translate(
+                      offset: Offset(0.0, -size / 2),
+                      child: _selectedMarkerIndices.contains(index)
+                          ? ScaleTransition(
+                              alignment: Alignment.bottomCenter,
+                              scale: _animation,
+                              child: current)
+                          : current,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
+          ]),
           Positioned(
             top: 5,
             right: 15,
