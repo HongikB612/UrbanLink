@@ -43,14 +43,10 @@
     </tr>
 </table>
 
-</br>
-
 ## What's Urbanlink?
 * It is a 'space-based multi-purpose community app'.
 * Our app’s goal is to help users appreciate and rediscover their local surroundings, transforming them into more vibrant and dynamic spaces.
 * Often, we might overlook events happening nearby, but with our service, users can stay informed about their city, local happenings, and the people who livin our city.
-
-</br>
 
 ### See Demo Video here! 📽️
 
@@ -97,3 +93,11 @@
 We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to.
 
 Also by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
+
+## How to run
+
+### 1. Clone the repository
+```
+$ git clone https://github.com/HongikB612/UrbanLink.git
+```
+
