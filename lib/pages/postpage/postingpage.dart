@@ -157,8 +157,13 @@ class _PostingPageState extends State<PostingPage> {
                             .setPostContent(_content)
                             .setLocationId(locationId)
                             .build();
-
-                        await PostDatabaseService.createPost(post: posting);
+                        try {
+                          await PostDatabaseService.createPost(post: posting);
+                        } on FirebaseException catch (e) {
+                          logger.e(e);
+                          Get.snackbar('게시글 작성에 실패했습니다.', '다시 시도해주세요.');
+                          return;
+                        }
                       }
                       Get.back();
                     },
