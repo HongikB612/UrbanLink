@@ -86,3 +86,31 @@ class _ScaleAnimationState extends State<ScaleAnimation>
     );
   }
 }
+
+class LandingAnimationPage extends StatefulWidget {
+  const LandingAnimationPage({super.key});
+
+  @override
+  State<LandingAnimationPage> createState() => _LandingAnimationPageState();
+}
+
+class _LandingAnimationPageState extends State<LandingAnimationPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          child: const Text(
+            "URBAN LINK",
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 50,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        const ScaleAnimation(),
+      ],
+    );
+  }
+}

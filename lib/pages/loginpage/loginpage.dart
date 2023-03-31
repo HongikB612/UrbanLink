@@ -64,6 +64,9 @@ class _LoginPageState extends State<LoginPage>
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
+        setState(() {
+          isDone = true;
+        });
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -73,21 +76,7 @@ class _LoginPageState extends State<LoginPage>
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: !isDone
-                  ? Stack(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: const Text(
-                            "URBAN LINK",
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        const ScaleAnimation(),
-                      ],
-                    )
+                  ? const LandingAnimationPage()
                   : Padding(
                       padding: const EdgeInsets.fromLTRB(8, 150, 8, 0),
                       child: Column(
