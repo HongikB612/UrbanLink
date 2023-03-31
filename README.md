@@ -73,12 +73,12 @@
 |<img width="250" alt="first screen" src="https://user-images.githubusercontent.com/103521468/229154729-e0289e00-bff3-41f4-80e1-690bfd4edd5a.png">|<img width="250" alt ="login screen" src="https://user-images.githubusercontent.com/103521468/229152138-6160c3dc-f967-4a2d-83f9-15790518a321.png">|<img width="250" src="https://user-images.githubusercontent.com/103521468/229155590-f55a4609-8d72-4e02-9705-cb317595b3e2.png">|
 
 
-|Home|Map|
-|------|------|
-|<img src="https://user-images.githubusercontent.com/103521468/229155970-42905c70-d13f-477e-be94-ec6c6605da62.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156088-70087fba-2c88-460d-a141-3b5221514ed3.png" width="250">|
+|Profile Setting|Home|Map|
+|:---:|:---:|:---:|
+|<img width="250" src="https://user-images.githubusercontent.com/103521468/229160900-1219c893-8027-4d4b-913b-45399e4f100f.png">|<img src="https://user-images.githubusercontent.com/103521468/229155970-42905c70-d13f-477e-be94-ec6c6605da62.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156088-70087fba-2c88-460d-a141-3b5221514ed3.png" width="250">|
 
 |Community|Searching for community location|Specific community|
-|------|------|------|
+|:---:|:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/103521468/229156353-68331144-acb4-49b8-a1e0-64cdd0a41924.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156375-47f6a957-2bf5-40df-b025-78fda4cab497.png" width="250">|<img src="https://user-images.githubusercontent.com/103521468/229156437-8bcb3296-fe17-47ad-992d-83b835e94110.png" width="250">|
 
 |Posting - post and images|Searching for post location|Comments and appreciation|
