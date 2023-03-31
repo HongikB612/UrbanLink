@@ -1,5 +1,6 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:urbanlink_project/models/comments.dart';
+import 'package:urbanlink_project/models/comment/comment.dart';
 
 /// Post model
 /// This model is used to store the post information

@@ -5,7 +5,7 @@ import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/widgets/location_drawer_widget.dart';
 import 'package:urbanlink_project/widgets/post_list_widget.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/post/post.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key, this.postStream});
@@ -61,7 +61,7 @@ class _PostsPageState extends State<PostsPage> {
             return;
           }
 
-          Get.to(const PostingPage(), arguments: Get.arguments);
+          Get.to(() => const PostingPage(), arguments: Get.arguments);
         },
         child: const Icon(Icons.post_add),
       ),

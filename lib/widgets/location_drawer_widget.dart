@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/database/community_database_service.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
-import 'package:urbanlink_project/models/communities.dart';
+import 'package:urbanlink_project/models/community/community.dart';
 import 'package:urbanlink_project/pages/postpage/postspage.dart';
 
 class LocationDrawerWidget extends StatefulWidget {
