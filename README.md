@@ -11,6 +11,42 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 #### [Lee So Hyun's github](https://github.com/SHL3)
 #### [Kwon Jae Hyun's github](https://github.com/baebaebuae)
 
+<table>
+    <tr aling="center">
+        <td><B>기획 / 모바일 / 백엔드<B></td>
+        <td><B>ML / 데이터베이스<B></td>
+        <td><B>모바일<B></td>
+        <td><B>데이터베이스<B></td>
+    <tr align="center">
+        <td><B>이준선<B></td>
+        <td><B>김도연<B></td>
+        <td><B>이소현<B></td>
+        <td><B>권재현<B></td>
+    </tr>
+    <tr align="center">
+        <td>
+            <img src="https://github.com/nx006.png" width="100">
+            <br>
+            <a href="https://github.com/nx006"><I>이준선</I></a>
+        </td>
+        <td>
+            <img src="https://github.com/scarletKim2001.png" width="100">
+            <br>
+            <a href="https://github.com/scarletKim2001"><I>김도연</I></a>
+        </td>
+        <td>
+            <img src="https://github.com/SHL3.png" width="100">
+            <br>
+            <a href="https://github.com/SHL3"><I>이소현</I></a>
+        </td>
+        <td>
+            <img src="https://github.com/baebaebuae.png" width="100">
+            <br>
+            <a href="https://github.com/baebaebuae"><I>권재현</I></a>
+        </td>
+    </tr>
+</table>
+
 </br>
 
 ## What's Urbanlink?
@@ -26,7 +62,7 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 * You can add comments, likes, and dislikes to each post to communicate with people in the community.
 
 ### Technologies
-<img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white"> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white">
+<img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white"> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"> <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white">
 
 </br>
 
@@ -58,3 +94,5 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 
 ### Future plans  
 We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to.
+
+Also by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
