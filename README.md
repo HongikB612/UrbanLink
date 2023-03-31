@@ -44,9 +44,9 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 |------|------|------|
 |<img src="https://user-images.githubusercontent.com/100724454/229130459-8c13cb01-d4be-4234-baa3-fdc62027bd1f.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229131911-c6cbe443-d717-4df1-8598-34a606e0c6ae.pngg" width="250">|<img src="" width="250">|
 
-|Posting - post and images|Searching for post location|comments and appreciation|
+|Posting - post and images|Searching for post location|Comments and appreciation|
 |------|------|------|
-|<img src="https://user-images.githubusercontent.com/100724454/229131903-5f8703b7-82ea-4f58-bca0-2d49ff79e67b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229130611-e827f73b-9a45-42a4-add1-e71b6219e1d1.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229131917-3fe44567-0074-4b39-bcea-5cf6f7886ad8.png" width="250">|
+|<img src="https://user-images.githubusercontent.com/100724454/229131903-5f8703b7-82ea-4f58-bca0-2d49ff79e67b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229146222-d84edd8c-f186-464b-bb15-818333c64ea2.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229146378-e0bee26f-c36b-4590-9ea9-e364679b6ba8.png" width="250">|
 
 </br>
 
