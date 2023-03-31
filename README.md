@@ -53,7 +53,6 @@
 </br>
 
 ### See Demo Video here! 📽️
-
 <br><a href="https://www.youtube.com/watch?v=EOs8m5CF9bQ"><I>See Demo videos here! 🎬</I></a></br>
 
 ### Functions
@@ -93,7 +92,23 @@
 
 </br>
 
-### Future plans  
-We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to.
+## Development process  
+1. Design Sprint  
+* Understand and Define
+* Sketch
+* Decide
+* Make a prototype
 
-Also by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
+2. Interim presentation and feedback  
+[![Urbanlink](https://user-images.githubusercontent.com/100724454/229185193-004b06b4-5732-4e71-be8a-798544276054.png)](https://www.youtube.com/watch?v=zZy-AX7FYLo)
+
+3. Implementation  
+* Use Flutter : As a cross-platform framework, we created an app using the advantage of good productivity.
+* Use Firebase : In the beginning of DB design, we tried to use the 'sqlLite', relational database of pub.dev package. However, we decided to use Firestore because we thought it would be convenient to use NOSQL-based Firestore, which is internally supported by Flutter, including various cloud features.
+* Use 'Git flow' for team collaboration : We divided git branches into 'main', 'develop', and 'feature'. Every time each 'develop' branch is completed, a pull request was made in the develop branch and finally merged into the main branch.  
+ 
+</br>
+
+## Future plans  
+We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to.
+In addition, by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
