@@ -82,7 +82,7 @@ You can find our demo video here. [Demo Video](https://www.youtube.com/watch?v=F
 
 |Posting - post and images|Searching for post location|Comments and appreciation|
 |------|------|------|
-|<img src="https://user-images.githubusercontent.com/100724454/229131903-5f8703b7-82ea-4f58-bca0-2d49ff79e67b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229146222-d84edd8c-f186-464b-bb15-818333c64ea2.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229146378-e0bee26f-c36b-4590-9ea9-e364679b6ba8.png" width="250">|
+|<img src="https://user-images.githubusercontent.com/100724454/229131903-5f8703b7-82ea-4f58-bca0-2d49ff79e67b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229147690-ef2248df-9e37-4f0b-8b17-5959a9da2f7b.png" width="250">|<img src="https://user-images.githubusercontent.com/100724454/229147678-24cb1b7b-876c-4ea8-8d1e-b5179824ac09.png" width="250">|
 
 </br>
 
