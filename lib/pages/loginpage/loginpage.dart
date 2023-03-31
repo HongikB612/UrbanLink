@@ -1,7 +1,7 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urbanlink_project/pages/loginpage/animationpage.dart';
 import 'package:urbanlink_project/pages/loginpage/registerpage.dart';
 import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 import 'package:urbanlink_project/services/auth.dart';
@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
   bool isDone = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -62,10 +61,10 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-    Animation<double> animation =
-        Tween(begin: 4.5, end: 2.2).animate(_animationController);
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
@@ -86,59 +85,7 @@ class _LoginPageState extends State<LoginPage>
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        ScaleTransition(
-                          scale: animation,
-                          child: SizedBox(
-                            width: 10000,
-                            height: 10000,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  top: -70,
-                                  left: 2,
-                                  child: Container(
-                                    width: 500,
-                                    height: 500,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/blueround.png'),
-                                          opacity: 0.8),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 150,
-                                  left: 150,
-                                  child: Container(
-                                    width: 400,
-                                    height: 400,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/blueround.png'),
-                                          opacity: 0.5),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 400,
-                                  left: -90,
-                                  child: Container(
-                                    width: 550,
-                                    height: 550,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/blueround.png'),
-                                          opacity: 0.7),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        const ScaleAnimation(),
                       ],
                     )
                   : Padding(
@@ -202,21 +149,10 @@ class _LoginPageState extends State<LoginPage>
   void initState() {
     //해당 클래스가 호출되었을떄
     super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
-    _animationController.forward();
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        if (mounted) {
-          setState(() {
-            isDone = true;
-          });
-        }
-      } else if (status == AnimationStatus.dismissed) {
-        _animationController.forward();
-      }
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        isDone = true;
+      });
     });
   }
 
