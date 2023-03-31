@@ -13,8 +13,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage> {
   bool isDone = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
