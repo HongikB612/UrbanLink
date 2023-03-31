@@ -37,16 +37,16 @@ class _ScaleAnimationState extends State<_ScaleAnimation>
     return ScaleTransition(
       scale: animation,
       child: SizedBox(
-        width: 10000,
-        height: 10000,
+        height: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width,
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: -70,
-              left: 2,
+              top: 0,
+              left: 0,
               child: Container(
-                width: 500,
-                height: 500,
+                width: 0.8 * MediaQuery.of(context).size.width,
+                height: 0.8 * MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/blueround.png'),
@@ -55,11 +55,11 @@ class _ScaleAnimationState extends State<_ScaleAnimation>
               ),
             ),
             Positioned(
-              top: 150,
-              left: 150,
+              top: MediaQuery.of(context).size.width * 0.2,
+              left: MediaQuery.of(context).size.width * 0.2,
               child: Container(
-                width: 400,
-                height: 400,
+                width: 0.7 * MediaQuery.of(context).size.width,
+                height: 0.7 * MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/blueround.png'),
@@ -68,11 +68,11 @@ class _ScaleAnimationState extends State<_ScaleAnimation>
               ),
             ),
             Positioned(
-              top: 400,
-              left: -90,
+              top: MediaQuery.of(context).size.width * 0.9,
+              left: MediaQuery.of(context).size.width * 0.2,
               child: Container(
-                width: 550,
-                height: 550,
+                width: 0.7 * MediaQuery.of(context).size.width,
+                height: 0.7 * MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/blueround.png'),
@@ -97,19 +97,26 @@ class LandingAnimationPage extends StatefulWidget {
 class _LandingAnimationPageState extends State<LandingAnimationPage> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child: const Text(
-            "URBAN LINK",
-            style: TextStyle(
-                color: Colors.black87,
-                fontSize: 50,
-                fontWeight: FontWeight.bold),
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              children: const [
+                _ScaleAnimation(),
+                Text(
+                  "URBAN LINK",
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ],
         ),
-        const _ScaleAnimation(),
       ],
     );
   }
