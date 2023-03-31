@@ -93,11 +93,3 @@
 We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to.
 
 Also by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
-
-## How to run
-
-### 1. Clone the repository
-```
-$ git clone https://github.com/HongikB612/UrbanLink.git
-```
-
