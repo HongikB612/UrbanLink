@@ -10,14 +10,17 @@ class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  State<MapPage> createState() => _AnimateGroupOfMarkersDynamicallyState();
 }
 
-class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
+class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
 
   late CurvedAnimation _animation;
   late MapTileLayerController _tileLayerController;
+
+  late MapZoomPanBehavior _zoomPanBehavior;
 
   late Map<String, MapLatLng> _markers;
 
@@ -32,6 +35,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
     _tileLayerController = MapTileLayerController();
+
+    _zoomPanBehavior = MapZoomPanBehavior()
+      ..zoomLevel = 12
+      ..focalLatLng = const MapLatLng(37.565643683342, 126.95524147826)
+      ..toolbarSettings = const MapToolbarSettings();
 
     _markers = <String, MapLatLng>{
       'Sogu': const MapLatLng(37.552635722509, 126.92436042413),
@@ -71,43 +79,42 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       appBar: AppBar(title: const Text('Map Page')),
       body: Stack(
         children: [
-          MapTileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            initialZoomLevel: 13,
-            initialFocalLatLng:
-                const MapLatLng(37.565643683342, 126.95524147826),
-            controller: _tileLayerController,
-            initialMarkersCount: _markers.length,
-            zoomPanBehavior: MapZoomPanBehavior(
-              enableMouseWheelZooming: true,
-              showToolbar: true,
-            ),
-            markerBuilder: (BuildContext context, int index) {
-              final double size =
-                  _selectedMarkerIndices.contains(index) ? 400 : 300;
-              final MapLatLng markerLatLng = _markers.values.elementAt(index);
-              Widget current = Icon(Icons.circle,
-                  color: isbuttonPressed
-                      ? Colors.pinkAccent.withOpacity(0.5)
-                      : Colors.lightBlueAccent.withOpacity(0.5),
-                  size: size);
-              return MapMarker(
-                latitude: markerLatLng.latitude,
-                longitude: markerLatLng.longitude,
-                child: GestureDetector(
-                  child: Transform.translate(
-                    offset: Offset(0.0, -size / 2),
-                    child: _selectedMarkerIndices.contains(index)
-                        ? ScaleTransition(
-                            alignment: Alignment.bottomCenter,
-                            scale: _animation,
-                            child: current)
-                        : current,
+          SfMaps(layers: [
+            MapTileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              initialZoomLevel: 13,
+              initialFocalLatLng:
+                  const MapLatLng(37.565643683342, 126.95524147826),
+              controller: _tileLayerController,
+              initialMarkersCount: _markers.length,
+              zoomPanBehavior: _zoomPanBehavior,
+              markerBuilder: (BuildContext context, int index) {
+                final double size =
+                    _selectedMarkerIndices.contains(index) ? 400 : 300;
+                final MapLatLng markerLatLng = _markers.values.elementAt(index);
+                Widget current = Icon(Icons.circle,
+                    color: isbuttonPressed
+                        ? Colors.pinkAccent.withOpacity(0.5)
+                        : Colors.lightBlueAccent.withOpacity(0.5),
+                    size: size);
+                return MapMarker(
+                  latitude: markerLatLng.latitude,
+                  longitude: markerLatLng.longitude,
+                  child: GestureDetector(
+                    child: Transform.translate(
+                      offset: Offset(0.0, -size / 2),
+                      child: _selectedMarkerIndices.contains(index)
+                          ? ScaleTransition(
+                              alignment: Alignment.bottomCenter,
+                              scale: _animation,
+                              child: current)
+                          : current,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
+          ]),
           Positioned(
             top: 5,
             right: 15,
@@ -127,16 +134,18 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.animation),
-        onPressed: () {
-          setState(() {
-            isbuttonPressed = !isbuttonPressed;
-          });
-          _selectedMarkerIndices = [0, 2, 4, 12];
-          _tileLayerController.updateMarkers(_selectedMarkerIndices);
-          _controller.forward(from: 0.2);
-        },
+      floatingActionButton: GestureDetector(
+        child: FloatingActionButton(
+          child: const Icon(Icons.animation),
+          onPressed: () {
+            setState(() {
+              isbuttonPressed = !isbuttonPressed;
+            });
+            _selectedMarkerIndices = [0, 2, 4, 12];
+            _tileLayerController.updateMarkers(_selectedMarkerIndices);
+            _controller.forward(from: 0.2);
+          },
+        ),
       ),
     );
   }
