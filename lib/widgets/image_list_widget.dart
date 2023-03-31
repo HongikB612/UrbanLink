@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/database/storage_service.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/post/post.dart';
 
 class ImageList extends StatefulWidget {
   const ImageList({

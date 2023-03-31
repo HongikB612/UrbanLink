@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
-import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/post/post.dart';
 import 'package:urbanlink_project/widgets/post_list_widget.dart';
 
 class ProfilePage extends StatefulWidget {

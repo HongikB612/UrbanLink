@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 
 class PostingService {

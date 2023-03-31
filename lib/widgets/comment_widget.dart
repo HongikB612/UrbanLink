@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
-import 'package:urbanlink_project/models/comments.dart';
-import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/models/comment/comment.dart';
+import 'package:urbanlink_project/models/user/user.dart';
 
 class CommentWidget extends StatefulWidget {
   final Comment comment;

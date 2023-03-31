@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:urbanlink_project/models/communities.dart';
+import 'package:urbanlink_project/models/community/community.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class CommunityDatabaseService {
