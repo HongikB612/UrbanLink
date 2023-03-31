@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'UrbanLink',
       theme: ThemeData(
         primarySwatch: Colors.blue,

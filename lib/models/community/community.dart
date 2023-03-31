@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:urbanlink_project/models/posts.dart';
 
 /// Community model
 /// This model is used to store the community information
@@ -9,8 +8,6 @@ class Community {
 
   /// location of the community
   final String location;
-
-  final List<Post> postList = <Post>[];
 
   Community({
     required this.communityId,

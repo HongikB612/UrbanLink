@@ -5,7 +5,7 @@ import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/widgets/location_drawer_widget.dart';
 import 'package:urbanlink_project/widgets/post_list_widget.dart';
 import 'package:urbanlink_project/pages/postpage/postingpage.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/post/post.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key, this.postStream});
@@ -34,14 +34,21 @@ class _PostsPageState extends State<PostsPage> {
         shadowColor: Colors.grey,
       ),
       endDrawer: const LocationDrawerWidget(),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: PostList(
-              postStream: widget.postStream ?? PostDatabaseService.getPosts(),
-            ),
+      body: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(5),
+            bottomRight: Radius.circular(5),
+            topLeft: Radius.zero,
+            topRight: Radius.zero,
           ),
-        ],
+        ),
+        color: Colors.white,
+        margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+        elevation: 5,
+        child: PostList(
+          postStream: widget.postStream ?? PostDatabaseService.getPosts(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

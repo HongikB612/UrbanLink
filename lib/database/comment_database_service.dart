@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:urbanlink_project/models/comments.dart';
+import 'package:urbanlink_project/models/comment/comment.dart';
+import 'package:urbanlink_project/models/comment/commentbuilder.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class CommentDatabaseService {
@@ -24,7 +25,7 @@ class CommentDatabaseService {
     }
   }
 
-  static createComment(Comment comment) {
+  static Future<Comment> createComment(Comment comment) async {
     final docPost = _postsCollection.doc(comment.postId);
     final docComment = docPost.collection('comments').doc();
 
@@ -36,9 +37,17 @@ class CommentDatabaseService {
       'postId': comment.postId,
     };
     try {
-      docComment.set(json);
+      await docComment.set(json);
     } catch (e) {
       logger.e('Error: $e');
     }
+
+    return CommentBuilder()
+        .setCommentId(docComment.id)
+        .setCommentAuthorId(comment.commentAuthorId)
+        .setCommentContent(comment.commentContent)
+        .setCommentCreatedTime(comment.commentDatetime)
+        .setPostId(comment.postId)
+        .build();
   }
 }

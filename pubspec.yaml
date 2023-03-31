@@ -55,6 +55,7 @@ dependencies:
   image_picker: ^0.8.7
   firebase_storage: ^11.0.16
   syncfusion_flutter_maps: ^21.1.35
+  chat_bubbles: ^1.4.0
   
 
 dev_dependencies:

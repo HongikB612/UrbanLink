@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:urbanlink_project/database/community_database_service.dart';
+import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
+import 'package:urbanlink_project/models/post/postbuilder.dart';
 import 'package:urbanlink_project/services/auth.dart';
-import 'package:urbanlink_project/services/posting_service.dart';
 import 'package:urbanlink_project/widgets/image_list_builder.dart';
 import 'package:urbanlink_project/widgets/location_searchbar_widget.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
@@ -142,10 +143,18 @@ class _PostingPageState extends State<PostingPage> {
                   final community =
                       await CommunityDatabaseService.getCommunityByLocation(
                           locationId);
+                  if (myUser != null) {
+                    final posting = PostBuilder()
+                        .setAuthorName(myUser.userName)
+                        .setPostAuthorId(FirebaseAuth.instance.currentUser!.uid)
+                        .setCommunityId(community.communityId)
+                        .setPostTitle(_headline)
+                        .setPostContent(_content)
+                        .setLocationId(locationId)
+                        .build();
 
-                  PostingService.postingByPosts(myUser!, _content, _headline,
-                      community.communityId, locationId, images);
-
+                    await PostDatabaseService.createPost(post: posting);
+                  }
                   Get.back();
                 },
                 child: const Text('게시하기'),

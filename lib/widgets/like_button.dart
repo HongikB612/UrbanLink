@@ -1,5 +1,5 @@
 import 'package:like_button/like_button.dart';
-import 'package:urbanlink_project/models/posts.dart';
+import 'package:urbanlink_project/models/post/post.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
 import 'package:flutter/material.dart';
 

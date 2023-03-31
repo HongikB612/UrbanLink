@@ -3,12 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
 import 'package:urbanlink_project/widgets/menu_drawer_widget.dart';
-import 'package:urbanlink_project/widgets/post_list_widget.dart';
-import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/database/post_database_service.dart';
+import 'package:urbanlink_project/models/post/post.dart';
+import 'package:urbanlink_project/widgets/post_list_widget.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key, this.postStream});
+  final Stream<List<Post>>? postStream;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -16,7 +19,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   StreamSubscription<MyUser?>? _subscription;
-
   MyUser? _myUser;
 
   @override
@@ -50,21 +52,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget profileBox(MyUser? profileUser) {
-    const textProfileDescriptionStyle = TextStyle(fontSize: 20);
-    const double profileHeight = 150;
-    const double profileRound = 5;
+    const double profileRound = 40;
     return Container(
-        margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        height: profileHeight,
+        margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+        //height: profileHeight,
         decoration: const BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 5.0,
-              offset: Offset(0.0, 2),
-            ),
-          ],
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(profileRound),
             topRight: Radius.circular(profileRound),
@@ -72,14 +64,13 @@ class _ProfilePageState extends State<ProfilePage> {
             bottomRight: Radius.circular(profileRound),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
+        child: Row(
+          children: [
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -88,71 +79,69 @@ class _ProfilePageState extends State<ProfilePage> {
                     minRadius: 40.0,
                     backgroundColor: Colors.grey,
                     child: CircleAvatar(
-                      radius: 35.0,
+                      radius: 37.0,
                       backgroundImage:
                           AssetImage('assets/images/profileImage.jpeg'),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                  child: Column(
-                    children: [
-                      Text(profileUser?.userName ?? 'Unknown',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          )),
-                      Text(profileUser?.userExplanation ?? '',
-                          style: textProfileDescriptionStyle),
-                    ],
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 7),
+                  child: Text(
+                    profileUser?.userName ?? 'Unknown',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ],
-            )
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 10, top: 35,),
+              child: BubbleSpecialOne(
+                text: profileUser?.userExplanation ?? 'Hi, How are you?',
+                isSender: false,
+                color: Colors.white.withOpacity(0.3),
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
           ],
-        ));
+        )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: const Color.fromARGB(250, 63, 186, 219),
-        shadowColor: Colors.grey,
+        shadowColor: Colors.transparent,
       ),
       endDrawer: MenuDrawer(
         myUser: _myUser,
       ),
       body: Column(
         children: <Widget>[
-          profileBox(_myUser),
-          const SizedBox(
-            height: 5,
-          ),
           Container(
-            width: double.infinity,
-            height: 50,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            color: const Color.fromARGB(250, 63, 186, 219),
+            child:
+            SizedBox(
+              height: 200,
+              child: profileBox(_myUser),
             ),
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.fromLTRB(30, 20, 0, 10),
-            child: const Text('My Posts',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal)),
           ),
-          const SizedBox(height: 15),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: PostList(
-                postStream: PostDatabaseService.getPostsByUserId(
-                    _myUser?.userId ?? 'Unknown'),
-              ),
-            ),
-          ),
+            postStream:
+                PostDatabaseService.getPostsByUserId(_myUser?.userId ?? ''),
+          ))
         ],
       ),
     );

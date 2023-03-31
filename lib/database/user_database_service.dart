@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:urbanlink_project/models/user.dart';
+import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/services/auth.dart';
 
 class UserDatabaseService {
