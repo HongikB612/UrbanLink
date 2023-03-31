@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urbanlink_project/pages/loginpage/login.dart';
+import 'package:urbanlink_project/pages/loginpage/loginpage.dart';
 import 'package:urbanlink_project/pages/mainpage/mainpage.dart';
 
 class MyHomePage extends StatefulWidget {
