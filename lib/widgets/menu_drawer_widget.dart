@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user/user.dart';
-import 'package:urbanlink_project/pages/loginpage/loginpage.dart';
+import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/pages/profilepage/profile_setting_page.dart';
 import 'package:urbanlink_project/services/auth.dart';
 

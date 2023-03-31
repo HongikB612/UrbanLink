@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urbanlink_project/models/user/user.dart';
 import 'package:urbanlink_project/database/user_database_service.dart';
-import 'package:urbanlink_project/pages/loginpage/loginpage.dart';
+import 'package:urbanlink_project/pages/loginpage/login.dart';
 import 'package:urbanlink_project/widgets/text_fieldwidget.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -68,83 +68,80 @@ class _EditProfilePageState extends State<ProfileSettingPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          title: const Text('Edit Profile'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          physics: const BouncingScrollPhysics(),
-          children: [
-            const SizedBox(height: 24),
-            TextFieldWidget(
-              label: 'Full Name',
-              text: widget.myUser.userName,
-              onChanged: (name) {
-                widget.myUser.userName = name;
-              },
-            ),
-            const SizedBox(height: 24),
-            TextFieldWidget(
-              label: 'About',
-              text: widget.myUser.userExplanation,
-              maxLines: 5,
-              onChanged: (explain) {
-                widget.myUser.userExplanation = explain;
-              },
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Reset Password'),
-                      content: const Text(
-                          'Are you sure you want to reset your password?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            _resetPassword();
-                            if (_errorMessage != null) {
-                              Get.snackbar('경고', _errorMessage!);
-                            }
-                          },
-                          child: const Text('Reset'),
-                        ),
-                      ],
-                    );
-                  }),
-              child: const Text('Reset Password'),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              child: const Text('Save'),
-              onPressed: () async {
-                await UserDatabaseService.updateUserName(
-                    userId: widget.myUser.userId, name: widget.myUser.userName);
+  Widget build(BuildContext context) => Builder(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Edit Profile'),
+          ),
+          body: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            physics: const BouncingScrollPhysics(),
+            children: [
+              const SizedBox(height: 24),
+              TextFieldWidget(
+                label: 'Full Name',
+                text: widget.myUser.userName,
+                onChanged: (name) {
+                  widget.myUser.userName = name;
+                },
+              ),
+              const SizedBox(height: 24),
+              TextFieldWidget(
+                label: 'About',
+                text: widget.myUser.userExplanation,
+                maxLines: 5,
+                onChanged: (explain) {
+                  widget.myUser.userExplanation = explain;
+                },
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Reset Password'),
+                        content: const Text(
+                            'Are you sure you want to reset your password?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              _resetPassword();
+                              if (_errorMessage != null) {
+                                Get.snackbar('경고', _errorMessage!);
+                              }
+                            },
+                            child: const Text('Reset'),
+                          ),
+                        ],
+                      );
+                    }),
+                child: const Text('Reset Password'),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                child: const Text('Save'),
+                onPressed: () async {
+                  await UserDatabaseService.updateUserName(
+                      userId: widget.myUser.userId,
+                      name: widget.myUser.userName);
 
-                await UserDatabaseService.updateUserExplanation(
-                    userId: widget.myUser.userId,
-                    explanation: widget.myUser.userExplanation);
+                  await UserDatabaseService.updateUserExplanation(
+                      userId: widget.myUser.userId,
+                      explanation: widget.myUser.userExplanation);
 
-                Get.back();
-              },
-            )
-          ],
+                  Get.back();
+                },
+              )
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
