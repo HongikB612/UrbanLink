@@ -68,7 +68,6 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
   @override
   Widget build(BuildContext context) {
     bool isbuttonPressed = false;
-    bool selected = false;
     return Scaffold(
       appBar: AppBar(title: const Text('Map Page')),
       body: Stack(
@@ -97,20 +96,7 @@ class _AnimateGroupOfMarkersDynamicallyState extends State<MapPage>
                 latitude: markerLatLng.latitude,
                 longitude: markerLatLng.longitude,
                 child: GestureDetector(
-                  onTap: () {
-                    selected = !selected;
-                  },
-                  child: selected
-                      ? Transform.translate(
-                          offset: Offset(0.0, -size),
-                          child: _selectedMarkerIndices.contains(index)
-                              ? ScaleTransition(
-                                  alignment: Alignment.bottomCenter,
-                                  scale: _animation,
-                                  child: current)
-                              : current,
-                        )
-                      : Transform.translate(
+                  child: Transform.translate(
                           offset: Offset(0.0, -size / 2),
                           child: _selectedMarkerIndices.contains(index)
                               ? ScaleTransition(
