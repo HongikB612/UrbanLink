@@ -140,34 +140,31 @@ class _PostingPageState extends State<PostingPage> {
                   final myUser = await UserDatabaseService.getUserById(
                       FirebaseAuth.instance.currentUser!.uid);
 
-                      final community =
-                          await CommunityDatabaseService.getCommunityByLocation(
-                              locationId);
-                      if (myUser != null) {
-                        final posting = PostBuilder()
-                            .setAuthorName(myUser.userName)
-                            .setPostAuthorId(
-                                FirebaseAuth.instance.currentUser!.uid)
-                            .setCommunityId(community.communityId)
-                            .setPostTitle(_headline)
-                            .setPostContent(_content)
-                            .setLocationId(locationId)
-                            .build();
-                        try {
-                          await PostDatabaseService.createPost(post: posting);
-                        } on FirebaseException catch (e) {
-                          logger.e(e);
-                          Get.snackbar('게시글 작성에 실패했습니다.', '다시 시도해주세요.');
-                          return;
-                        }
-                      }
+                  final community =
+                      await CommunityDatabaseService.getCommunityByLocation(
+                          locationId);
+                  if (myUser != null) {
+                    final posting = PostBuilder()
+                        .setAuthorName(myUser.userName)
+                        .setPostAuthorId(FirebaseAuth.instance.currentUser!.uid)
+                        .setCommunityId(community.communityId)
+                        .setPostTitle(_headline)
+                        .setPostContent(_content)
+                        .setLocationId(locationId)
+                        .build();
+                    try {
+                      await PostDatabaseService.createPost(post: posting);
                       Get.back();
-                    },
-                    child: const Text('게시하기'),
-                  ),
-                ],
+                    } on FirebaseException catch (e) {
+                      logger.e(e);
+                      Get.snackbar('게시글 작성에 실패했습니다.', '다시 시도해주세요.');
+                      return;
+                    }
+                  }
+                },
+                child: const Text('게시하기'),
               ),
-            ),
+            ],
           ),
         ),
       ),
