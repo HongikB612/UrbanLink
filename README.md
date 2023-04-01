@@ -107,3 +107,55 @@
 
 ## Future plans  
 We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to. In addition, by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
+
+## How To Run
+### Prerequisites
+Before running the app, you need to install the following software.
+* [Flutter](https://flutter.dev/docs/get-started/install)
+* [Android Studio](https://developer.android.com/studio)
+* [Xcode](https://developer.apple.com/xcode/)
+
+Android Studio and Xcode are required to run the app on Android and iOS devices, respectively.
+Xcode is only available on macOS, so if you're using Windows or Linux, you can use Android Studio to run the app on Android devices.
+
+Run `flutter doctor` to check if you have all the required software installed.
+
+```bash
+$ flutter doctor
+```
+
+Result should be similar to this:
+```bash
+Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel stable, 3.7.8, on macOS 13.2.1 22D68 darwin-arm64, locale ko-KR)
+[✓] Android toolchain - develop for Android devices (Android SDK version 33.0.2)
+[✓] Xcode - develop for iOS and macOS (Xcode 14.2)
+[✓] Chrome - develop for the web
+[✓] Android Studio (version 2022.1)
+[✓] IntelliJ IDEA Ultimate Edition (version 2022.3.2)
+[✓] VS Code (version 1.77.0)
+[✓] Connected device (2 available)
+[✓] HTTP Host Availability
+
+• No issues found!
+```
+
+1. Clone this repository
+```bash
+$ git clone https://github.com/HongikB612/UrbanLink.git
+```
+
+2. Install dependencies
+```bash
+$ flutter pub get
+```
+
+3. Run the app
+Open the terminal on the project directory and run the following command.
+```bash
+$ flutter run
+```
+
+Or in vscode, press `F5` to run the app, or 'Run' button above the main function.
+
+When first running the flutter app, it will take some time to download the required dependencies, build the app, and run it on the device.
