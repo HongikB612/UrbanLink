@@ -14,31 +14,23 @@
         <td><B>데이터베이스<B></td>
     </tr>
     <tr align="center">
-        <td><B>이준선<B></td>
-        <td><B>김도연<B></td>
-        <td><B>이소현<B></td>
-        <td><B>권재현<B></td>
+        <td><B><a href="https://github.com/nx006">이준선</a><B></td>
+        <td><B><a href="https://github.com/scarletKim2001">김도연</a><B></td>
+        <td><B><a href="https://github.com/SHL3">이소현</a><B></td>
+        <td><B><a href="https://github.com/baebaebuae">권재현</a><B></td>
     </tr>
     <tr align="center">
         <td>
             <img src="https://github.com/nx006.png" width="100">
-            <br>
-            <a href="https://github.com/nx006"><I>이준선</I></a>
         </td>
         <td>
             <img src="https://github.com/scarletKim2001.png" width="100">
-            <br>
-            <a href="https://github.com/scarletKim2001"><I>김도연</I></a>
         </td>
         <td>
             <img src="https://github.com/SHL3.png" width="100">
-            <br>
-            <a href="https://github.com/SHL3"><I>이소현</I></a>
         </td>
         <td>
             <img src="https://github.com/baebaebuae.png" width="100">
-            <br>
-            <a href="https://github.com/baebaebuae"><I>권재현</I></a>
         </td>
     </tr>
 </table>
@@ -48,18 +40,15 @@
 * Our app’s goal is to help users appreciate and rediscover their local surroundings, transforming them into more vibrant and dynamic spaces.
 * Often, we might overlook events happening nearby, but with our service, users can stay informed about their city, local happenings, and the people who livin our city.
 
-### See Demo Video here! 📽️
-<br><a href="https://www.youtube.com/watch?v=EOs8m5CF9bQ"><I>See Demo videos here! 🎬</I></a></br>
+### <a href="https://www.youtube.com/watch?v=EOs8m5CF9bQ">See Demo videos here! 🎬</a>
 
-### Functions
+### Features
 * You can create a community based on the location keyword found.
 * You can create a post with a location tag and images.
 * You can add comments, likes, and dislikes to each post to communicate with people in the community.
 
-### Technologies
+### Tech Stack
 <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white"> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"> <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white">
-
-</br>
 
 ## Configuration pages
 
