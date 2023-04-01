@@ -14,31 +14,23 @@
         <td><B>데이터베이스<B></td>
     </tr>
     <tr align="center">
-        <td><B>이준선<B></td>
-        <td><B>김도연<B></td>
-        <td><B>이소현<B></td>
-        <td><B>권재현<B></td>
+        <td><B><a href="https://github.com/nx006">이준선</a><B></td>
+        <td><B><a href="https://github.com/scarletKim2001">김도연</a><B></td>
+        <td><B><a href="https://github.com/SHL3">이소현</a><B></td>
+        <td><B><a href="https://github.com/baebaebuae">권재현</a><B></td>
     </tr>
     <tr align="center">
         <td>
             <img src="https://github.com/nx006.png" width="100">
-            <br>
-            <a href="https://github.com/nx006"><I>이준선</I></a>
         </td>
         <td>
             <img src="https://github.com/scarletKim2001.png" width="100">
-            <br>
-            <a href="https://github.com/scarletKim2001"><I>김도연</I></a>
         </td>
         <td>
             <img src="https://github.com/SHL3.png" width="100">
-            <br>
-            <a href="https://github.com/SHL3"><I>이소현</I></a>
         </td>
         <td>
             <img src="https://github.com/baebaebuae.png" width="100">
-            <br>
-            <a href="https://github.com/baebaebuae"><I>권재현</I></a>
         </td>
     </tr>
 </table>
@@ -48,18 +40,15 @@
 * Our app’s goal is to help users appreciate and rediscover their local surroundings, transforming them into more vibrant and dynamic spaces.
 * Often, we might overlook events happening nearby, but with our service, users can stay informed about their city, local happenings, and the people who livin our city.
 
-### See Demo Video here! 📽️
-<br><a href="https://www.youtube.com/watch?v=EOs8m5CF9bQ"><I>See Demo videos here! 🎬</I></a></br>
+### <a href="https://www.youtube.com/watch?v=EOs8m5CF9bQ">See Demo videos here! 🎬</a>
 
-### Functions
+### Features
 * You can create a community based on the location keyword found.
 * You can create a post with a location tag and images.
 * You can add comments, likes, and dislikes to each post to communicate with people in the community.
 
-### Technologies
+### Tech Stack
 <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white"> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"> <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white">
-
-</br>
 
 ## Configuration pages
 
@@ -107,3 +96,55 @@
 
 ## Future plans  
 We are planning to add a space recommendation function in the future. Also, in terms of pursuing convergence in urban spaces such as parks and youth shelters, we are considering promoting the space by recommending the places we paid attention to. In addition, by applying machine learning technology, we're considering to assign appropriate tags and attributes to a space. This will help users know the space better and get attracted even before they visit the space.
+
+## How To Run
+### Prerequisites
+Before running the app, you need to install the following software.
+* [Flutter](https://flutter.dev/docs/get-started/install)
+* [Android Studio](https://developer.android.com/studio)
+* [Xcode](https://developer.apple.com/xcode/)
+
+Android Studio and Xcode are required to run the app on Android and iOS devices, respectively.
+Xcode is only available on macOS, so if you're using Windows or Linux, you can use Android Studio to run the app on Android devices.
+
+Run `flutter doctor` to check if you have all the required software installed.
+
+```bash
+$ flutter doctor
+```
+
+Result should be similar to this:
+```bash
+Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel stable, 3.7.8, on macOS 13.2.1 22D68 darwin-arm64, locale ko-KR)
+[✓] Android toolchain - develop for Android devices (Android SDK version 33.0.2)
+[✓] Xcode - develop for iOS and macOS (Xcode 14.2)
+[✓] Chrome - develop for the web
+[✓] Android Studio (version 2022.1)
+[✓] IntelliJ IDEA Ultimate Edition (version 2022.3.2)
+[✓] VS Code (version 1.77.0)
+[✓] Connected device (2 available)
+[✓] HTTP Host Availability
+
+• No issues found!
+```
+
+1. Clone this repository
+```bash
+$ git clone https://github.com/HongikB612/UrbanLink.git
+```
+
+2. Install dependencies
+```bash
+$ flutter pub get
+```
+
+3. Run the app
+Open the terminal on the project directory and run the following command.
+```bash
+$ flutter run
+```
+
+Or in vscode, press `F5` to run the app, or 'Run' button above the main function.
+
+When first running the flutter app, it will take some time to download the required dependencies, build the app, and run it on the device.
