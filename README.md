@@ -15,7 +15,7 @@
     </tr>
     <tr align="center">
         <td><B><a href="https://github.com/nx006">이준선</a><B></td>
-        <td><B><a href="https://github.com/scarletKim2001">김도연</a><B></td>
+        <td><B><a href="https://github.com/doammii">김도연</a><B></td>
         <td><B><a href="https://github.com/SHL3">이소현</a><B></td>
         <td><B><a href="https://github.com/baebaebuae">권재현</a><B></td>
     </tr>
@@ -24,7 +24,7 @@
             <img src="https://github.com/nx006.png" width="100">
         </td>
         <td>
-            <img src="https://github.com/scarletKim2001.png" width="100">
+            <img src="https://github.com/doammii.png" width="100">
         </td>
         <td>
             <img src="https://github.com/SHL3.png" width="100">
